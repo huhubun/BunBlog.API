@@ -1,0 +1,3 @@
+language: csharp
+dotnet: 1.1.1
+solution: BunBlog.sln

@@ -1,6 +1,7 @@
 The code is for reference only, do not use in a production environment! I do not provide after-sales service!
 
 # BunBlog
+[![Build status](https://ci.appveyor.com/api/projects/status/05h1ndygkw6k2lgh?svg=true)](https://ci.appveyor.com/project/huhubun/bunblog)
 
 ## Technical Points
 * [ASP.NET Core MVC and Web API](https://github.com/aspnet/Mvc)
