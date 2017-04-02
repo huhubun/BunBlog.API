@@ -2,6 +2,7 @@ The code is for reference only, do not use in a production environment! I do not
 
 # BunBlog
 [![Build status](https://ci.appveyor.com/api/projects/status/05h1ndygkw6k2lgh?svg=true)](https://ci.appveyor.com/project/huhubun/bunblog)
+[![Build Status](https://travis-ci.org/huhubun/BunBlog.svg?branch=master)](https://travis-ci.org/huhubun/BunBlog)
 
 ## Technical Points
 * [ASP.NET Core MVC and Web API](https://github.com/aspnet/Mvc)
