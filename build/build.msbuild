@@ -6,11 +6,32 @@
 
   <PropertyGroup>
     <WebProjectDir>..\src\Presentation\Bun.Blog.Web</WebProjectDir>
+    <WebApiProjectDir>..\src\Presentation\Bun.Blog.WebApi</WebApiProjectDir>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <BuildPlatform Condition=" '$(BuildPlatform)' == '' ">Any CPU</BuildPlatform>
   </PropertyGroup>
 
+  <ItemGroup>
+    <UnitTestProjectReferences Include="..\src\Tests\**\*.csproj"></UnitTestProjectReferences>
+    <UnitTestAssemblies Include="..\src\Tests\**\bin\BuildTest\*.Tests.dll"></UnitTestAssemblies>
+  </ItemGroup>
+
   <Target Name="Build">
-        <MSBuild Projects="$(WebProjectDir)\Bun.Blog.Web.csproj" Properties="Configuration=$(Configuration);Platform=$(BuildPlatform);VisualStudioVersion=15.0;DeployOnBuild=True;PublishProfile=FolderProfile" />
+    <MSBuild Projects="$(WebProjectDir)\Bun.Blog.Web.csproj;$(WebApiProjectDir)\Bun.Blog.WebApi.csproj" Properties="Configuration=$(Configuration);Platform=$(BuildPlatform);VisualStudioVersion=15.0;DeployOnBuild=True;PublishProfile=FolderProfile" />
+    <MSBuild
+      Projects="@(UnitTestProjectReferences)"
+      ContinueOnError="false"
+      Targets="Rebuild"
+      Properties="OutputPath=bin\BuildTest;Configuration=$(Configuration);DeployOnBuild=false" />
+
+    <!-- RunUnitTest 应该在上面的 <Project DefaultTargets=""> 属性里调用的，但不清楚为什么 dotnet build 只会命中 "Build"，而不命中 "RunUnitTest" -->
+    <!-- 所以这里只能使用这种变通方案 -->
+    <CallTarget Targets="RunUnitTest" />
   </Target>
+
+  <Target Name="RunUnitTest">
+    <!-- dotnet test 不支持多个文件，所以暂时先用 dotnet vstest 来代替吧；logger:trx 生成的测试结果不知道是不是 MSTest 类型的 -->
+    <Exec Command="dotnet vstest --logger:trx;LogFileName=../UnitTestReport.xml &quot;@(UnitTestAssemblies, '&quot; &quot;')&quot;" />
+  </Target>
+
 </Project>
