@@ -5,8 +5,6 @@ before_build:
   - dotnet restore BunBlog.sln
 build_script:
   - dotnet build ./build/build.msbuild
-test: 
-  assemblies:
-    - 'src\Tests\**\bin\BuildTest\*.Tests.dll'
-
+after_build:
+  - ps: Add-AppveyorTest -Name Test -Framework MSTest -FileName .\build\UnitTestReport.xml
 deploy: off
