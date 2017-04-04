@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+    ToolsVersion="15.0"
+    DefaultTargets="Build">    
+
+  <PropertyGroup>
+    <WebProjectDir>..\src\Presentation\Bun.Blog.Web</WebProjectDir>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <BuildPlatform Condition=" '$(BuildPlatform)' == '' ">Any CPU</BuildPlatform>
+  </PropertyGroup>
+
+  <Target Name="Build">
+        <MSBuild Projects="$(WebProjectDir)\Bun.Blog.Web.csproj" Properties="Configuration=$(Configuration);Platform=$(BuildPlatform);VisualStudioVersion=15.0;DeployOnBuild=True;PublishProfile=FolderProfile" />
+  </Target>
+</Project>

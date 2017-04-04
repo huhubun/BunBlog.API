@@ -1,0 +1,9 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+clone_folder: c:\projects\BunBlog
+before_build:
+ - dotnet restore
+build_script:
+ - dotnet build ./build/build.msbuild
+test: off
+deploy: off
