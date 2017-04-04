@@ -7,4 +7,5 @@ build_script:
   - dotnet build ./build/build.msbuild
 after_build:
   - ps: Add-AppveyorTest -Name Test -Framework MSTest -FileName .\build\UnitTestReport.xml
+test: off
 deploy: off
