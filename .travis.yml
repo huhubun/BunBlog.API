@@ -1,5 +1,9 @@
 language: csharp
-dotnet: 1.0.1
+mono: none
+dotnet: 1.0.0-preview2-003131
+os:
+ - linux
+ - osx
 solution: BunBlog.sln
 script:
  - dotnet build ./build/build.msbuild
