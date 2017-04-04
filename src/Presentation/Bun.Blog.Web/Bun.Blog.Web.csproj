@@ -10,11 +10,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Bun.Blog.Core\Bun.Blog.Core.csproj" />
     <ProjectReference Include="..\..\Libraries\Bun.Blog.Services\Bun.Blog.Services.csproj" />
     <ProjectReference Include="..\Bun.Blog.Web.Framework\Bun.Blog.Web.Framework.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
 </Project>
