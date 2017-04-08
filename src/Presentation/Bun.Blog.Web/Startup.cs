@@ -49,7 +49,8 @@ namespace Bun.Blog.Web
                 routes
                     .MapRoute(
                         name: "Web",
-                        template: "{controller=Home}/{action=Index}"
+                        template: "",
+                        defaults: new { controller = "Home", action = "Index" }
                     )
                     .MapAdminRoute();
             });

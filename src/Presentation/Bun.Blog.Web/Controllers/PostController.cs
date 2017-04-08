@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bun.Blog.Web.Controllers
 {
+
     public class PostController : AdminBaseController
     {
         public IActionResult List()
