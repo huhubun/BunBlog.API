@@ -10,7 +10,8 @@ namespace Bun.Blog.Web.Extensions
             return routeBuilder
                     .MapAdminAreaRoute(
                         name: "Admin",
-                        url: "{controller=Dashboard}/{action=Index}/{id?}"
+                        url: "",
+                        defaults: new { controller = "Dashboard", action = "Index" }
                     )
                     .MapAdminAreaRoute(
                         name: "Dashboard",
@@ -19,19 +20,19 @@ namespace Bun.Blog.Web.Extensions
                     )
                     .MapAdminAreaRoute(
                         name: "PostList",
-                        url: "Post/{action}",
+                        url: "Post/List",
                         defaults: new { controller = "Post", action = "List" }
+                    )
+                    .MapAdminAreaRoute(
+                        name: "PostNew",
+                        url: "PostNew",
+                        defaults: new { controller = "Post", action = "New" }
                     )
                     .MapAdminAreaRoute(
                         name: "EditPost",
                         url: "Post/Edit/{id:int}",
                         defaults: new { controller = "Post", action = "Edit" }
                     );
-        }
-
-        private static IRouteBuilder MapAdminAreaRoute(this IRouteBuilder routeBuilder, string name, string url)
-        {
-            return routeBuilder.MapAdminAreaRoute(name, url, null /* defaults */);
         }
 
         private static IRouteBuilder MapAdminAreaRoute(this IRouteBuilder routeBuilder, string name, string url, object defaults)
