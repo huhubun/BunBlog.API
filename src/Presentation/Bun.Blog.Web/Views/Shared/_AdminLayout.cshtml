@@ -10,6 +10,8 @@
     <environment names="Development">
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
         <link href="~/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+        <link href="~/lib/kendo-ui-core/styles/kendo.common-office365.min.css" rel="stylesheet" />
+        <link href="~/lib/kendo-ui-core/styles/kendo.office365.min.css" rel="stylesheet" />
         <link href="~/css/coreui.css" rel="stylesheet" />
         <link href="~/css/site.css" rel="stylesheet" />
     </environment>
@@ -37,6 +39,7 @@
                 <a class="nav-link" href="#">读评论</a>
             </li>
         </ul>
+
         <ul class="nav navbar-nav ml-auto">
             <li class="nav-item hidden-md-down">
                 <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
@@ -142,7 +145,7 @@
 
         <!-- Main content -->
         <main class="main">
-            <!-- Breadcrumb -->
+            <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-area="Admin" asp-route="Admin">Home</a></li>
 
@@ -172,7 +175,9 @@
                     </div>
                 </li>
             </ol>
+            <!-- /.breadcrumb -->
 
+            <!-- conainer-fluid -->
             <div class="container-fluid">
                 <div class="animated fadeIn">
                     @RenderBody()
@@ -195,12 +200,15 @@
         <script src="~/lib/tether/dist/js/tether.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/pace/pace.js"></script>
+        <script src="~/lib/kendo-ui-core/js/kendo.ui.core.min.js"></script>
         <script src="~/js/coreui.js"></script>
         <script src="~/js/site.js"></script>
     </environment>
     <environment names="Staging,Production">
 
     </environment>
+
+    @RenderSection("Scripts", required: false)
 
 </body>
 
