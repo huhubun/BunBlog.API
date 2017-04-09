@@ -6,10 +6,6 @@
     "sourceMap": true,
     "target": "es5"
   },
-  //"exclude": [
-  //  "node_modules",
-  //  "wwwroot"
-  //]
   "include": [ "./TypeScripts/" ],
   "compileOnSave": true
 }

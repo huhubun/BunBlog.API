@@ -69,7 +69,7 @@ gulp.task("watch", function () {
     });
 });
 
-gulp.task("copy", function () {
+gulp.task("copy", ["clean"], function () {
     gulp.src("./TypeScripts/**/*.js")
         .pipe(gulp.dest("./wwwroot/js/"));
 });

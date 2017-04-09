@@ -11,11 +11,13 @@
 </div>
 
 @section scripts{
+    <environment names="Development">
+        <script src="~/js/Admin/Post/list.js"></script>
+    </environment>
+
     <script>
         $(function () {
-            $("#DatePicker").kendoDatePicker();
-            
-            
+            new Bun.Blog.Admin.Post.List();
         });
     </script>
 }
