@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Bun.Blog.Web.Extensions;
 using Microsoft.Extensions.Configuration;
+using Bun.Blog.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bun.Blog.Web
 {
@@ -38,12 +40,15 @@ namespace Bun.Blog.Web
                 // {2}: Area Name
                 // {1}: Controller Name
                 // {0}: View Name
-
                 options.AreaViewLocationFormats.Clear();
                 options.AreaViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
                 options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
             });
 
+            services.AddDbContext<BlogContext>(options =>
+            {
+                options.UseNpgsql("Host=bun-v-server;Database=SampleDb;Username=postgres;Password=http://nzc.me");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
