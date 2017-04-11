@@ -2,4 +2,18 @@
     Layout = null;
 }
 
+@if(ViewData["CurrentUser"] == null)
+{
+    <a asp-route="Login">Login</a>
+}
+else
+{
+    <span>CurrentUser: <b>@ViewData["CurrentUser"]</b></span>
+    <br />
+
+    <a asp-route="LogOff">LogOff</a>
+}
+
+<br />
+
 go to <a href="~/Admin">Admin page</a>
