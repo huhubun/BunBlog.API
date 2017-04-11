@@ -1,4 +1,6 @@
-﻿namespace Bun.Blog.Core.Domain.Posts
+﻿using Bun.Blog.Core.Domain.Users;
+
+namespace Bun.Blog.Core.Domain.Posts
 {
     public class Post : BaseEntity
     {
@@ -8,8 +10,10 @@
 
         public string Content { get; set; }
 
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public int Status { get; set; }
+
+        public User Author { get; set; }
     }
 }

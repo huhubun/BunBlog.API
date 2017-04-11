@@ -1,5 +1,7 @@
 ﻿using Bun.Blog.Core.Domain.Posts;
+using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Data.Extensions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +10,7 @@ using System.Reflection;
 
 namespace Bun.Blog.Data
 {
-    public class BlogContext : DbContext
+    public class BlogContext : IdentityDbContext<User>
     {
         private readonly ILoggerFactory _loggerFactory;
 
@@ -19,6 +21,8 @@ namespace Bun.Blog.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            ConfigIdentityEntityType(modelBuilder);
             RunEntityTypeConfigurations(modelBuilder);
         }
 
@@ -56,6 +60,17 @@ namespace Bun.Blog.Data
                     }
                 }
             }
+        }
+
+        private void ConfigIdentityEntityType(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
         }
 
         #endregion

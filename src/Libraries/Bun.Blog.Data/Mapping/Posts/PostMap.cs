@@ -9,6 +9,8 @@ namespace Bun.Blog.Data.Mapping.Posts
         public void Configure(EntityTypeBuilder<Post> builder)
         {
             builder.HasKey(t => t.Id);
+
+            builder.HasOne(t => t.Author).WithOne().HasPrincipalKey<Post>(t => t.AuthorId);
         }
     }
 }

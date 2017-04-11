@@ -12,6 +12,8 @@ using Bun.Blog.Web.Extensions;
 using Microsoft.Extensions.Configuration;
 using Bun.Blog.Data;
 using Microsoft.EntityFrameworkCore;
+using Bun.Blog.Core.Domain.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Bun.Blog.Web
 {
@@ -33,6 +35,7 @@ namespace Bun.Blog.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // MVC and route
             services.AddMvc();
             services.Configure<RazorViewEngineOptions>(options =>
             {
@@ -45,9 +48,36 @@ namespace Bun.Blog.Web
                 options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
             });
 
+            // Entity Framework
             services.AddDbContext<BlogContext>(options =>
             {
                 options.UseNpgsql("Host=bun-v-server;Database=SampleDb;Username=postgres;Password=http://nzc.me");
+            });
+
+            // Identity
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<BlogContext>()
+                .AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // Cookie settings
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/LogIn";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
             });
         }
 
