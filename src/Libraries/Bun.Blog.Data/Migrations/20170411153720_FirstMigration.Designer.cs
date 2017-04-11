@@ -8,7 +8,7 @@ using Bun.Blog.Data;
 namespace Bun.Blog.Data.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20170411141748_FirstMigration")]
+    [Migration("20170411153720_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,8 +22,7 @@ namespace Bun.Blog.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired();
+                    b.Property<string>("AuthorId");
 
                     b.Property<string>("Content");
 
@@ -43,12 +42,15 @@ namespace Bun.Blog.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
                     b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Bun.Blog.Core.Domain.Users.User", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -202,13 +204,11 @@ namespace Bun.Blog.Data.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("Bun.Blog.Core.Domain.Users.User", b =>
+            modelBuilder.Entity("Bun.Blog.Core.Domain.Posts.Post", b =>
                 {
-                    b.HasOne("Bun.Blog.Core.Domain.Posts.Post")
-                        .WithOne("Author")
-                        .HasForeignKey("Bun.Blog.Core.Domain.Users.User", "Id")
-                        .HasPrincipalKey("Bun.Blog.Core.Domain.Posts.Post", "AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Bun.Blog.Core.Domain.Users.User", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
