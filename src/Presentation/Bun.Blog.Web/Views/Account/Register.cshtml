@@ -1,0 +1,22 @@
+﻿@model RegisterModel
+@{
+    Layout = null;
+}
+
+<form asp-route="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
+
+    <label asp-for="Email"></label>
+    <input asp-for="Email" class="form-control" />
+    <br />
+
+    <label asp-for="Password"></label>
+    <input asp-for="Password" class="form-control" />
+    <br />
+
+    <label asp-for="ConfirmPassword"></label>
+    <input asp-for="ConfirmPassword" class="form-control" />
+    <br />
+
+    <button type="submit" class="btn btn-default">Register</button>
+
+</form>

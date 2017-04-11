@@ -73,8 +73,8 @@ namespace Bun.Blog.Web
 
                 // Cookie settings
                 options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                options.Cookies.ApplicationCookie.LoginPath = "/LogIn";
-                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+                options.Cookies.ApplicationCookie.LoginPath = "/Login";
+                options.Cookies.ApplicationCookie.LogoutPath = "/LogOff";
 
                 // User settings
                 options.User.RequireUniqueEmail = true;
@@ -96,6 +96,8 @@ namespace Bun.Blog.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseIdentity();
+
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
@@ -104,6 +106,21 @@ namespace Bun.Blog.Web
                         name: "Web",
                         template: "",
                         defaults: new { controller = "Home", action = "Index" }
+                    )
+                    .MapRoute(
+                        name: "Login",
+                        template: "Login",
+                        defaults: new { controller = "Account", action = "Login", area = "Admin" }
+                    )
+                    .MapRoute(
+                        name: "LogOff",
+                        template: "LogOff",
+                        defaults: new { controller = "Account", action = "LogOff", area = "Admin" }
+                    )
+                    .MapRoute(
+                        name: "Register",
+                        template: "Register",
+                        defaults: new { controller = "Account", action = "Register", area = "Admin" }
                     )
                     .MapAdminRoute();
             });

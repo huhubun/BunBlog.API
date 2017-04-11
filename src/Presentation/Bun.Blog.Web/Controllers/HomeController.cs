@@ -12,7 +12,7 @@ namespace Bun.Blog.Web.Controllers
     {
         public HomeController(BlogContext context)
         {
-            var p = context.Posts.ToList();
+
         }
 
         public IActionResult Index()

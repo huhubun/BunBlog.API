@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Bun.Blog.Web.Extensions
 {
-    public static class IRouteBuilderExtensions
+    public static class MapAdminRouteExtensions
     {
         public static IRouteBuilder MapAdminRoute(this IRouteBuilder routeBuilder)
         {
@@ -18,6 +18,10 @@ namespace Bun.Blog.Web.Extensions
                         url: "Dashboard",
                         defaults: new { controller = "Dashboard", action = "Index" }
                     )
+
+                    // Account
+
+                    // Post
                     .MapAdminAreaRoute(
                         name: "PostList",
                         url: "Post/List",
