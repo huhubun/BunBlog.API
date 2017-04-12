@@ -7,10 +7,7 @@ namespace Bun.Blog.Admin.Post {
         }
 
         private init() {
-            $("#DatePicker").kendoDatePicker();
 
-            var p = $("#DatePicker").data("kendoDatePicker");
-            p.value("2017-01-02");
         }
     }
 }
