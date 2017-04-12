@@ -4,21 +4,22 @@ using System.Text;
 using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Data;
 using System.Linq;
+using Bun.Blog.Core.Data;
 
 namespace Bun.Blog.Services.Posts
 {
     public class PostService : IPostService
     {
-        private readonly BlogContext _context;
+        private readonly IRepository<Post> _repository;
 
-        public PostService(BlogContext context)
+        public PostService(IRepository<Post> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IList<Post> GetAll()
         {
-            return _context.Posts.ToList();
+            return _repository.Table.ToList();
         }
 
         public Post GetById(string id)

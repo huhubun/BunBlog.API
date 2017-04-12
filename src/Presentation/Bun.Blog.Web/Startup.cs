@@ -19,6 +19,7 @@ using Bun.Blog.Web.Models.Accounts;
 using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Web.Models.Posts;
 using Bun.Blog.Services.Posts;
+using Bun.Blog.Core.Data;
 
 namespace Bun.Blog.Web
 {
@@ -88,6 +89,7 @@ namespace Bun.Blog.Web
             services.AddAutoMapper(config => config.CreateBunBlogMap());
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
