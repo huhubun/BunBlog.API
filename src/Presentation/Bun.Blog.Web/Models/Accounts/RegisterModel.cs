@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bun.Blog.Web.Models.Account
+namespace Bun.Blog.Web.Models.Accounts
 {
     public class RegisterModel
     {

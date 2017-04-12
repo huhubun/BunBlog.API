@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bun.Blog.Web.Models.Account
+namespace Bun.Blog.Web.Models.Accounts
 {
     public class LoginModel
     {

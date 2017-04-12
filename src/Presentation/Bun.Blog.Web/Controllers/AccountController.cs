@@ -1,6 +1,6 @@
 ﻿using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Web.Framework.Mvc.Controllers;
-using Bun.Blog.Web.Models.Account;
+using Bun.Blog.Web.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
