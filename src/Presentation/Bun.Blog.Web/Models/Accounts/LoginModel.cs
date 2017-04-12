@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bun.Blog.Web.Models.Account
+namespace Bun.Blog.Web.Models.Accounts
 {
     public class LoginModel
     {
@@ -20,5 +16,7 @@ namespace Bun.Blog.Web.Models.Account
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

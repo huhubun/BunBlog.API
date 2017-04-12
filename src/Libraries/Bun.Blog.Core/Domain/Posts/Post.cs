@@ -1,4 +1,5 @@
-﻿using Bun.Blog.Core.Domain.Users;
+﻿using Bun.Blog.Core.Data;
+using Bun.Blog.Core.Domain.Users;
 
 namespace Bun.Blog.Core.Domain.Posts
 {

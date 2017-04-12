@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,11 @@ using Bun.Blog.Data;
 using Microsoft.EntityFrameworkCore;
 using Bun.Blog.Core.Domain.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Bun.Blog.Web.Models.Accounts;
+using Bun.Blog.Core.Domain.Posts;
+using Bun.Blog.Web.Models.Posts;
+using Bun.Blog.Services.Posts;
+using Bun.Blog.Core.Data;
 
 namespace Bun.Blog.Web
 {
@@ -79,6 +85,11 @@ namespace Bun.Blog.Web
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
+
+            services.AddAutoMapper(config => config.CreateBunBlogMap());
+
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Bun.Blog.Core.Domain.Users
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<User> _userManager
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -9,6 +14,7 @@
 
     <environment names="Development">
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/lib/Ionicons/css/ionicons.css" rel="stylesheet" />
         <link href="~/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
         <link href="~/lib/kendo-ui-core/styles/kendo.common-office365.min.css" rel="stylesheet" />
         <link href="~/lib/kendo-ui-core/styles/kendo.office365.min.css" rel="stylesheet" />
@@ -23,11 +29,11 @@
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
     <header class="app-header navbar">
-        <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">☰</button>
+        <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button"><span class="icon ion-navicon"></span></button>
         <a class="navbar-brand" href="#"></a>
         <ul class="nav navbar-nav hidden-md-down">
             <li class="nav-item">
-                <a class="nav-link navbar-toggler sidebar-toggler" href="#">☰</a>
+                <a class="nav-link navbar-toggler sidebar-toggler" href="#"><span class="icon ion-navicon"></span></a>
             </li>
             <li class="nav-item px-1">
                 <a asp-controller="Home" asp-action="Index" class="nav-link">查看站点</a>
@@ -47,7 +53,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     @*<img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">*@
-                    <span class="hidden-md-down">admin</span>
+                    <span class="hidden-md-down">@_userManager.GetUserName(User)</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">
@@ -129,6 +135,17 @@
                         博客设置
                     </li>
                     <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 用户管理</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 所有用户</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 添加用户</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 设置</a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
@@ -169,9 +186,7 @@
                 <!-- Breadcrumb Menu-->
                 <li class="breadcrumb-menu hidden-md-down">
                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        <a class="btn btn-secondary" href="#"><i class="icon-speech"></i></a>
-                        <a class="btn btn-secondary" href="#"><i class="icon-graph"></i> &nbsp;Dashboard</a>
-                        <a class="btn btn-secondary" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
+                        @RenderSection("BreadcrumbMenu", required: false)
                     </div>
                 </li>
             </ol>

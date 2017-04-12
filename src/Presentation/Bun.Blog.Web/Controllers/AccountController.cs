@@ -1,6 +1,6 @@
 ﻿using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Web.Framework.Mvc.Controllers;
-using Bun.Blog.Web.Models.Account;
+using Bun.Blog.Web.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +31,9 @@ namespace Bun.Blog.Web.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            var model = new LoginModel { ReturnUrl = returnUrl };
+
+            return View(model);
         }
 
         [HttpPost]

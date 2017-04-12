@@ -1,5 +1,11 @@
-﻿using Bun.Blog.Data.Extensions;
+﻿using Bun.Blog.Core.Domain.Posts;
+using Bun.Blog.Core.Domain.Users;
+using Bun.Blog.Data.Extensions;
+using Bun.Blog.Services.Posts;
+using Bun.Blog.Web.Extensions;
 using Bun.Blog.Web.Framework.Mvc.Controllers;
+using Bun.Blog.Web.Models.Posts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,9 +18,24 @@ namespace Bun.Blog.Web.Controllers
 
     public class PostController : AdminBaseController
     {
+        private readonly UserManager<User> _userManager;
+        private readonly IPostService _postService;
+
+        public PostController(UserManager<User> userManager,
+            IPostService postService)
+        {
+            _userManager = userManager;
+            _postService = postService;
+        }
+
         public IActionResult List()
         {
-            return View();
+            var model = new PostListModel
+            {
+                PostList = _postService.GetAll().MapTo<IList<Post>, List<PostModel>>()
+            };
+
+            return View(model);
         }
 
         public IActionResult New()

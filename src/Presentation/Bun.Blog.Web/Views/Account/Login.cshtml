@@ -3,13 +3,15 @@
     Layout = null;
 }
 
-<form asp-route="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
+<form asp-route="Login" asp-route-ReturnUrl="@Model.ReturnUrl" method="post" role="form">
     <label asp-for="Email"></label>
     <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
     <br />
 
     <label asp-for="Password"></label>
     <input asp-for="Password" class="form-control" />
+    <span asp-validation-for="Password" class="text-danger"></span>
     <br />
 
     <input asp-for="RememberMe" />

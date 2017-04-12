@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bun.Blog.Core
+namespace Bun.Blog.Core.Data
 {
     public abstract class BaseEntity
     {
