@@ -85,15 +85,7 @@ namespace Bun.Blog.Web
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddAutoMapper(config =>
-            {
-                config.CreateMap<User, UserModel>();
-
-                config.CreateMap<Post, PostModel>();
-                config.CreateMap<PostModel, Post>();
-
-
-            });
+            services.AddAutoMapper(config => config.CreateBunBlogMap());
 
             services.AddScoped<IPostService, PostService>();
         }
