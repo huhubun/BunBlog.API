@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Bun.Blog.Core.Domain.Users
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<User> _userManager
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -47,7 +52,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     @*<img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">*@
-                    <span class="hidden-md-down">admin</span>
+                    <span class="hidden-md-down">@_userManager.GetUserName(User)</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">
@@ -127,6 +132,17 @@
                     <li class="divider"></li>
                     <li class="nav-title">
                         博客设置
+                    </li>
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 用户管理</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 所有用户</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 添加用户</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 设置</a>
