@@ -8,5 +8,9 @@ namespace Bun.Blog.Services.Posts
         IList<Post> GetAll();
 
         Post GetById(string id);
+
+        Post Add(Post post);
+
+        Post Update(Post post);
     }
 }

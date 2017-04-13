@@ -42,5 +42,16 @@ namespace Bun.Blog.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult New(PostNewModel model)
+        {
+            var post = model.MapToEntity();
+            post.AuthorId = _userManager.GetUserId(User);
+
+            _postService.Add(post);
+
+            return RedirectToRoute("PostList");
+        }
     }
 }

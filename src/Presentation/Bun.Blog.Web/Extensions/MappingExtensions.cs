@@ -31,11 +31,20 @@ namespace Bun.Blog.Web.Extensions
 
         #endregion
 
-        #region User
+        #region Post
 
         public static PostModel MapToModel(this Post entity)
         {
             return Mapper.Map<PostModel>(entity);
+        }
+
+        #endregion
+
+        #region PostNew
+
+        public static Post MapToEntity(this PostNewModel model)
+        {
+            return Mapper.Map<Post>(model);
         }
 
         #endregion

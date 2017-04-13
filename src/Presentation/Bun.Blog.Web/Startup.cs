@@ -20,6 +20,7 @@ using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Web.Models.Posts;
 using Bun.Blog.Services.Posts;
 using Bun.Blog.Core.Data;
+using System.Security.Claims;
 
 namespace Bun.Blog.Web
 {
