@@ -42,11 +42,18 @@ namespace Bun.Blog.Admin.Post {
                     content: $("#Content").val()
                 };
 
-                $.ajax({
-                    url: this.options.publishUrl,
-                    method: "POST",
-                    data: publishData
-                })
+                var p = $.post(this.options.publishUrl, publishData, (data) => {
+                    debugger;
+                    return data;
+                });
+
+                p.done((a, b, c, d, e, f, g) => { debugger; });
+
+                //$.ajax({
+                //    url: this.options.publishUrl,
+                //    method: "POST",
+                //    data: publishData
+                //})
             });
 
         }

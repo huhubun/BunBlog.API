@@ -4,6 +4,7 @@ using Bun.Blog.Data.Extensions;
 using Bun.Blog.Services.Posts;
 using Bun.Blog.Web.Extensions;
 using Bun.Blog.Web.Framework.Mvc.Controllers;
+using Bun.Blog.Web.Framework.Mvc.Json;
 using Bun.Blog.Web.Models.Posts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,7 @@ namespace Bun.Blog.Web.Controllers
 
             _postService.Add(post);
 
-            return RedirectToRoute("PostList");
+            return BunJson(new { post.Id });
         }
     }
 }
