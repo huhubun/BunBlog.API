@@ -21,6 +21,8 @@ namespace Bun.Blog.Web.Extensions
 
             config.CreateMap<PostNewModel, Post>();
 
+            config.CreateMap<Post, EditPostModel>();
+
         }
     }
 }

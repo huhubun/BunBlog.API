@@ -12,6 +12,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
+                    <th>Operation</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +21,9 @@
                     <tr>
                         <td>@post.Title</td>
                         <td>@post.Author.UserName</td>
+                        <td>
+                            <a asp-route="EditPost" asp-route-id="@post.Id">编辑</a>
+                        </td>
                     </tr>
                 }
             </tbody>

@@ -7,7 +7,7 @@ namespace Bun.Blog.Services.Posts
     {
         IList<Post> GetAll();
 
-        Post GetById(string id);
+        Post GetById(int id);
 
         Post Add(Post post);
 

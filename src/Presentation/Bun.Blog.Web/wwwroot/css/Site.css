@@ -23,3 +23,8 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+/* Notifications */
+main.main #Notifications {
+    position: relative;
+    width: 100%;
+}

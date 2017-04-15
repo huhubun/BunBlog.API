@@ -23,12 +23,15 @@ namespace Bun.Blog.Services.Posts
 
         public IList<Post> GetAll()
         {
-            return _repository.Table.Include(p => p.Author).ToList();
+            return _repository.Table
+                .Include(p => p.Author)
+                .OrderByDescending(p => p.InsertDate)
+                .ToList();
         }
 
-        public Post GetById(string id)
+        public Post GetById(int id)
         {
-            throw new NotImplementedException();
+            return _repository.GetById(id);
         }
 
         public Post Add(Post post)

@@ -1,0 +1,17 @@
+﻿@model EditPostModel
+@{
+    ViewBag.Title = "Edit - Post";
+
+    ViewBag.Breadcrumb = Breadcrumb
+        .Add("所有文章", Url.RouteUrl("PostList"))
+        .Current("编辑文章");
+}
+
+<h1>@Model.Title</h1>
+<hr />
+
+@Model.AuthorId
+<hr />
+
+@Model.Content
+<br />

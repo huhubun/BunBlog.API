@@ -52,7 +52,28 @@ namespace Bun.Blog.Web.Controllers
 
             _postService.Add(post);
 
-            return BunJson(new { post.Id });
+            return BunJson(new
+            {
+                post.Id,
+                EditPostUrl = Url.RouteUrl("EditPost", new { post.Id })
+            });
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var post = _postService.GetById(id);
+
+            if (post != null)
+            {
+                var model = post.MapTo<Post, EditPostModel>();
+
+                return View(model);
+            }
+            else
+            {
+                return Content($"未找到 id 为 {id} 的文章");
+            }
+
         }
     }
 }
