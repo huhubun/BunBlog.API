@@ -1,9 +1,7 @@
 ﻿using Bun.Blog.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+using Bun.Blog.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bun.Blog.Data
@@ -33,6 +31,8 @@ namespace Bun.Blog.Data
 
         public T Add(T entity)
         {
+            entity.SetInsertAndUpdateDate();
+
             _dbSet.Add(entity);
             _context.SaveChanges();
 
@@ -41,6 +41,8 @@ namespace Bun.Blog.Data
 
         public async Task<T> AddAsync(T entity)
         {
+            entity.SetInsertAndUpdateDate();
+
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -49,6 +51,8 @@ namespace Bun.Blog.Data
 
         public T Update(T entity)
         {
+            entity.SetUpdateDate();
+
             _context.SaveChanges();
 
             return entity;
@@ -56,6 +60,8 @@ namespace Bun.Blog.Data
 
         public async Task<T> UpdateAsync(T entity)
         {
+            entity.SetUpdateDate();
+
             await _context.SaveChangesAsync();
 
             return entity;
