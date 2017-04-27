@@ -48,9 +48,15 @@ namespace Bun.Blog.Admin.Post {
                 var n = $("#Notifications").kendoNotification({
                     appendTo: "#Notifications",
                     hideOnClick: true,
-                    autoHideAfter: 0
+                    autoHideAfter: 0,
+                    templates: [{
+                        type: "success",
+                        template: $("#KendoSuccessNotificationTemplate").html()
+                    }, {
+                        type: "error",
+                        template: $("#KendoErrorNotificationTemplate").html()
+                    }]
                 }).data("kendoNotification");
-
 
                 $.post(this.options.publishUrl, publishData, (data) => {
                     if (data.status == Enums.JsonResponseStatus.success) {
