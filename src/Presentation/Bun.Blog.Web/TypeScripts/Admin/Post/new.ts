@@ -2,6 +2,7 @@
 /// <reference path="../../common/enums.ts" />
 
 import Enums = Bun.Blog.Common.Enums;
+import Notification = Bun.Blog.Common.Utils.Notification;
 
 namespace Bun.Blog.Admin.Post {
     export class NewOptions {
@@ -45,22 +46,14 @@ namespace Bun.Blog.Admin.Post {
                     content: $("#Content").val()
                 };
 
-                var n = $("#Notifications").kendoNotification({
-                    appendTo: "#Notifications",
-                    hideOnClick: true,
-                    autoHideAfter: 0
-                }).data("kendoNotification");
-
-
                 $.post(this.options.publishUrl, publishData, (data) => {
                     if (data.status == Enums.JsonResponseStatus.success) {
                         location.href = data.content.editPostUrl;
                     }
                     else {
-
-                        n.error("文章保存失败 " + data.message);
+                        Notification.error("文章保存失败 " + data.message);
                     }
-                }).fail((xhr, status, errorThrown) => { n.error("文章保存失败 " + errorThrown); });
+                }).fail((xhr, status, errorThrown) => { Notification.error("文章保存失败 " + errorThrown); });
 
 
             });

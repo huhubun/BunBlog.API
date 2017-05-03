@@ -28,3 +28,11 @@ main.main #Notifications {
     position: relative;
     width: 100%;
 }
+
+#Notifications .k-widget.k-notification {
+    border: none;
+}
+
+#Notifications div.alert {
+    margin-bottom: 0;
+}

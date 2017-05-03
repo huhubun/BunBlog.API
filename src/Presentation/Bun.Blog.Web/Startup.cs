@@ -21,6 +21,7 @@ using Bun.Blog.Web.Models.Posts;
 using Bun.Blog.Services.Posts;
 using Bun.Blog.Core.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Bun.Blog.Web
 {
@@ -88,6 +89,7 @@ namespace Bun.Blog.Web
             });
 
             services.AddAutoMapper(config => config.CreateBunBlogMap());
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
