@@ -47,8 +47,6 @@ namespace Bun.Blog.Web.Controllers
         [HttpPost]
         public IActionResult New(PostNewModel model)
         {
-            throw new Exception("aa");
-
             var post = model.MapToEntity();
             post.AuthorId = _userManager.GetUserId(User);
 
