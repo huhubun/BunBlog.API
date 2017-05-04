@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace Bun.Blog.Web.Controllers
@@ -47,16 +48,19 @@ namespace Bun.Blog.Web.Controllers
         [HttpPost]
         public IActionResult New(PostNewModel model)
         {
-            var post = model.MapToEntity();
-            post.AuthorId = _userManager.GetUserId(User);
-
-            _postService.Add(post);
-
-            return BunJson(new
+            if (ModelState.IsValid)
             {
-                post.Id,
-                EditPostUrl = Url.RouteUrl("EditPost", new { post.Id })
-            });
+                var post = model.MapToEntity();
+                post.AuthorId = _userManager.GetUserId(User);
+
+                _postService.Add(post);
+
+                SuccessNotification("文章发布成功");
+
+                return RedirectToAction(nameof(Edit), new { post.Id });
+            }
+
+            return View(model);
         }
 
         public IActionResult Edit(int id)
