@@ -167,23 +167,7 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-area="Admin" asp-route="Admin">Home</a></li>
-
-                @foreach (BreadcrumbItem item in (ViewBag.Breadcrumb ?? new List<BreadcrumbItem>()))
-                {
-                    var activeClass = item.IsCurrent ? "active" : String.Empty;
-                    var url = String.IsNullOrEmpty(item.Url) ? "#" : item.Url;
-
-                    <li class="breadcrumb-item @activeClass">
-                        @if (item.IsCurrent)
-                        {
-                            <text>@item.Name</text>
-                        }
-                        else
-                        {
-                            <a href="@url">@item.Name</a>
-                        }
-                    </li>
-                }
+                @await Html.PartialAsync("_BreadcrumbPartial")
 
                 <!-- Breadcrumb Menu-->
                 <li id="BreadcrumbMenu" class="breadcrumb-menu hidden-md-down">
