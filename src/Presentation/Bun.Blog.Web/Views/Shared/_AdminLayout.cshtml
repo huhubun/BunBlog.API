@@ -211,19 +211,9 @@
         <script src="~/js/bun_blog.min.js"></script>
     </environment>
 
-    <script>
-        @foreach (var message in (TempData["bun.notifications.Success"] as List<string>) ?? new List<string>())
-        {
-            @:Bun.Blog.Common.Utils.Notification.success("@message");
-        }
+    @await Html.PartialAsync("_NotificationFromScriptPartial")
 
-        @foreach (var message in (TempData["bun.notifications.Error"] as List<string>) ?? new List<string>())
-        {
-            @:Bun.Blog.Common.Utils.Notification.error("@message");
-        }
-    </script>
-
-    @RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 
