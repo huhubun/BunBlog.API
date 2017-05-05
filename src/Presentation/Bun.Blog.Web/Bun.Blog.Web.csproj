@@ -40,6 +40,9 @@
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="wwwroot/lib/**/*.*" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

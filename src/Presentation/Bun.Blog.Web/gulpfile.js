@@ -1,4 +1,5 @@
-﻿"use strict";
+/// <binding AfterBuild='min' />
+"use strict";
 
 var gulp = require("gulp"),
     concat = require("gulp-concat"),
@@ -67,11 +68,6 @@ gulp.task("watch", function () {
     getBundles(regex.html).forEach(function (bundle) {
         gulp.watch(bundle.inputFiles, ["min:html"]);
     });
-});
-
-gulp.task("copy", ["clean"], function () {
-    gulp.src("./TypeScripts/**/*.js")
-        .pipe(gulp.dest("./wwwroot/js/"));
 });
 
 function getBundles(regexPattern) {
