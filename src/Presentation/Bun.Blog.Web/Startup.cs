@@ -21,6 +21,9 @@ using Bun.Blog.Web.Models.Posts;
 using Bun.Blog.Services.Posts;
 using Bun.Blog.Core.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using NLog.Web;
+using NLog.Extensions.Logging;
 
 namespace Bun.Blog.Web
 {
@@ -35,6 +38,9 @@ namespace Bun.Blog.Web
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
+            env.ConfigureNLog("nlog.config");
+
             Configuration = builder.Build();
         }
 
@@ -89,6 +95,9 @@ namespace Bun.Blog.Web
 
             services.AddAutoMapper(config => config.CreateBunBlogMap());
 
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IPostService, PostService>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         }
@@ -96,8 +105,9 @@ namespace Bun.Blog.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggerFactory.AddNLog();
+
+            app.AddNLogWeb();
 
             if (env.IsDevelopment())
             {
