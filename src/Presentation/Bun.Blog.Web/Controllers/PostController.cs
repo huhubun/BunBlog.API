@@ -79,5 +79,22 @@ namespace Bun.Blog.Web.Controllers
             }
 
         }
+
+        [HttpPost]
+        public IActionResult Edit(EditPostModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var entity = _postService.GetById(model.Id);
+                entity = model.ToEntity(entity);
+                _postService.Update(entity);
+
+                SuccessNotification("更新文章成功");
+
+                return RedirectToAction(nameof(Edit), new { model.Id });
+            }
+
+            return View(model);
+        }
     }
 }

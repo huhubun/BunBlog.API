@@ -47,9 +47,9 @@ namespace Bun.Blog.Web.Extensions
 
         #region EditPost
 
-        public static Post ToEntity(this EditPostModel entity)
+        public static Post ToEntity(this EditPostModel model, Post destination)
         {
-            return Mapper.Map<Post>(entity);
+            return Mapper.Map<EditPostModel, Post>(model, destination);
         }
 
         #endregion

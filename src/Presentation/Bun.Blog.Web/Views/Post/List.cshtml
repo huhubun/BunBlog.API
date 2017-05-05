@@ -19,8 +19,10 @@
                 @foreach (var post in Model.PostList)
                 {
                     <tr>
-                        <td>@post.Title</td>
-                        <td>@post.Author.UserName</td>
+                        <td>
+                            <a asp-route="EditPost" asp-route-id="@post.Id">@post.Title</a>
+                        </td>
+                        <td>@post.Author?.UserName</td>
                         <td>
                             <a asp-route="EditPost" asp-route-id="@post.Id">编辑</a>
                         </td>
@@ -30,7 +32,7 @@
         </table>
     </div>
 
-    
+
 </div>
 
 @section breadcrumbMenu{

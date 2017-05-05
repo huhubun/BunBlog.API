@@ -41,7 +41,7 @@ namespace Bun.Blog.Services.Posts
 
         public Post Update(Post post)
         {
-            throw new NotImplementedException();
+            return _repository.Update(post);
         }
     }
 }

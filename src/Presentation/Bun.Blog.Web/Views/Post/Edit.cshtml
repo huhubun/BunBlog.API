@@ -7,11 +7,98 @@
         .Current("编辑文章");
 }
 
-<h1>@Model.Title</h1>
-<hr />
+<style>
+    .bun-editor-toolbar-btn {
+        border: 0;
+        background-color: #FFF;
+        cursor: pointer;
+    }
 
-@Model.AuthorId
-<hr />
+        .bun-editor-toolbar-btn:hover {
+            text-shadow: 0 0 6px #999;
+        }
 
-@Model.Content
-<br />
+    .bun-editor-area {
+        width: 100%;
+        border-top: 0;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+        border-left: 1px solid #000;
+    }
+</style>
+
+<form action="" method="post" id="UpdatePost">
+    <input type="hidden" asp-for="AuthorId" />
+
+    <div class="row">
+        <div class="col-xs-12 col-md-9 col-lg-10">
+            <div class="card">
+                <div class="card-block">
+                    <div class="form-group">
+                        <input type="text" asp-for="Title" class="form-control" placeholder="在这里输入标题" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div id="EditorToolbar"></div>
+                        <div>
+                            <textarea asp-for="Content" class="bun-editor-area" rows="22"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> 更新</button>
+                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-xs-12 col-md-9 col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Normal</strong> Form
+                </div>
+                <div class="card-block">
+                    <div class="form-group">
+                        <label for="nf-email">Email</label>
+                        <input type="email" id="nf-email" name="nf-email" class="form-control" placeholder="Enter Email..">
+                        <span class="help-block">Please enter your email</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="nf-password">Password</label>
+                        <input type="password" id="nf-password" name="nf-password" class="form-control" placeholder="Enter Password..">
+                        <span class="help-block">Please enter your password</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section breadcrumbMenu{
+    <a class="btn btn-secondary update-post" href="#"><i class="icon-arrow-up-circle"> &nbsp;更新</i></a>
+    <a class="btn btn-secondary" href="#"><i class="icon-cup"> &nbsp;保存草稿</i></a>
+    <a class="btn btn-secondary" href="#"><i class="icon-size-fullscreen"></i></a>
+}
+
+@section scripts{
+    <environment names="Development">
+        <script src="~/js/Admin/Post/edit.js"></script>
+    </environment>
+
+    <script type="text/javascript">
+        $(function () {
+            new Bun.Blog.Admin.Post.Edit({
+                
+            });
+
+        });
+    </script>
+}
