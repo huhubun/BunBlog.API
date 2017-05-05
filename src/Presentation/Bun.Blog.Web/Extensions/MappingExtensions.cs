@@ -3,10 +3,6 @@ using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Web.Models.Accounts;
 using Bun.Blog.Web.Models.Posts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bun.Blog.Web.Extensions
 {
@@ -24,7 +20,7 @@ namespace Bun.Blog.Web.Extensions
 
         #region User
 
-        public static UserModel MapToModel(this User entity)
+        public static UserModel ToModel(this User entity)
         {
             return Mapper.Map<UserModel>(entity);
         }
@@ -33,7 +29,7 @@ namespace Bun.Blog.Web.Extensions
 
         #region Post
 
-        public static PostModel MapToModel(this Post entity)
+        public static PostModel ToModel(this Post entity)
         {
             return Mapper.Map<PostModel>(entity);
         }
@@ -42,7 +38,7 @@ namespace Bun.Blog.Web.Extensions
 
         #region PostNew
 
-        public static Post MapToEntity(this PostNewModel model)
+        public static Post ToEntity(this PostNewModel model)
         {
             return Mapper.Map<Post>(model);
         }
@@ -51,7 +47,7 @@ namespace Bun.Blog.Web.Extensions
 
         #region EditPost
 
-        public static Post MapToEntity(this EditPostModel entity)
+        public static Post ToEntity(this EditPostModel entity)
         {
             return Mapper.Map<Post>(entity);
         }

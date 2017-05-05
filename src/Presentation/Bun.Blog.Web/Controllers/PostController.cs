@@ -50,7 +50,7 @@ namespace Bun.Blog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var post = model.MapToEntity();
+                var post = model.ToEntity();
                 post.AuthorId = _userManager.GetUserId(User);
 
                 _postService.Add(post);
