@@ -64,7 +64,7 @@ namespace Bun.Blog.Web
             // Entity Framework
             services.AddDbContext<BlogContext>(options =>
             {
-                options.UseNpgsql("Host=bun-v-server;Database=SampleDb;Username=postgres;Password=http://nzc.me");
+                options.UseNpgsql(Configuration.GetConnectionString("BunBlogConnection"));
             });
 
             // Identity
