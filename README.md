@@ -28,6 +28,3 @@ kendo-ui dt     http://www.telerik.com/kendo-ui             2        2017-02-21T
 typings install dt~kendo-ui --global --save
 ```
 注意 Source 的指定方式
-
-## Gulp
-Gulp 任务已经添加，当修改 `.ts` 文件后，请执按此顺序执行任务：`copy` -> `min`，以将 tsc 生成的 `.js` 文件拷贝到 `/wwwroot` 下，并进行压缩。
