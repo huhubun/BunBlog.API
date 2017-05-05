@@ -40,24 +40,7 @@ namespace Bun.Blog.Admin.Post {
                 ]
             });
 
-            $("#BreadcrumbMenu .publish-post").click(e => {
-                var publishData = {
-                    title: $("#Title").val(),
-                    content: $("#Content").val()
-                };
-
-                $.post(this.options.publishUrl, publishData, (data) => {
-                    if (data.status == Enums.JsonResponseStatus.success) {
-                        location.href = data.content.editPostUrl;
-                    }
-                    else {
-                        Notification.error("文章保存失败 " + data.message);
-                    }
-                }).fail((xhr, status, errorThrown) => { Notification.error("文章保存失败 " + errorThrown); });
-
-
-            });
-
+            $("#BreadcrumbMenu .publish-post").click(e => $("#PostNew").submit());
         }
     }
 }

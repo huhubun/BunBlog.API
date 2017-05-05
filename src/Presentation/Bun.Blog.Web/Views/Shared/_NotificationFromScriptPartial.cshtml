@@ -1,0 +1,11 @@
+﻿<script>
+    @foreach (var message in (TempData[$"bun.notifications.{NotifyType.Success}"] as IEnumerable<string>) ?? new List<string>())
+    {
+        @:Bun.Blog.Common.Utils.Notification.success("@message");
+    }
+
+    @foreach (var message in (TempData[$"bun.notifications.{NotifyType.Error}"] as IEnumerable<string>) ?? new List<string>())
+    {
+        @:Bun.Blog.Common.Utils.Notification.error("@message");
+    }
+</script>

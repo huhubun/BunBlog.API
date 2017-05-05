@@ -11,17 +11,17 @@ var Bun;
                     function Notification() {
                     }
                     Notification.success = function (message) {
-                        this.initNotificationElement();
-                        this.notificationElement.success(message);
+                        this._initNotificationElement();
+                        this._notificationElement.success(message);
                     };
                     Notification.error = function (message) {
-                        this.initNotificationElement();
-                        this.notificationElement.error(message);
+                        this._initNotificationElement();
+                        this._notificationElement.error(message);
                     };
-                    Notification.initNotificationElement = function () {
-                        if (!this.notificationElement) {
+                    Notification._initNotificationElement = function () {
+                        if (!this._notificationElement) {
                             var notification = $("#Notifications");
-                            this.notificationElement = $("#Notifications").kendoNotification({
+                            this._notificationElement = $("#Notifications").kendoNotification({
                                 appendTo: "#Notifications",
                                 hideOnClick: true,
                                 autoHideAfter: 0,

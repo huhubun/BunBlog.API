@@ -167,23 +167,7 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-area="Admin" asp-route="Admin">Home</a></li>
-
-                @foreach (BreadcrumbItem item in (ViewBag.Breadcrumb ?? new List<BreadcrumbItem>()))
-                {
-                    var activeClass = item.IsCurrent ? "active" : String.Empty;
-                    var url = String.IsNullOrEmpty(item.Url) ? "#" : item.Url;
-
-                    <li class="breadcrumb-item @activeClass">
-                        @if (item.IsCurrent)
-                        {
-                            <text>@item.Name</text>
-                        }
-                        else
-                        {
-                            <a href="@url">@item.Name</a>
-                        }
-                    </li>
-                }
+                @await Html.PartialAsync("_BreadcrumbPartial")
 
                 <!-- Breadcrumb Menu-->
                 <li id="BreadcrumbMenu" class="breadcrumb-menu hidden-md-down">
@@ -220,25 +204,16 @@
         <script src="~/lib/kendo-ui-core/js/kendo.ui.core.min.js"></script>
         <script src="~/js/coreui.js"></script>
         <script src="~/js/site.js"></script>
+        <script src="~/js/Common/enums.js"></script>
         <script src="~/js/Common/utils.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/bun_blog.min.js"></script>
     </environment>
 
-    <script>
-        @foreach (var message in (TempData["bun.notifications.Success"] as List<string>) ?? new List<string>())
-        {
-            @:Bun.Blog.Common.Utils.Notification.success("@message");
-        }
+    @await Html.PartialAsync("_NotificationFromScriptPartial")
 
-        @foreach (var message in (TempData["bun.notifications.Error"] as List<string>) ?? new List<string>())
-        {
-            @:Bun.Blog.Common.Utils.Notification.error("@message");
-        }
-    </script>
-
-    @RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 
