@@ -8,4 +8,4 @@ os:
  - osx
 script:
  - dotnet restore ./BunBlog.sln
- - dotnet build ./build/build.msbuild
+ - dotnet build ./src/Presentation/Bun.Blog.Web/Bun.Blog.Web.csproj --configuration Release --framework netcoreapp1.1
