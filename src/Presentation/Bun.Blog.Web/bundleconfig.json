@@ -10,8 +10,7 @@
         "outputFileName": "wwwroot/js/bun_blog.min.js",
         "inputFiles": [
             "wwwroot/js/site.js",
-            "wwwroot/js/coreui.js",
-            "TypeScripts/**/*.js"
+            "wwwroot/js/coreui.js"
         ],
         "minify": {
             "enabled": true,

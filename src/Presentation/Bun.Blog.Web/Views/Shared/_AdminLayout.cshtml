@@ -2,6 +2,9 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject UserManager<User> _userManager
+@{
+    var siteName = "Bun Blog Admin";
+}
 
 <!DOCTYPE html>
 
@@ -10,216 +13,90 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title | @siteName</title>
 
     <environment names="Development">
-        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/lib/Ionicons/css/ionicons.css" rel="stylesheet" />
-        <link href="~/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
-        <link href="~/lib/kendo-ui-core/styles/kendo.common-office365.min.css" rel="stylesheet" />
-        <link href="~/lib/kendo-ui-core/styles/kendo.office365.min.css" rel="stylesheet" />
-        <link href="~/css/coreui.css" rel="stylesheet" />
-        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/lib/semantic-ui/dist/semantic.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
-        <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-        <link href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" />
-        <link href="//cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet" />
-        <link href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="//cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css" rel="stylesheet">
         <link href="~/css/bun_blog.min.css" rel="stylesheet" />
     </environment>
 
 </head>
-<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
-    <header class="app-header navbar">
-        <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button"><span class="icon ion-navicon"></span></button>
-        <a class="navbar-brand" href="#"></a>
-        <ul class="nav navbar-nav hidden-md-down">
-            <li class="nav-item">
-                <a class="nav-link navbar-toggler sidebar-toggler" href="#"><span class="icon ion-navicon"></span></a>
-            </li>
-            <li class="nav-item px-1">
-                <a asp-controller="Home" asp-action="Index" class="nav-link">查看站点</a>
-            </li>
-            <li class="nav-item px-1">
-                <a asp-area="Admin" asp-route="PostNew" class="nav-link">写文章</a>
-            </li>
-            <li class="nav-item px-1">
-                <a class="nav-link" href="#">读评论</a>
-            </li>
-        </ul>
-
-        <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item hidden-md-down">
-                <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    @*<img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">*@
-                    <span class="hidden-md-down">@_userManager.GetUserName(User)</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <div class="dropdown-header text-center">
-                        <strong>Account</strong>
-                    </div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comments<span class="badge badge-warning">42</span></a>
-                    <div class="dropdown-header text-center">
-                        <strong>Post</strong>
-                    </div>
-                    <a asp-area="Admin" asp-route="PostNew" class="dropdown-item">
-                        <i class="fa fa-file-text-o"></i> 写文章
-                    </a>
-                    <div class="dropdown-header text-center">
-                        <strong>Settings</strong>
-                    </div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-default">42</span></a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a>
-                    <div class="divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock Account</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
-                </div>
-            </li>
-        </ul>
-    </header>
-
-    <div class="app-body">
-        <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="Admin" asp-route="Admin"><i class="icon-speedometer"></i> Dashboard</a>
-                    </li>
-                    <li class="nav-title">
-                        文章 + 评论
-                    </li>
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i> 文章</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-route="PostList"><i class="icon-puzzle"></i> 所有文章</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-route="PostNew"><i class="icon-puzzle"></i> 写文章</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-puzzle"></i> 分类目录</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-puzzle"></i> 标签</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 页面</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-star"></i> 所有页面</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-star"></i> 新建页面</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="icon-calculator"></i> 评论
-                            <span class="badge badge-pill badge-info">12</span>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li class="nav-title">
-                        博客设置
-                    </li>
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 用户管理</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 所有用户</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 添加用户</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> 设置</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 常规</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" target="_top"><i class="icon-star"></i> 备选1</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
+<body>
+    <!-- top menu -->
+    <div id="TopMenu" class="ui top fixed mini menu">
+        <a class="item" style="width: 15rem;">@siteName</a>
+        <a class="item" asp-controller="Home" asp-action="Index"><i class="world icon"></i> 查看站点</a>
+        <div class="ui dropdown item">
+            <i class="plus icon"></i> 添加<i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" asp-area="Admin" asp-route="PostNew">文章</a>
+            </div>
         </div>
+    </div>
+    <!-- end top menu -->
 
-        <!-- Main content -->
-        <main class="main">
-            <div id="Notifications"></div>
+    <div id="BunMain">
+        <!-- sidebar -->
+        <div class="column" id="Sidebar">
+            <div class="ui left fixed vertical sticky menu">
+                <a href="#" class="item">
+                    <h1>@siteName</h1>
+                </a>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-area="Admin" asp-route="Admin">Home</a></li>
-                @await Html.PartialAsync("_BreadcrumbPartial")
+                <a class="item" asp-area="Admin" asp-route="Dashboard">仪表盘</a>
 
-                <!-- Breadcrumb Menu-->
-                <li id="BreadcrumbMenu" class="breadcrumb-menu hidden-md-down">
-                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        @RenderSection("BreadcrumbMenu", required: false)
+                <div class="item">
+                    <div class="header">文章</div>
+                    <div class="menu">
+                        <a class="item" asp-area="Admin" asp-route="PostList">所有文章</a>
+                        <a class="item" asp-area="Admin" asp-route="PostNew">写文章</a>
                     </div>
-                </li>
-            </ol>
-            <!-- /.breadcrumb -->
-            <!-- conainer-fluid -->
-            <div class="container-fluid">
-                <div class="animated fadeIn">
-                    @RenderBody()
                 </div>
             </div>
-            <!-- /.conainer-fluid -->
-        </main>
+        </div>
+        <!-- end sidebar -->
+        <!-- content -->
+        <div class="column" id="Content">
+            <div class="ui grid" id="ContentGrid">
 
+                <div class="row">
+                    <h2 class="">@ViewBag.Title</h2>
+                    <div class="bun-margin-left">
+                        @await RenderSectionAsync("TitleRightArea", required: false)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- render body -->
+                    @RenderBody()
+                    <!-- end render body -->
+                </div>
+            </div>
+        </div>
+        <!-- end content -->
     </div>
-    <footer class="app-footer">
-        <b>Bun Blog</b> &copy; @DateTime.Now.Year huhubun
-        <span class="float-right">
-            Powered by <a href="#">Bun Blog</a> | <span>ASP.NET Core</span>
-        </span>
-    </footer>
 
-    @await Html.PartialAsync("_KendoTemplate")
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/tether/dist/js/tether.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/pace/pace.js"></script>
-        <script src="~/lib/kendo-ui-core/js/kendo.ui.core.min.js"></script>
-        <script src="~/js/coreui.js"></script>
-        <script src="~/js/site.js"></script>
-        <script src="~/js/Common/enums.js"></script>
-        <script src="~/js/Common/utils.js"></script>
+        <script src="~/lib/semantic-ui/dist/semantic.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
-        <script src="//cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
-        <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-        <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
+        <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script src="//cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
         <script src="~/js/bun_blog.min.js"></script>
     </environment>
 
-    @await Html.PartialAsync("_NotificationFromScriptPartial")
+    <script>
+        $("#TopMenu .ui.dropdown").dropdown({
+            on: "hover"
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

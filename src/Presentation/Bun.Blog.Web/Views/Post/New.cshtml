@@ -1,11 +1,6 @@
 ﻿@model PostNewModel
 @{
     ViewBag.Title = "New - Post";
-
-    ViewBag.Breadcrumb = Breadcrumb
-        .Add("所有文章", Url.RouteUrl("PostList"))
-        .Current("写文章");
-
 }
 
 <style>
@@ -81,22 +76,16 @@
     </div>
 </form>
 
-@section breadcrumbMenu{
+@section TitleRightArea{
     <a class="btn btn-secondary publish-post" href="#"><i class="icon-arrow-up-circle"> &nbsp;发布</i></a>
     <a class="btn btn-secondary" href="#"><i class="icon-cup"> &nbsp;保存草稿</i></a>
     <a class="btn btn-secondary" href="#"><i class="icon-size-fullscreen"></i></a>
 }
 
-@section scripts{
-    <environment names="Development">
-        <script src="~/js/Admin/Post/new.js"></script>
-    </environment>
+@section Scripts{
 
     <script type="text/javascript">
         $(function () {
-            new Bun.Blog.Admin.Post.New({
-                publishUrl: "@Url.RouteUrl("PostNew")"
-            });
 
         });
     </script>

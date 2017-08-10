@@ -1,16 +1,7 @@
 {
-  "name": "asp.net",
-  "private": true,
-  "dependencies": {
-    "bootstrap": "3.3.6",
-    "jquery": "2.2.0",
-    "jquery-validation": "1.14.0",
-    "jquery-validation-unobtrusive": "3.2.6",
-    "kendo-ui-core": "2017.1.330",
-    "font-awesome": "4.7.0",
-    "simple-line-icons": "2.4.1",
-    "tether": "1.4.0",
-    "pace": "1.0.2",
-    "Ionicons": "ionicons#v2.0.1"
-  }
+    "name": "asp.net",
+    "private": true,
+    "dependencies": {
+        "semantic-ui": "2.2.13"
+    }
 }

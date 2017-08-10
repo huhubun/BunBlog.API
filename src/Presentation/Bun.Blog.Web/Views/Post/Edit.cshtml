@@ -1,10 +1,6 @@
 ﻿@model EditPostModel
 @{
-    ViewBag.Title = "Edit - Post";
-
-    ViewBag.Breadcrumb = Breadcrumb
-        .Add("所有文章", Url.RouteUrl("PostList"))
-        .Current("编辑文章");
+    ViewBag.Title = "编辑文章";
 }
 
 <style>
@@ -82,22 +78,16 @@
     </div>
 </form>
 
-@section breadcrumbMenu{
+@section TitleRightArea{
     <a class="btn btn-secondary update-post" href="#"><i class="icon-arrow-up-circle"> &nbsp;更新</i></a>
     <a class="btn btn-secondary" href="#"><i class="icon-cup"> &nbsp;保存草稿</i></a>
     <a class="btn btn-secondary" href="#"><i class="icon-size-fullscreen"></i></a>
 }
 
-@section scripts{
-    <environment names="Development">
-        <script src="~/js/Admin/Post/edit.js"></script>
-    </environment>
+@section Scripts{
 
     <script type="text/javascript">
         $(function () {
-            new Bun.Blog.Admin.Post.Edit({
-                
-            });
 
         });
     </script>

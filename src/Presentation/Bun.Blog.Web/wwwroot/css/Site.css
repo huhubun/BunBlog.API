@@ -1,38 +1,43 @@
-﻿/* styles for validation helpers */
-.field-validation-error {
-    color: #b94a48;
+﻿#BunMain {
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
 }
 
-.field-validation-valid {
-    display: none;
+#Sidebar {
+    width: 15rem;
+    -ms-flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
 }
 
-input.input-validation-error {
-    border: 1px solid #b94a48;
+    #Sidebar .menu {
+        border-width: 0 1px 0 0;
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        height: 100%;
+    }
+
+#Content {
+    padding: 3em 0 0 0;
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
-input[type="checkbox"].input-validation-error {
-    border: 0 none;
+#ContentGrid {
+    padding: 0 1em;
 }
 
-.validation-summary-errors {
-    color: #b94a48;
-}
+    #ContentGrid.ui.grid {
+        margin: 0;
+    }
 
-.validation-summary-valid {
-    display: none;
-}
-
-/* Notifications */
-main.main #Notifications {
-    position: relative;
-    width: 100%;
-}
-
-#Notifications .k-widget.k-notification {
-    border: none;
-}
-
-#Notifications div.alert {
-    margin-bottom: 0;
+.bun-margin-left {
+    margin-left: 1em;
 }

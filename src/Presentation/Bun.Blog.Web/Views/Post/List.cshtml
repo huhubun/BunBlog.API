@@ -1,8 +1,6 @@
 ﻿@model PostListModel
 @{
-    ViewBag.Title = "List - Post";
-
-    ViewBag.Breadcrumb = Breadcrumb.Current("所有文章");
+    ViewBag.Title = "所有文章";
 }
 
 <div class="row">
@@ -35,16 +33,11 @@
 
 </div>
 
-@section breadcrumbMenu{
-    <a class="btn btn-secondary" href="#"><i class="icon-speech"></i></a>
-    <a class="btn btn-secondary" asp-route="PostNew"><i class="icon-note"></i> &nbsp;写文章</a>
+@section TitleRightArea{
+    <a asp-area="Admin" asp-route="PostNew" class="compact small ui basic button">写文章</a>
 }
 
-@section scripts{
-    <environment names="Development">
-        <script src="~/js/Admin/Post/list.js"></script>
-    </environment>
-
+@section Scripts{
     <script>
         $(function () {
             new Bun.Blog.Admin.Post.List();
