@@ -12,11 +12,22 @@ using System.Threading.Tasks;
 
 namespace Bun.Blog.Web.Controllers
 {
+    public class Student
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public DateTime Birthday { get; set; }
+    }
+
     public class AccountController : AdminBaseController
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger _logger;
+
+        public delegate void myDelegate();
 
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager,
@@ -25,6 +36,19 @@ namespace Bun.Blog.Web.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
+
+
+            var students = new List<Student>();
+            //var result = 
+            
+
+            Task.Factory.StartNew(new Action(DoMyDelegate));
+
+        }
+
+        public void DoMyDelegate()
+        {
+            // TODO
         }
 
         [HttpGet]

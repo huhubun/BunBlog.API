@@ -9,9 +9,10 @@ using Bun.Blog.Core.Enums;
 namespace Bun.Blog.Data.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20170814153503_AddVirtualToPostAndUserClassNavProperty")]
+    partial class AddVirtualToPostAndUserClassNavProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)

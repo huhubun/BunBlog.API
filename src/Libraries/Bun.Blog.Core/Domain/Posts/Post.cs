@@ -1,5 +1,8 @@
 ﻿using Bun.Blog.Core.Data;
+using Bun.Blog.Core.Domain.Categories;
 using Bun.Blog.Core.Domain.Users;
+using Bun.Blog.Core.Enums;
+using System.Collections.Generic;
 
 namespace Bun.Blog.Core.Domain.Posts
 {
@@ -13,8 +16,9 @@ namespace Bun.Blog.Core.Domain.Posts
 
         public string AuthorId { get; set; }
 
-        public int Status { get; set; }
+        public PostStatus Status { get; set; }
 
-        public User Author { get; set; }
+        public virtual User Author { get; set; }
+
     }
 }
