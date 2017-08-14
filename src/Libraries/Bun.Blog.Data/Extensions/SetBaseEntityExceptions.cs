@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Bun.Blog.Data.Extensions
 {
-    public static class SetBaseEntityExceptions
+    public static class SetBaseEntityExtension
     {
         public static void SetInsertDate<T>(this T entity) where T : BaseEntity
         {
