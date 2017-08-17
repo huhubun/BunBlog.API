@@ -1,6 +1,6 @@
 ﻿using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Core.Domain.Users;
-using Bun.Blog.Data.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -44,7 +44,7 @@ namespace Bun.Blog.Data
                 foreach (var i in type.GetInterfaces())
                 {
                     // IEntityTypeConfiguration<TEntity>
-                    if (i.IsConstructedGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))
+                    if (i.IsConstructedGenericType && i.GetGenericTypeDefinition() == typeof(Data.Extensions.IEntityTypeConfiguration<>))
                     {
                         // TEntity
                         var entityType = i.GenericTypeArguments.Single();

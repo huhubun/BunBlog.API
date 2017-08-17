@@ -1,29 +1,23 @@
-﻿using System;
-using AutoMapper;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Bun.Blog.Core.Data;
+using Bun.Blog.Core.Domain.Users;
+using Bun.Blog.Data;
+using Bun.Blog.Services.Posts;
+using Bun.Blog.Web.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Bun.Blog.Web.Extensions;
-using Microsoft.Extensions.Configuration;
-using Bun.Blog.Data;
-using Microsoft.EntityFrameworkCore;
-using Bun.Blog.Core.Domain.Users;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Bun.Blog.Web.Models.Accounts;
-using Bun.Blog.Core.Domain.Posts;
-using Bun.Blog.Web.Models.Posts;
-using Bun.Blog.Services.Posts;
-using Bun.Blog.Core.Data;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using NLog.Web;
 using NLog.Extensions.Logging;
+using NLog.Web;
+using System;
 
 namespace Bun.Blog.Web
 {
@@ -71,6 +65,16 @@ namespace Bun.Blog.Web
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<BlogContext>()
                 .AddDefaultTokenProviders();
+
+            // https://docs.microsoft.com/zh-cn/aspnet/core/migration/1x-to-2x/identity-2x
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromDays(150);
+                    options.LoginPath = "/Login";
+                    options.LogoutPath = "/LogOff";
+                });
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
@@ -84,15 +88,11 @@ namespace Bun.Blog.Web
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 10;
 
-                // Cookie settings
-                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                options.Cookies.ApplicationCookie.LoginPath = "/Login";
-                options.Cookies.ApplicationCookie.LogoutPath = "/LogOff";
-
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
 
+            // Others
             services.AddAutoMapper(config => config.CreateBunBlogMap());
 
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
@@ -118,7 +118,7 @@ namespace Bun.Blog.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseIdentity();
+            app.UseAuthentication();
 
             app.UseStaticFiles();
             app.UseMvc(routes =>
