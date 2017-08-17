@@ -7,4 +7,4 @@ os:
  - linux
 script:
  - dotnet restore ./BunBlog.sln
- - dotnet build ./src/Presentation/Bun.Blog.Web/Bun.Blog.Web.csproj --configuration Release --framework netcoreapp1.1
+ - dotnet build ./src/Presentation/Bun.Blog.Web/Bun.Blog.Web.csproj --configuration Release --framework netcoreapp2.0
