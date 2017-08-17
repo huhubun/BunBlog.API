@@ -1,85 +1,26 @@
 ﻿@model PostNewModel
 @{
-    ViewBag.Title = "New - Post";
+    ViewBag.Title = "写文章";
 }
 
 <style>
-    .bun-editor-toolbar-btn {
-        border: 0;
-        background-color: #FFF;
-        cursor: pointer;
-    }
 
-        .bun-editor-toolbar-btn:hover {
-            text-shadow: 0 0 6px #999;
-        }
-
-    .bun-editor-area {
-        width: 100%;
-        border-top: 0;
-        border-right: 1px solid #000;
-        border-bottom: 1px solid #000;
-        border-left: 1px solid #000;
-    }
 </style>
 
-<form action="" method="post" id="PostNew">
-    <div class="row">
-        <div class="col-xs-12 col-md-9 col-lg-10">
-            <div class="card">
-                <div class="card-block">
-                    <div class="form-group">
-                        <input type="text" asp-for="Title" class="form-control" placeholder="在这里输入标题" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <div id="EditorToolbar"></div>
-                        <div>
-                            <textarea asp-for="Content" class="bun-editor-area" rows="22"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-                </div>
-            </div>
+<div class="ui container form">
+    <form asp-area="Admin" asp-route="PostNew">
+        <div class="ui fluid icon input field">
+            <input asp-for="Title" type="text" placeholder="在此输入标题" />
         </div>
-
-
-
-        <div class="col-xs-12 col-md-9 col-lg-10">
-            <div class="card">
-                <div class="card-header">
-                    <strong>Normal</strong> Form
-                </div>
-                <div class="card-block">
-                    <div class="form-group">
-                        <label for="nf-email">Email</label>
-                        <input type="email" id="nf-email" name="nf-email" class="form-control" placeholder="Enter Email..">
-                        <span class="help-block">Please enter your email</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="nf-password">Password</label>
-                        <input type="password" id="nf-password" name="nf-password" class="form-control" placeholder="Enter Password..">
-                        <span class="help-block">Please enter your password</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-                </div>
-            </div>
-
+        <div class="field">
+            <textarea asp-for="Content" rows="22"></textarea>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
 @section TitleRightArea{
-    <a class="btn btn-secondary publish-post" href="#"><i class="icon-arrow-up-circle"> &nbsp;发布</i></a>
-    <a class="btn btn-secondary" href="#"><i class="icon-cup"> &nbsp;保存草稿</i></a>
-    <a class="btn btn-secondary" href="#"><i class="icon-size-fullscreen"></i></a>
+    <button type="button" class="compact small ui olive button"><i class="rocket icon"></i>发布</button>
+    <button type="button" class="compact small ui basic button">保存草稿</button>
 }
 
 @section Scripts{
