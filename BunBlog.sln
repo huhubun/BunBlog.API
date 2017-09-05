@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Data", "src\Librar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Services", "src\Libraries\Bun.Blog.Services\Bun.Blog.Services.csproj", "{841AD1D2-E9AB-40E0-8B9A-862AE7C4B2DF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Web.Admin", "src\Presentation\Bun.Blog.Web\Bun.Blog.Web.Admin.csproj", "{FCFF7A12-32C5-4012-B016-7A1007B14EA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Web.Admin", "src\Presentation\Bun.Blog.Web.Admin\Bun.Blog.Web.Admin.csproj", "{FCFF7A12-32C5-4012-B016-7A1007B14EA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Services.Tests", "src\Tests\Bun.Blog.Services.Tests\Bun.Blog.Services.Tests.csproj", "{2682A559-3BA9-4112-82C6-DBBB64EF4DBC}"
 EndProject
