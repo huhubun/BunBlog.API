@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, Inject, ViewEncapsulation, RendererFactory2, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ViewEncapsulation, RendererFactory2, PLATFORM_ID } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, PRIMARY_OUTLET } from '@angular/router';
 import { Meta, Title, DOCUMENT, MetaDefinition } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';

@@ -17,46 +17,46 @@ namespace AspCoreServer.Controllers
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-      var nodeServices = Request.HttpContext.RequestServices.GetRequiredService<INodeServices>();
-      var hostEnv = Request.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>();
+      //var nodeServices = Request.HttpContext.RequestServices.GetRequiredService<INodeServices>();
+      //var hostEnv = Request.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>();
 
-      var applicationBasePath = hostEnv.ContentRootPath;
-      var requestFeature = Request.HttpContext.Features.Get<IHttpRequestFeature>();
-      var unencodedPathAndQuery = requestFeature.RawTarget;
-      var unencodedAbsoluteUrl = $"{Request.Scheme}://{Request.Host}{unencodedPathAndQuery}";
+      //var applicationBasePath = hostEnv.ContentRootPath;
+      //var requestFeature = Request.HttpContext.Features.Get<IHttpRequestFeature>();
+      //var unencodedPathAndQuery = requestFeature.RawTarget;
+      //var unencodedAbsoluteUrl = $"{Request.Scheme}://{Request.Host}{unencodedPathAndQuery}";
 
-      // ** TransferData concept **
-      // Here we can pass any Custom Data we want !
+      //// ** TransferData concept **
+      //// Here we can pass any Custom Data we want !
 
-      // By default we're passing down Cookies, Headers, Host from the Request object here
-      TransferData transferData = new TransferData();
-      transferData.request = AbstractHttpContextRequestInfo(Request);
-      transferData.thisCameFromDotNET = "Hi Angular it's asp.net :)";
-      // Add more customData here, add it to the TransferData class
+      //// By default we're passing down Cookies, Headers, Host from the Request object here
+      //TransferData transferData = new TransferData();
+      //transferData.request = AbstractHttpContextRequestInfo(Request);
+      //transferData.thisCameFromDotNET = "Hi Angular it's asp.net :)";
+      //// Add more customData here, add it to the TransferData class
 
-      //Prerender now needs CancellationToken
-      System.Threading.CancellationTokenSource cancelSource = new System.Threading.CancellationTokenSource();
-      System.Threading.CancellationToken cancelToken = cancelSource.Token;
+      ////Prerender now needs CancellationToken
+      //System.Threading.CancellationTokenSource cancelSource = new System.Threading.CancellationTokenSource();
+      //System.Threading.CancellationToken cancelToken = cancelSource.Token;
 
-      // Prerender / Serialize application (with Universal)
-      var prerenderResult = await Prerenderer.RenderToString(
-                "/",
-                nodeServices,
-                cancelToken,
-                new JavaScriptModuleExport(applicationBasePath + "/ClientApp/dist/main-server"),
-                unencodedAbsoluteUrl,
-                unencodedPathAndQuery,
-                transferData, // Our simplified Request object & any other CustommData you want to send!
-                30000,
-                Request.PathBase.ToString()
-            );
+      //// Prerender / Serialize application (with Universal)
+      //var prerenderResult = await Prerenderer.RenderToString(
+      //          "/",
+      //          nodeServices,
+      //          cancelToken,
+      //          new JavaScriptModuleExport(applicationBasePath + "/ClientApp/dist/main-server"),
+      //          unencodedAbsoluteUrl,
+      //          unencodedPathAndQuery,
+      //          transferData, // Our simplified Request object & any other CustommData you want to send!
+      //          30000,
+      //          Request.PathBase.ToString()
+      //      );
 
-      ViewData["SpaHtml"] = prerenderResult.Html; // our <app> from Angular
-      ViewData["Title"] = prerenderResult.Globals["title"]; // set our <title> from Angular
-      ViewData["Styles"] = prerenderResult.Globals["styles"]; // put styles in the correct place
-      ViewData["Meta"] = prerenderResult.Globals["meta"]; // set our <meta> SEO tags
-      ViewData["Links"] = prerenderResult.Globals["links"]; // set our <link rel="canonical"> etc SEO tags
-      ViewData["TransferData"] = prerenderResult.Globals["transferData"]; // our transfer data set to window.TRANSFER_CACHE = {};
+      //ViewData["SpaHtml"] = prerenderResult.Html; // our <app> from Angular
+      //ViewData["Title"] = prerenderResult.Globals["title"]; // set our <title> from Angular
+      //ViewData["Styles"] = prerenderResult.Globals["styles"]; // put styles in the correct place
+      //ViewData["Meta"] = prerenderResult.Globals["meta"]; // set our <meta> SEO tags
+      //ViewData["Links"] = prerenderResult.Globals["links"]; // set our <link rel="canonical"> etc SEO tags
+      //ViewData["TransferData"] = prerenderResult.Globals["transferData"]; // our transfer data set to window.TRANSFER_CACHE = {};
 
       return View();
     }

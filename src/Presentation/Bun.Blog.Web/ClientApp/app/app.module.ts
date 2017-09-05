@@ -4,7 +4,7 @@ import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
-import { Ng2BootstrapModule } from 'ngx-bootstrap';
+//import { Ng2BootstrapModule } from 'ngx-bootstrap';
 
 // i18n support
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -16,15 +16,21 @@ import { HomeComponent } from './containers/home/home.component';
 import { UsersComponent } from './containers/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { CounterComponent } from './containers/counter/counter.component';
-import { ChatComponent } from './containers/chat/chat.component';
+//import { ChatComponent } from './containers/chat/chat.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
-import { NgxBootstrapComponent } from './containers/ngx-bootstrap-demo/ngx-bootstrap.component';
+//import { NgxBootstrapComponent } from './containers/ngx-bootstrap-demo/ngx-bootstrap.component';
 
 import { LinkService } from './shared/link.service';
 import { UserService } from './shared/user.service';
 import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
+
+
+// myself
+import { SuiModule } from 'ng2-semantic-ui';
+
+
 
 export function createTranslateLoader(http: Http, baseHref) {
     // Temporary Azure hack
@@ -43,15 +49,19 @@ export function createTranslateLoader(http: Http, baseHref) {
         UsersComponent,
         UserDetailComponent,
         HomeComponent,
-        ChatComponent,
+        //ChatComponent,
         NotFoundComponent,
-        NgxBootstrapComponent
+        //NgxBootstrapComponent
     ],
     imports: [
+        // myself
+        SuiModule,
+
+
         CommonModule,
         HttpModule,
         FormsModule,
-        Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
+        //Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
         TransferHttpModule, // Our Http TransferData method
 
@@ -110,30 +120,30 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
-            {
-                path: 'chat', component: ChatComponent,
-                // Wait until the resolve is finished before loading the Route
-                resolve: { connection: ConnectionResolver },
-                data: {
-                    title: 'SignalR chat example',
-                    meta: [{ name: 'description', content: 'This is an Chat page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/chat' }
-                    ]
-                }
-            },
-            {
-                path: 'ngx-bootstrap', component: NgxBootstrapComponent,
-                data: {
-                    title: 'Ngx-bootstrap demo!!',
-                    meta: [{ name: 'description', content: 'This is an Demo Bootstrap page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/bootstrap/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/bootstrap-demo' }
-                    ]
-                }
-            },
+            //{
+            //    path: 'chat', component: ChatComponent,
+            //    // Wait until the resolve is finished before loading the Route
+            //    resolve: { connection: ConnectionResolver },
+            //    data: {
+            //        title: 'SignalR chat example',
+            //        meta: [{ name: 'description', content: 'This is an Chat page Description!' }],
+            //        links: [
+            //            { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
+            //            { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/chat' }
+            //        ]
+            //    }
+            //},
+            //{
+            //    path: 'ngx-bootstrap', component: NgxBootstrapComponent,
+            //    data: {
+            //        title: 'Ngx-bootstrap demo!!',
+            //        meta: [{ name: 'description', content: 'This is an Demo Bootstrap page Description!' }],
+            //        links: [
+            //            { rel: 'canonical', href: 'http://blogs.example.com/bootstrap/something' },
+            //            { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/bootstrap-demo' }
+            //        ]
+            //    }
+            //},
 
             { path: 'lazy', loadChildren: './containers/lazy/lazy.module#LazyModule'},
 

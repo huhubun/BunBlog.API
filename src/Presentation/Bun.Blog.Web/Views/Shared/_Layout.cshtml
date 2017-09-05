@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <base href="/" />
@@ -10,6 +10,7 @@
     @Html.Raw(ViewData["Links"])
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
     <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
 
     @Html.Raw(ViewData["Styles"])
@@ -20,11 +21,14 @@
 
     <!-- *** NOTE *** Remove this and the signalr script include below
              - if you're NOT going to use SignalR -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    @*<script src="https://code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
 
-    <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js"></script>*@
+
+
+
 
     <!-- Here we're passing down any data to be used by grabbed and parsed by Angular -->
     @Html.Raw(ViewData["TransferData"])

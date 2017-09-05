@@ -1,4 +1,6 @@
-﻿@Html.Raw(ViewData["SpaHtml"])
+@* 已禁用服务器端渲染，see https://github.com/MarkPieszak/aspnetcore-angular2-universal#how-can-i-disable-ssr-server-side-rendering *@
+@*@Html.Raw(ViewData["SpaHtml"])*@
+<app></app>
 
 <script src="~/dist/vendor.js" asp-append-version="true"></script>
 @section scripts {
