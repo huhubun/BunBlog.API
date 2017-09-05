@@ -31,6 +31,8 @@ bld/
 **/wwwroot/js/Admin/
 **/wwwroot/css/*.min.css
 **/wwwroot/js/*.min.js
+**/wwwroot/dist/
+**/ClientApp/dist/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -291,3 +293,15 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# Ignore AwesomeTypescript cache
+.awcache
+
+# VSCode files
+.vscode/chrome
+
+# Jest Code Coverage report
+coverage/
+
+.DS_Store
+package-lock.json

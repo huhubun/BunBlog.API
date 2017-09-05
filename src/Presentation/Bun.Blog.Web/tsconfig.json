@@ -1,0 +1,21 @@
+﻿{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2015",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "types": [ "node" ]
+  },
+  "include": [
+    "ClientApp"
+  ]
+}
