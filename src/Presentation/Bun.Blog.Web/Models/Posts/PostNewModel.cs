@@ -1,4 +1,6 @@
-﻿namespace Bun.Blog.Web.Models.Posts
+﻿using Bun.Blog.Core.Enums;
+
+namespace Bun.Blog.Web.Admin.Models.Posts
 {
     public class PostNewModel
     {
@@ -10,7 +12,6 @@
 
         public string AuthorId { get; set; }
 
-        public int Status { get; set; }
-
+        public PostStatus Status { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Bun.Blog.Web
+namespace Bun.Blog.Web.Admin
 {
     public class Program
     {

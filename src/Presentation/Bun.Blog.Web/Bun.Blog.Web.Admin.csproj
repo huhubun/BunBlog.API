@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <AssemblyName>Bun.Blog.Web.Admin</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

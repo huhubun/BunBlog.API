@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{0305F4C9-6711-4483-BF5B-138E795E195E}"
 EndProject
@@ -9,23 +9,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7891AD17-7830-465A-B5EA-7D4F41BEDC98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Core", "src\Libraries\Bun.Blog.Core\Bun.Blog.Core.csproj", "{AA6B310C-BC5D-4CDB-A010-DC81EBADA726}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Core", "src\Libraries\Bun.Blog.Core\Bun.Blog.Core.csproj", "{AA6B310C-BC5D-4CDB-A010-DC81EBADA726}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Data", "src\Libraries\Bun.Blog.Data\Bun.Blog.Data.csproj", "{2D78F2B4-FFB1-497C-86DB-69DA7372BA6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Data", "src\Libraries\Bun.Blog.Data\Bun.Blog.Data.csproj", "{2D78F2B4-FFB1-497C-86DB-69DA7372BA6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Services", "src\Libraries\Bun.Blog.Services\Bun.Blog.Services.csproj", "{841AD1D2-E9AB-40E0-8B9A-862AE7C4B2DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Services", "src\Libraries\Bun.Blog.Services\Bun.Blog.Services.csproj", "{841AD1D2-E9AB-40E0-8B9A-862AE7C4B2DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Web", "src\Presentation\Bun.Blog.Web\Bun.Blog.Web.csproj", "{FCFF7A12-32C5-4012-B016-7A1007B14EA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Web.Admin", "src\Presentation\Bun.Blog.Web\Bun.Blog.Web.Admin.csproj", "{FCFF7A12-32C5-4012-B016-7A1007B14EA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Services.Tests", "src\Tests\Bun.Blog.Services.Tests\Bun.Blog.Services.Tests.csproj", "{2682A559-3BA9-4112-82C6-DBBB64EF4DBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Services.Tests", "src\Tests\Bun.Blog.Services.Tests\Bun.Blog.Services.Tests.csproj", "{2682A559-3BA9-4112-82C6-DBBB64EF4DBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Web.Tests", "src\Tests\Bun.Blog.Web.Tests\Bun.Blog.Web.Tests.csproj", "{87C3F470-6797-407D-B426-CC8936569816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Web.Admin.Tests", "src\Tests\Bun.Blog.Web.Tests\Bun.Blog.Web.Admin.Tests.csproj", "{87C3F470-6797-407D-B426-CC8936569816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.Web.Framework", "src\Presentation\Bun.Blog.Web.Framework\Bun.Blog.Web.Framework.csproj", "{3136301C-2CDD-4696-A48A-28A9F0C8E94E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.Web.Framework", "src\Presentation\Bun.Blog.Web.Framework\Bun.Blog.Web.Framework.csproj", "{3136301C-2CDD-4696-A48A-28A9F0C8E94E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.WebApi", "src\Presentation\Bun.Blog.WebApi\Bun.Blog.WebApi.csproj", "{958DC4E5-8549-4AA3-A237-03C9EF633E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.WebApi", "src\Presentation\Bun.Blog.WebApi\Bun.Blog.WebApi.csproj", "{958DC4E5-8549-4AA3-A237-03C9EF633E7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bun.Blog.WebApi.Tests", "src\Tests\Bun.Blog.WebApi.Tests\Bun.Blog.WebApi.Tests.csproj", "{CFB618DC-82C5-4C94-A7A3-1030CF8F16D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bun.Blog.WebApi.Tests", "src\Tests\Bun.Blog.WebApi.Tests\Bun.Blog.WebApi.Tests.csproj", "{CFB618DC-82C5-4C94-A7A3-1030CF8F16D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,5 +83,8 @@ Global
 		{3136301C-2CDD-4696-A48A-28A9F0C8E94E} = {093E719D-54E4-45E9-9B93-B80C486B68AF}
 		{958DC4E5-8549-4AA3-A237-03C9EF633E7D} = {093E719D-54E4-45E9-9B93-B80C486B68AF}
 		{CFB618DC-82C5-4C94-A7A3-1030CF8F16D3} = {7891AD17-7830-465A-B5EA-7D4F41BEDC98}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51E2E9C1-B59F-4221-AB8B-43E618855BA0}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-﻿namespace Bun.Blog.Web.Models.Accounts
+﻿namespace Bun.Blog.Web.Admin.Models.Accounts
 {
     public class UserModel
     {

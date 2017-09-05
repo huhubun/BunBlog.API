@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Bun.Blog.Web.Tests
+namespace Bun.Blog.Web.Admin.Tests
 {
     public class Class1
     {

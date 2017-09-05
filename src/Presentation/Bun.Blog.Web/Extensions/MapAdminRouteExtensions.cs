@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
-namespace Bun.Blog.Web.Extensions
+namespace Bun.Blog.Web.Admin.Extensions
 {
     public static class MapAdminRouteExtensions
     {

@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Core.Domain.Users;
-using Bun.Blog.Web.Models.Accounts;
-using Bun.Blog.Web.Models.Posts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Bun.Blog.Web.Admin.Models.Accounts;
+using Bun.Blog.Web.Admin.Models.Posts;
 
-namespace Bun.Blog.Web.Extensions
+namespace Bun.Blog.Web.Admin.Extensions
 {
     public static class CreateBunBlogMapExtensions
     {

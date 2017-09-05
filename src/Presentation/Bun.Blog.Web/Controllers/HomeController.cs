@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bun.Blog.Web.Controllers
+namespace Bun.Blog.Web.Admin.Controllers
 {
     public class HomeController : BaseController
     {

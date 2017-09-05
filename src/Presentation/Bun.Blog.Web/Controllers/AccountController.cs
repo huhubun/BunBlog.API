@@ -1,16 +1,15 @@
 ﻿using Bun.Blog.Core.Domain.Users;
+using Bun.Blog.Web.Admin.Models.Accounts;
 using Bun.Blog.Web.Framework.Mvc.Controllers;
-using Bun.Blog.Web.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bun.Blog.Web.Controllers
+namespace Bun.Blog.Web.Admin.Controllers
 {
     public class Student
     {

@@ -1,10 +1,6 @@
-﻿using Bun.Blog.Web.Models.Accounts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bun.Blog.Web.Admin.Models.Accounts;
 
-namespace Bun.Blog.Web.Models.Posts
+namespace Bun.Blog.Web.Admin.Models.Posts
 {
     public class PostModel
     {

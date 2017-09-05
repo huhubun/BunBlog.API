@@ -1,4 +1,4 @@
-﻿namespace Bun.Blog.Web.Extensions
+﻿namespace Bun.Blog.Web.Admin.Extensions
 {
     public static partial class MappingExtensions
     {

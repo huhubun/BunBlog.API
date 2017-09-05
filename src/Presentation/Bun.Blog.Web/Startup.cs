@@ -3,7 +3,7 @@ using Bun.Blog.Core.Data;
 using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Data;
 using Bun.Blog.Services.Posts;
-using Bun.Blog.Web.Extensions;
+using Bun.Blog.Web.Admin.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +19,7 @@ using NLog.Extensions.Logging;
 using NLog.Web;
 using System;
 
-namespace Bun.Blog.Web
+namespace Bun.Blog.Web.Admin
 {
     public class Startup
     {
