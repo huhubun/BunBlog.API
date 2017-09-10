@@ -12,7 +12,7 @@ import { REQUEST } from './shared/constants/request';
 @Component({
     selector: 'app',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
+    styleUrls: ['./app.component.css'],
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, OnDestroy {

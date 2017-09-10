@@ -29,7 +29,8 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 
 // myself
 import { SuiModule } from 'ng2-semantic-ui';
-import { MyApp } from './components/my-app/my-app.component'
+import { TestPostListComponent } from './containers/test-post-list/test-post-list.component';
+import { PostService } from './shared/post.service';
 
 
 export function createTranslateLoader(http: Http, baseHref) {
@@ -52,7 +53,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         //ChatComponent,
         NotFoundComponent,
         //NgxBootstrapComponent
-        MyApp
+        TestPostListComponent
     ],
     imports: [
         // myself
@@ -170,7 +171,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         LinkService,
         UserService,
         ConnectionResolver,
-        TranslateModule
+        TranslateModule,
+        PostService
     ]
 })
 export class AppModuleShared {
