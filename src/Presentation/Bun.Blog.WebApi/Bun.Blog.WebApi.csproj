@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -7,14 +7,22 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Bun.Blog.Core\Bun.Blog.Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\Bun.Blog.Data\Bun.Blog.Data.csproj" />
     <ProjectReference Include="..\..\Libraries\Bun.Blog.Services\Bun.Blog.Services.csproj" />
-    <ProjectReference Include="..\Bun.Blog.Web.Framework\Bun.Blog.Web.Framework.csproj" />
   </ItemGroup>
 
 </Project>
