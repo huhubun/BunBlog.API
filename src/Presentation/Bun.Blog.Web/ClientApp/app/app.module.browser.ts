@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SignalRModule, SignalRConfiguration } from 'ng2-signalr';
+//import { SignalRModule, SignalRConfiguration } from 'ng2-signalr';
 
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { AppModuleShared } from './app.module';

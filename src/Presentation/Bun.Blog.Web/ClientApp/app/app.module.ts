@@ -29,7 +29,7 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 
 // myself
 import { SuiModule } from 'ng2-semantic-ui';
-
+import { MyApp } from './components/my-app/my-app.component'
 
 
 export function createTranslateLoader(http: Http, baseHref) {
@@ -52,6 +52,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         //ChatComponent,
         NotFoundComponent,
         //NgxBootstrapComponent
+        MyApp
     ],
     imports: [
         // myself
