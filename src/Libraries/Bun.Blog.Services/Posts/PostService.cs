@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Bun.Blog.Core.Domain.Users;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace Bun.Blog.Services.Posts
 {
@@ -16,12 +18,14 @@ namespace Bun.Blog.Services.Posts
     {
         private readonly IRepository<Post> _repository;
 
-        public PostService(IRepository<Post> repository)
+        public PostService(IRepository<Post> repository, IHttpContextAccessor httpContext)
         {
+            var u = httpContext.HttpContext.User;
+
             _repository = repository;
         }
 
-        public IList<Post> GetAll()
+        public List<Post> GetAll()
         {
             return _repository.Table
                 .Include(p => p.Author)
@@ -36,11 +40,19 @@ namespace Bun.Blog.Services.Posts
 
         public Post Add(Post post)
         {
+            post.InsertDate = DateTime.Now;
+            post.InsertUser = post.AuthorId;
+            post.UpdateDate = DateTime.Now;
+            post.UpdateUser = post.AuthorId;
+
             return _repository.Add(post);
         }
 
         public Post Update(Post post)
         {
+            post.UpdateDate = DateTime.Now;
+            post.UpdateUser = post.AuthorId;
+
             return _repository.Update(post);
         }
     }

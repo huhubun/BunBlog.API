@@ -59,13 +59,13 @@
             </div>
         </div>
         <!-- end sidebar -->
-        <!-- content -->
-        <div class="column" id="Content">
+        <!-- page content -->
+        <div class="column" id="PageContent">
             <div class="ui grid" id="ContentGrid">
 
                 <div class="row">
                     <h2 class="">@ViewBag.Title</h2>
-                    <div class="bun-margin-left">
+                    <div id="TitleRightArea" class="bun-margin-left">
                         @await RenderSectionAsync("TitleRightArea", required: false)
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <!-- end content -->
+        <!-- end page content -->
     </div>
 
 

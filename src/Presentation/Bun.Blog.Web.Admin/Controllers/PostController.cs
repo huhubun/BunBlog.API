@@ -1,11 +1,12 @@
-﻿using Bun.Blog.Core.Domain.Posts;
+﻿using AutoMapper;
+using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Services.Posts;
-using Bun.Blog.Web.Admin.Extensions;
 using Bun.Blog.Web.Admin.Models.Posts;
 using Bun.Blog.Web.Framework.Mvc.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Bun.Blog.Web.Admin.Controllers
@@ -27,7 +28,7 @@ namespace Bun.Blog.Web.Admin.Controllers
         {
             var model = new PostListModel
             {
-                PostList = _postService.GetAll().MapTo<IList<Post>, List<PostModel>>()
+                PostList = Mapper.Map<List<Post>, List<PostModel>>(_postService.GetAll())
             };
 
             return View(model);
@@ -39,55 +40,61 @@ namespace Bun.Blog.Web.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult New(PostNewModel model)
+        public IActionResult Save(PostModel model)
         {
-            if (ModelState.IsValid)
+            model.AuthorId = _userManager.GetUserId(User);
+            Post entity;
+
+            if (model.IsNew)
             {
-                var post = model.ToEntity();
-                post.AuthorId = _userManager.GetUserId(User);
-
-                _postService.Add(post);
-
-                SuccessNotification("文章发布成功");
-
-                return RedirectToAction(nameof(Edit), new { post.Id });
-            }
-
-            return View(model);
-        }
-
-        public IActionResult Edit(int id)
-        {
-            var post = _postService.GetById(id);
-
-            if (post != null)
-            {
-                var model = post.MapTo<Post, EditPostModel>();
-
-                return View(model);
+                entity = Mapper.Map<PostModel, Post>(model);
+                entity = _postService.Add(entity);
             }
             else
             {
-                return Content($"未找到 id 为 {id} 的文章");
+                entity = _postService.GetById(model.Id);
+                entity = Mapper.Map(model, entity);
+                entity = _postService.Update(entity);
             }
 
-        }
-
-        [HttpPost]
-        public IActionResult Edit(EditPostModel model)
-        {
-            if (ModelState.IsValid)
+            return Json(new SavePostResult
             {
-                var entity = _postService.GetById(model.Id);
-                entity = model.ToEntity(entity);
-                _postService.Update(entity);
-
-                SuccessNotification("更新文章成功");
-
-                return RedirectToAction(nameof(Edit), new { model.Id });
-            }
-
-            return View(model);
+                Id = entity.Id
+            });
         }
+
+        //public IActionResult Edit(int id)
+        //{
+        //    var post = _postService.GetById(id);
+
+        //    if (post != null)
+        //    {
+        //        var model = post.MapTo<Post, EditPostModel>();
+
+        //        return View(model);
+        //    }
+        //    else
+        //    {
+        //        return Content($"未找到 id 为 {id} 的文章");
+        //    }
+
+        //}
+
+        //[HttpPost]
+        //public IActionResult Edit(EditPostModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var entity = _postService.GetById(model.Id);
+        //        entity = model.ToEntity(entity);
+        //        _postService.Update(entity);
+
+        //        SuccessNotification("更新文章成功");
+
+        //        return RedirectToAction(nameof(Edit), new { model.Id });
+        //    }
+
+        //    return View(model);
+        //}
     }
 }

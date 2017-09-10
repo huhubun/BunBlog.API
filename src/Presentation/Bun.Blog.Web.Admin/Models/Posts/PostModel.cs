@@ -1,4 +1,4 @@
-﻿using Bun.Blog.Web.Admin.Models.Accounts;
+﻿using Bun.Blog.Core.Enums;
 
 namespace Bun.Blog.Web.Admin.Models.Posts
 {
@@ -14,8 +14,10 @@ namespace Bun.Blog.Web.Admin.Models.Posts
 
         public string AuthorId { get; set; }
 
-        public int Status { get; set; }
+        public string AuthorName { get; set; }
 
-        public UserModel Author { get; set; }
+        public PostStatus Status { get; set; }
+
+        public bool IsNew => Id == 0;
     }
 }

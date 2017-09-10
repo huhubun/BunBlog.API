@@ -36,6 +36,11 @@ namespace Bun.Blog.Web.Admin.Extensions
                         name: "EditPost",
                         url: "Post/Edit/{id:int}",
                         defaults: new { controller = "Post", action = "Edit" }
+                    )
+                    .MapAdminAreaRoute(
+                        name: "SavePost",
+                        url: "Post/Save",
+                        defaults: new { controller = "Post", action = "Save" }
                     );
         }
 

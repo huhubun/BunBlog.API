@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <table class="table">
+        <table class="ui selectable padded table">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -20,7 +20,7 @@
                         <td>
                             <a asp-route="EditPost" asp-route-id="@post.Id">@post.Title</a>
                         </td>
-                        <td>@post.Author?.UserName</td>
+                        <td>@post.AuthorName</td>
                         <td>
                             <a asp-route="EditPost" asp-route-id="@post.Id">编辑</a>
                         </td>
@@ -40,7 +40,6 @@
 @section Scripts{
     <script>
         $(function () {
-            new Bun.Blog.Admin.Post.List();
         });
     </script>
 }

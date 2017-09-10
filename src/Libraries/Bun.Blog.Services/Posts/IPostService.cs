@@ -5,7 +5,7 @@ namespace Bun.Blog.Services.Posts
 {
     public interface IPostService
     {
-        IList<Post> GetAll();
+        List<Post> GetAll();
 
         Post GetById(int id);
 

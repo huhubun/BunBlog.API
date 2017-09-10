@@ -14,7 +14,7 @@ The code is for reference only, do not use in a production environment! I do not
 
 ## Migration
 1. Add migration  
-将**程序包管理器控制台**的**默认项目**切换为`Presentation\Bun.Blog.Web`，然后执行下面的代码添加迁移。由于映射和迁移文件都在 `Bun.Blog.Data` 项目下，所以需要单独通过 `-Project` 以及 `-OutputDir` 指定。
+将**程序包管理器控制台**的**默认项目**切换为`Presentation\Bun.Blog.Web.Admin`，然后执行下面的代码添加迁移。由于映射和迁移文件都在 `Bun.Blog.Data` 项目下，所以需要单独通过 `-Project` 以及 `-OutputDir` 指定。
 
 ```powershell
 Add-Migration __MigrationTitle__ -Project Bun.Blog.Data -Context BlogContext -OutputDir Migrations

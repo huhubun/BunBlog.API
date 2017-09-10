@@ -6,6 +6,5 @@ namespace Bun.Blog.Core.Domain.Users
 {
     public class User : IdentityUser
     {
-        public virtual ICollection<Post> Posts { get; set; }
     }
 }

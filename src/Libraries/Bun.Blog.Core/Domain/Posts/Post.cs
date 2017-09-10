@@ -14,6 +14,8 @@ namespace Bun.Blog.Core.Domain.Posts
 
         public string Content { get; set; }
 
+        public string Draft { get; set; }
+
         public string AuthorId { get; set; }
 
         public PostStatus Status { get; set; }

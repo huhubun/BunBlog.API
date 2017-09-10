@@ -4,6 +4,7 @@ using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Data;
 using Bun.Blog.Services.Posts;
 using Bun.Blog.Web.Admin.Extensions;
+using Bun.Blog.Web.Admin.Mappers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.Reflection;
 
 namespace Bun.Blog.Web.Admin
 {
@@ -93,7 +95,10 @@ namespace Bun.Blog.Web.Admin
             });
 
             // Others
-            services.AddAutoMapper(config => config.CreateBunBlogMap());
+            services.AddAutoMapper(config =>{
+                config.AddProfile<PostMapperProfile>();
+                config.AddProfile<UserMapperProfile>();
+            });
 
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

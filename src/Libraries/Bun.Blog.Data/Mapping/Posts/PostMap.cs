@@ -10,7 +10,7 @@ namespace Bun.Blog.Data.Mapping.Posts
         {
             builder.HasKey(t => t.Id);
 
-            builder.HasOne(t => t.Author).WithMany(t => t.Posts).HasForeignKey(t => t.AuthorId);
+            builder.HasOne(t => t.Author).WithMany().HasForeignKey(t => t.AuthorId);
         }
     }
 }
