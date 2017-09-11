@@ -54,6 +54,11 @@ namespace Bun.Blog.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:22677");
+            });
+
             app.UseMvc();
         }
     }

@@ -13,8 +13,11 @@ export class PostService {
         @Inject(ORIGIN_URL) private baseUrl: string) {
     }
 
-    //getPosts(): Observable<IPostListItem[]>
-    getPosts(): string {
+    getPosts(): Observable<IPostListItem[]> {
+        return this.transferHttp.get("http://localhost:2523/api/posts");
+    }
+
+    getString(): string {
         return "called!!";
     }
 }

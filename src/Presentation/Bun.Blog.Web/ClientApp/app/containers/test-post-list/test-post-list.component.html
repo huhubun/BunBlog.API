@@ -1,3 +1,20 @@
-<h1>123123</h1>
-
-<h2>{{ message }}</h2>
+<div class="ui container">
+  <div class="ui one cards">
+    <div *ngFor="let post of posts" class="ui raised card">
+      <div class="content">
+        <a class="header">{{ post.title }}</a>
+        <!--<div class="meta">
+          <span class="category">Category</span>
+        </div>-->
+        <div class="description">
+          <p>{{ post.content }}</p>
+        </div>
+      </div>
+      <div class="extra content">
+        <span><i class="unhide icon"></i> 2222</span>
+        <a class="bun-margin-left"><i class="sidebar icon"></i> Category</a>
+        <div class="right floated author"><!--<img class="ui avatar image" src="/images/avatar/small/matt.jpg">--> {{ post.author.name }} </div>
+      </div>
+    </div>
+  </div>
+</div>

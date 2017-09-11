@@ -1,11 +1,24 @@
-<div class="ui green inverted top fixed menu">
-  <div class="item">
-    <img src="/images/logo.png">
+<div class="ui tiny green inverted top fixed borderless  menu">
+  <div class="ui container">
+    <a [routerLink]="['/home']" class="item active">首页</a>
+    <a class="item">分类 1</a>
+    <a class="item">分类 2</a>
+    <div class="right item">
+      <div class="ui transparent icon input">
+        <input class="prompt" type="text" placeholder="输入关键字（尚未实现）">
+        <i class="search link icon"></i>
+      </div>
+    </div>
   </div>
-  <a [routerLink]="['/home']" class="item">Features</a>
-  <a class="item">Testimonials</a>
-  <a class="item">Sign-in</a>
 </div>
+
+<!--<div class="ui inverted segment ">
+  <div class="ui inverted secondary pointing  menu">
+    <a class="active item">Home </a>
+    <a class="item">Messages </a>
+    <a class="item">好友 </a>
+  </div>
+</div>-->
 
 <!--<div class='main-nav'>
   <div class='navbar'>
