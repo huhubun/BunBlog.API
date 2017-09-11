@@ -30,6 +30,7 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 // myself
 import { SuiModule } from 'ng2-semantic-ui';
 import { TestPostListComponent } from './containers/test-post-list/test-post-list.component';
+import { PostViewer } from './containers/post-viewer/post-viewer.component';
 import { PostService } from './shared/post.service';
 
 
@@ -53,7 +54,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         //ChatComponent,
         NotFoundComponent,
         //NgxBootstrapComponent
-        TestPostListComponent
+        TestPostListComponent,
+        PostViewer
     ],
     imports: [
         // myself
@@ -122,6 +124,12 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
+
+            {
+                path: "post/:id", component: PostViewer,
+
+            },
+
             //{
             //    path: 'chat', component: ChatComponent,
             //    // Wait until the resolve is finished before loading the Route

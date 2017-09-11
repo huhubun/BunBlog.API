@@ -2,7 +2,7 @@
   <div class="ui one cards">
     <div *ngFor="let post of posts" class="ui raised card">
       <div class="content">
-        <a class="header">{{ post.title }}</a>
+        <a [routerLink]="['/post', post.id]" class="header">{{ post.title }}</a>
         <!--<div class="meta">
           <span class="category">Category</span>
         </div>-->

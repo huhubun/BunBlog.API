@@ -4,6 +4,7 @@ import { TransferHttp } from '../../modules/transfer-http/transfer-http';
 import { Observable } from 'rxjs/Observable';
 import { ORIGIN_URL } from './constants/baseurl.constants';
 import { IPostListItem } from '../models/Posts/IPostListItem'
+import { IPostDetail } from '../models/Posts/IPostDetail'
 
 @Injectable()
 export class PostService {
@@ -15,6 +16,10 @@ export class PostService {
 
     getPosts(): Observable<IPostListItem[]> {
         return this.transferHttp.get("http://localhost:2523/api/posts");
+    }
+
+    getPostById(id: number): Observable<IPostDetail> {
+        return this.transferHttp.get(`http://localhost:2523/api/posts/${id}`);
     }
 
     getString(): string {

@@ -31,7 +31,9 @@ namespace Bun.Blog.WebApi.Controllers
         [HttpGet, Route("{id:int}", Name = nameof(GetById))]
         public IActionResult GetById([FromRoute] int id)
         {
-            return Ok("Get by id: " + id);
+            var post = _postService.GetById(id);
+
+            return Ok(Mapper.Map<Post, PostDetailModel>(post));
         }
 
     }

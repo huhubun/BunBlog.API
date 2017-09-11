@@ -16,8 +16,10 @@
   <ItemGroup>
     <!-- Files not to show in IDE -->
     <None Remove="ClientApp\app\components\my-app\my-app.component.ts" />
+    <None Remove="ClientApp\app\containers\post-viewer\post-viewer.component.ts" />
     <None Remove="ClientApp\app\containers\test-post-list\test-post-list.component.ts" />
     <None Remove="ClientApp\app\models\Post.ts" />
+    <None Remove="ClientApp\app\models\Posts\IPostDetail.ts" />
     <None Remove="ClientApp\app\shared\post.service.ts" />
     <None Remove="yarn.lock" />
     <Content Remove="wwwroot\dist\**" />
@@ -29,7 +31,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\my-app\my-app.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\containers\post-viewer\post-viewer.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\containers\test-post-list\test-post-list.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\Posts\IPostDetail.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\Posts\IPostListItem.ts" />
     <TypeScriptCompile Include="ClientApp\app\shared\post.service.ts" />
   </ItemGroup>

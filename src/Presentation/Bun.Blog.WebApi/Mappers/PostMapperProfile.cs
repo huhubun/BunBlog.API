@@ -12,8 +12,11 @@ namespace Bun.Blog.WebApi.Mappers
     {
         public PostMapperProfile()
         {
-            CreateMap<Post, PostListItem>()
+            CreateMap<Post, PostListItem>();
+
+            CreateMap<Post, PostDetailModel>()
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author));
+
         }
     }
 }
