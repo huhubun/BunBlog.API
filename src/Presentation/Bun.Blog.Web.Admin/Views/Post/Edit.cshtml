@@ -1,94 +1,112 @@
-﻿@model EditPostModel
+﻿@model PostModel
 @{
-    ViewBag.Title = "编辑文章";
+    ViewBag.Title = "写文章";
 }
 
 <style>
-    .bun-editor-toolbar-btn {
-        border: 0;
-        background-color: #FFF;
-        cursor: pointer;
-    }
 
-        .bun-editor-toolbar-btn:hover {
-            text-shadow: 0 0 6px #999;
-        }
-
-    .bun-editor-area {
-        width: 100%;
-        border-top: 0;
-        border-right: 1px solid #000;
-        border-bottom: 1px solid #000;
-        border-left: 1px solid #000;
-    }
 </style>
 
-<form action="" method="post" id="UpdatePost">
-    <input type="hidden" asp-for="AuthorId" />
+<div class="ui container form">
+    <form asp-area="Admin" asp-route="PostNew">
+        <input type="hidden" asp-for="Id" />
 
-    <div class="row">
-        <div class="col-xs-12 col-md-9 col-lg-10">
-            <div class="card">
-                <div class="card-block">
-                    <div class="form-group">
-                        <input type="text" asp-for="Title" class="form-control" placeholder="在这里输入标题" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <div id="EditorToolbar"></div>
-                        <div>
-                            <textarea asp-for="Content" class="bun-editor-area" rows="22"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> 更新</button>
-                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-                </div>
-            </div>
+        <div class="ui fluid icon input field">
+            <input asp-for="Title" type="text" placeholder="在此输入标题" />
         </div>
 
-
-
-        <div class="col-xs-12 col-md-9 col-lg-10">
-            <div class="card">
-                <div class="card-header">
-                    <strong>Normal</strong> Form
-                </div>
-                <div class="card-block">
-                    <div class="form-group">
-                        <label for="nf-email">Email</label>
-                        <input type="email" id="nf-email" name="nf-email" class="form-control" placeholder="Enter Email..">
-                        <span class="help-block">Please enter your email</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="nf-password">Password</label>
-                        <input type="password" id="nf-password" name="nf-password" class="form-control" placeholder="Enter Password..">
-                        <span class="help-block">Please enter your password</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-                </div>
-            </div>
-
+        <div class="field">
+            <textarea asp-for="Content" rows="22"></textarea>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
-@section TitleRightArea{
-    <a class="btn btn-secondary update-post" href="#"><i class="icon-arrow-up-circle"> &nbsp;更新</i></a>
-    <a class="btn btn-secondary" href="#"><i class="icon-cup"> &nbsp;保存草稿</i></a>
-    <a class="btn btn-secondary" href="#"><i class="icon-size-fullscreen"></i></a>
+@section TitleRightArea {
+    <button id="Publish" type="button" class="compact small ui olive button @(Model.IsNew ? String.Empty : "transition hidden")"><i class="rocket icon"></i>发布</button>
+    <button id="Update" type="button" class="compact small ui olive button @(Model.IsNew ? "transition hidden" : String.Empty)"><i class="rocket icon"></i>更新</button>
+    <button id="SaveDraft" type="button" class="compact small ui basic button">保存草稿</button>
+
+    <div id="PostSuccessNotification" class="ui green label transition hidden"><i class="check icon"></i><span class="bun-success-message"></span> <a class="detail bun-view-post">前往预览</a> <i class="close icon"></i></div>
+    <div id="PostFailNotification" class="ui red label transition hidden"><i class="remove icon"></i>保存失败 <span id="FailError"></span> <i class="close icon"></i></div>
 }
 
 @section Scripts{
-
     <script type="text/javascript">
         $(function () {
+            $("#Publish, #Update").click(function () {
+                hideNotification();
 
+                var btn = $(this);
+                var loadingClassName = "loading";
+                var isNewPost = btn.attr("id") == "Publish";
+
+                var requestData = getRequestData();
+
+                if (!btn.hasClass(loadingClassName)) {
+                    // HACK SemanticUI 为 .transition.loading 设置了 top: -99999px; left: -99999px 
+                    // 这里为了能让按钮的载入器正确显示，故先移除 .transition 
+                    btn.removeClass("transition").addClass(loadingClassName);
+
+                    $.post("@Url.RouteUrl("SavePost")", requestData)
+                        .done(function (data, status, jqXHR) {
+                            console.log("post save success, id is " + data.id);
+
+                            if (isNewPost) {
+                                $("#Id").val(data.id);
+                                $("#Title").val(data.title);
+
+                                $("#Publish").transition("hide");
+                                $("#Update").transition("show");
+                            }
+
+                            showSuccessNotification(isNewPost, data);
+                        })
+                        .fail(function (jqXHR, status, errorThrown) {
+                            showFailNotification(errorThrown);
+                        })
+                        .always(function () {
+                            btn.removeClass(loadingClassName);
+                        });
+                }
+            });
+
+            $("#Title, #Content").keypress(function () {
+                var notifications = $("#PostSuccessNotification, #PostFailNotification");
+
+                if (notifications.transition("is visible").some(function (value) { return value == true })) {
+                    notifications.transition("hide");
+                }
+            });
+
+            $("#TitleRightArea div.ui.label i.close.icon").click(function () {
+                $(this).parent().transition("fade");
+            });
+
+            function getRequestData() {
+                return {
+                    id: $("#Id").val(),
+                    title: $("#Title").val(),
+                    content: $("#Content").val(),
+                    status: "Published"
+                };
+            }
+
+            function showSuccessNotification(isNewPost, successResult) {
+                var element = $("#PostSuccessNotification");
+
+                element.find(".bun-view-post").attr("href", successResult.url);
+                element.find(".bun-success-message").text(isNewPost ? "已发布" : "已更新");
+                element.transition("fade in");
+            }
+
+            function showFailNotification(errorThrown) {
+                $("#FailError").text(errorThrown);
+                $("#PostFailNotification").transition("fade in");
+            }
+
+            function hideNotification() {
+                $("#PostSuccessNotification, #PostFailNotification").transition("hide");
+            }
         });
     </script>
 }

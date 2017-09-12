@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bun.Blog.Web.Admin.Controllers
 {
@@ -34,9 +35,25 @@ namespace Bun.Blog.Web.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult New()
         {
-            return View();
+            return View("Edit", new PostModel());
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var post = _postService.GetById(id);
+
+            if (post != null)
+            {
+                return View(Mapper.Map<Post, PostModel>(post));
+            }
+            else
+            {
+                return Content($"未找到 id 为 {id} 的文章");
+            }
         }
 
         [HttpPost]
@@ -47,6 +64,16 @@ namespace Bun.Blog.Web.Admin.Controllers
 
             if (model.IsNew)
             {
+                if (String.IsNullOrEmpty(model.Title))
+                {
+                    model.Title = DateTime.Now.ToLongDateString();
+                }
+
+                if (String.IsNullOrEmpty(model.Excerpt))
+                {
+                    model.Excerpt = new String((model.Content ?? String.Empty).Take(50).ToArray());
+                }
+
                 entity = Mapper.Map<PostModel, Post>(model);
                 entity = _postService.Add(entity);
             }
@@ -59,26 +86,12 @@ namespace Bun.Blog.Web.Admin.Controllers
 
             return Json(new SavePostResult
             {
-                Id = entity.Id
+                Id = entity.Id,
+                Title = entity.Title
             });
         }
 
-        //public IActionResult Edit(int id)
-        //{
-        //    var post = _postService.GetById(id);
 
-        //    if (post != null)
-        //    {
-        //        var model = post.MapTo<Post, EditPostModel>();
-
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        return Content($"未找到 id 为 {id} 的文章");
-        //    }
-
-        //}
 
         //[HttpPost]
         //public IActionResult Edit(EditPostModel model)

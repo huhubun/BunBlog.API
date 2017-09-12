@@ -8,7 +8,7 @@ namespace Bun.Blog.WebApi.Models.Posts
 
         public string Title { get; set; }
 
-        public string Content { get; set; }
+        public string Excerpt { get; set; }
 
         public UserOverviewModel Author { get; set; }
     }
