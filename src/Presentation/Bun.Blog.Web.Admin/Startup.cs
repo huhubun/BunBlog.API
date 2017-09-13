@@ -2,6 +2,7 @@
 using Bun.Blog.Core.Data;
 using Bun.Blog.Core.Domain.Users;
 using Bun.Blog.Data;
+using Bun.Blog.Services.Categories;
 using Bun.Blog.Services.Posts;
 using Bun.Blog.Web.Admin.Extensions;
 using Bun.Blog.Web.Admin.Mappers;
@@ -16,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Converters;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using System;
@@ -45,7 +47,10 @@ namespace Bun.Blog.Web.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             // MVC and route
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(opt =>
+            {
+                opt.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 // MVC Areas https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/areas
@@ -95,7 +100,8 @@ namespace Bun.Blog.Web.Admin
             });
 
             // Others
-            services.AddAutoMapper(config =>{
+            services.AddAutoMapper(config =>
+            {
                 config.AddProfile<PostMapperProfile>();
                 config.AddProfile<UserMapperProfile>();
             });
@@ -104,6 +110,7 @@ namespace Bun.Blog.Web.Admin
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         }
 
@@ -148,6 +155,11 @@ namespace Bun.Blog.Web.Admin
                         name: "Register",
                         template: "Register",
                         defaults: new { controller = "Account", action = "Register", area = "Admin" }
+                    )
+                    .MapRoute(
+                        name: "AdminDefault",
+                        template: "Admin/{controller}/{action}/{id}",
+                        defaults: new { controller = "Dashboard", action = "Index", area = "Admin" }
                     )
                     .MapAdminRoute();
             });

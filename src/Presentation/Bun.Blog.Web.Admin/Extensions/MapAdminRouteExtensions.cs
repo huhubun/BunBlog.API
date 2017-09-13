@@ -41,6 +41,25 @@ namespace Bun.Blog.Web.Admin.Extensions
                         name: "SavePost",
                         url: "Post/Save",
                         defaults: new { controller = "Post", action = "Save" }
+                    )
+                    
+                    // Category
+                    .MapAdminAreaRoute(
+                        name: "CategoryList",
+                        url: "Category/List",
+                        defaults: new { controller = "Category", action = "List" }
+                    )
+
+                    .MapAdminAreaRoute(
+                        name: "AddCategory",
+                        url: "Category/Add",
+                        defaults: new { controller = "Category", action = "Add" }
+                    )
+
+                    .MapAdminAreaRoute(
+                        name: "EditCategory",
+                        url: "Category/Edit",
+                        defaults: new { controller = "Category", action = "Edit" }
                     );
         }
 

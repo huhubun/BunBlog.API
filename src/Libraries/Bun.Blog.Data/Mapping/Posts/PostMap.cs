@@ -11,6 +11,8 @@ namespace Bun.Blog.Data.Mapping.Posts
             builder.HasKey(t => t.Id);
 
             builder.HasOne(t => t.Author).WithMany().HasForeignKey(t => t.AuthorId);
+            builder.HasOne(t => t.Category).WithMany().HasForeignKey(t => t.CategoryId);
+            builder.HasMany(t => t.Metas).WithOne().HasForeignKey(t => t.PostId);
         }
     }
 }

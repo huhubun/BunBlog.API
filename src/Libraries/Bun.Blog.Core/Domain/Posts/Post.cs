@@ -18,9 +18,14 @@ namespace Bun.Blog.Core.Domain.Posts
 
         public string AuthorId { get; set; }
 
+        public int? CategoryId { get; set; }
+
         public PostStatus Status { get; set; }
 
         public virtual User Author { get; set; }
 
+        public virtual Category Category { get; set; }
+
+        public virtual ICollection<PostMeta> Metas { get; set; }
     }
 }

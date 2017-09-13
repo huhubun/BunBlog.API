@@ -20,8 +20,6 @@ namespace Bun.Blog.Services.Posts
 
         public PostService(IRepository<Post> repository, IHttpContextAccessor httpContext)
         {
-            var u = httpContext.HttpContext.User;
-
             _repository = repository;
         }
 

@@ -12,9 +12,10 @@ using System;
 namespace Bun.Blog.Data.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20170912153608_AddPostMetaEntityAndPostWithCategoryRelationship")]
+    partial class AddPostMetaEntityAndPostWithCategoryRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

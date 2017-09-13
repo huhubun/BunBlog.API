@@ -27,8 +27,8 @@
 </head>
 <body>
     <!-- top menu -->
-    <div id="TopMenu" class="ui top fixed mini menu">
-        <a class="item" style="width: 15rem;">@siteName</a>
+    <div id="TopMenu" style="margin-left:15rem;" class="ui top fixed mini menu">
+        @*<a class="item" style="width: 15rem;">@siteName</a>*@
         <a class="item" asp-controller="Home" asp-action="Index"><i class="world icon"></i> 查看站点</a>
         <div class="ui dropdown item">
             <i class="plus icon"></i> 添加<i class="dropdown icon"></i>
@@ -43,7 +43,7 @@
         <!-- sidebar -->
         <div class="column" id="Sidebar">
             <div class="ui left fixed vertical sticky menu">
-                <a href="#" class="item">
+                <a asp-area="Admin" asp-route="Admin" class="item">
                     <h1>@siteName</h1>
                 </a>
 
@@ -54,6 +54,13 @@
                     <div class="menu">
                         <a class="item" asp-area="Admin" asp-route="PostList">所有文章</a>
                         <a class="item" asp-area="Admin" asp-route="PostNew">写文章</a>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="header">控制面板</div>
+                    <div class="menu">
+                        <a class="item" asp-area="Admin" asp-route="CategoryList">分类设置</a>
                     </div>
                 </div>
             </div>

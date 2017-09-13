@@ -1,0 +1,145 @@
+﻿@model CategoryListModel
+@{
+    ViewBag.Title = "分类列表";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="ui selectable padded table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model.CategoryList)
+                {
+                    <tr>
+                        <td>
+                            @category.Code
+                        </td>
+                        <td>@category.Name</td>
+                        <td>
+                            <a asp-route="EditCategory" asp-route-id="@category.Id">编辑</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="AddCategoryModal" class="ui mini modal">
+    <div class="header">
+        添加分类
+    </div>
+    <div class="content">
+        <form class="ui form">
+            <div class="ui error message"></div>
+            <div class="field">
+                <label>分类代码</label>
+                <input type="text" name="code" placeholder="Code">
+            </div>
+            <div class="field">
+                <label>分类名称</label>
+                <input type="text" name="name" placeholder="Name">
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui green ok button">保存</div>
+        <div class="ui cancel button">取消</div>
+    </div>
+    <div class="ui disabled inverted dimmer">
+        <div class="ui text loader">正在提交</div>
+    </div>
+</div>
+
+
+@section TitleRightArea {
+    <button type="button" id="AddCategory" class="compact small ui basic button">添加分类</button>
+}
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#AddCategory").click(function () {
+                $("#AddCategoryModal").modal({
+                    blurring: true,
+                    closable: false,
+                    onApprove: function () {
+                        var addCategoryModal = $("#AddCategoryModal");
+                        var addCategoryModalForm = addCategoryModal.find("form");
+                        var isValid = addCategoryModalForm.form("validate form");
+
+                        if (isValid) {
+                            addCategoryModal.find(".dimmer").removeClass("disabled").addClass("active");
+
+                            var data = addCategoryModalForm.form("get values", ["code", "name"]);
+                            $.post("@Url.RouteUrl("AddCategory")", data).done(function (data) {
+                                if (data.status == "success") {
+                                    $("#AddCategoryModal").modal("hide");
+                                    location.reload();
+                                }
+                                else if (data.status == "error") {
+                                    switch (data.message) {
+                                        case "CodeIsExists":
+                                            addCategoryModalForm.form("add errors", { code: "Code 重复，请重新输入" })
+                                            break;
+                                        case "ModelNotValid":
+                                            addCategoryModalForm.form("add errors", { _: "验证失败" })
+                                            break;
+                                    }
+                                }
+                                else {
+                                    showErrorMessage("未知的返回: " + data.status + " " + data.message);
+                                }
+                            }).fail(function (jqXHR, status, errorThrown) {
+                                showErrorMessage("创建分类失败: " + status);
+                            }).always(function () {
+                                addCategoryModal.find(".dimmer").removeClass("active").addClass("disabled");
+                            });
+                        }
+
+                        return false;
+                    },
+                    onDeny: function () {
+                        $("#AddCategoryModal form").form("clear").find(".error.message").empty();
+                    }
+                }).modal("show");
+            });
+
+            // Modal form validation
+            $("#AddCategoryModal form").form({
+                fields: {
+                    code: {
+                        identifier: "code",
+                        rules: [
+                            {
+                                type: "empty",
+                                prompt: '必须填写分类代码'
+                            }
+                        ]
+                    },
+                    name: {
+                        identifier: "name",
+                        rules: [
+                            {
+                                type: "empty",
+                                prompt: "必须填写分类代码"
+                            }
+                        ]
+                    }
+                }
+            });
+
+            // Helper
+            function showErrorMessage(message) {
+                alert(message);
+                console.error(message);
+            }
+        });
+    </script>
+}
