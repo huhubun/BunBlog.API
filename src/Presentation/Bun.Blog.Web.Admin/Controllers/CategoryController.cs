@@ -38,7 +38,8 @@ namespace Bun.Blog.Web.Admin.Controllers
 
             if (entity != null)
             {
-                return Json(Mapper.Map<Category, CategoryModel>(entity));
+                var model = Mapper.Map<Category, CategoryModel>(entity);
+                return Json(new JsonResponse<CategoryModel>(model));
             }
 
             return Json(new JsonResponse(JsonResponseStatus.error, "IdNotExists"));
@@ -70,7 +71,26 @@ namespace Bun.Blog.Web.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(CategoryModel model)
         {
-            return View();
+            if (ModelState.IsValid && model.Id != 0)
+            {
+                var isCodeExists = _categoryService.CheckCodeExists(model.Code, model.Id);
+
+                if (!isCodeExists)
+                {
+                    var entity = _categoryService.GetById(model.Id);
+                    entity = Mapper.Map(model, entity);
+
+                    _categoryService.Update(entity);
+
+                    return Json(new JsonResponse());
+                }
+                else
+                {
+                    return Json(new JsonResponse(JsonResponseStatus.error, "CodeIsExists"));
+                }
+            }
+
+            return Json(new JsonResponse(JsonResponseStatus.error, "ModelNotValid"));
         }
 
 

@@ -158,7 +158,7 @@ namespace Bun.Blog.Web.Admin
                     )
                     .MapRoute(
                         name: "AdminDefault",
-                        template: "Admin/{controller}/{action}/{id}",
+                        template: "Admin/{controller}/{action}/{id?}",
                         defaults: new { controller = "Dashboard", action = "Index", area = "Admin" }
                     )
                     .MapAdminRoute();

@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <table class="ui selectable padded table">
+        <table class="ui selectable padded table" id="CategoryTable">
             <thead>
                 <tr>
                     <th>Code</th>
@@ -22,7 +22,7 @@
                         </td>
                         <td>@category.Name</td>
                         <td>
-                            <a asp-route="EditCategory" asp-route-id="@category.Id">编辑</a>
+                            <button class="edit-category mini ui primary basic button" data-category-id="@category.Id">编辑</button>
                         </td>
                     </tr>
                 }
@@ -57,6 +57,36 @@
     </div>
 </div>
 
+<div id="EditCategoryModal" class="ui mini modal">
+    <div class="header">
+        修改分类
+    </div>
+    <div class="content">
+        <form class="ui form">
+            <div class="ui error message"></div>
+            <input type="hidden" name="id" />
+            <div class="field">
+                <label>分类代码</label>
+                <input type="text" name="code" placeholder="Code">
+            </div>
+            <div class="field">
+                <label>分类名称</label>
+                <input type="text" name="name" placeholder="Name">
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui green ok button">保存</div>
+        <div class="ui cancel button">取消</div>
+    </div>
+    <div class="ui disabled inverted dimmer bun-submitting">
+        <div class="ui text loader">正在提交</div>
+    </div>
+    <div class="ui active inverted dimmer bun-loading">
+        <div class="ui text loader">正在获取数据</div>
+    </div>
+</div>
+
 
 @section TitleRightArea {
     <button type="button" id="AddCategory" class="compact small ui basic button">添加分类</button>
@@ -66,12 +96,13 @@
     <script>
         $(function () {
             $("#AddCategory").click(function () {
+                var addCategoryModal = $("#AddCategoryModal");
+                var addCategoryModalForm = addCategoryModal.find("form");
+
                 $("#AddCategoryModal").modal({
                     blurring: true,
                     closable: false,
                     onApprove: function () {
-                        var addCategoryModal = $("#AddCategoryModal");
-                        var addCategoryModalForm = addCategoryModal.find("form");
                         var isValid = addCategoryModalForm.form("validate form");
 
                         if (isValid) {
@@ -80,7 +111,7 @@
                             var data = addCategoryModalForm.form("get values", ["code", "name"]);
                             $.post("@Url.RouteUrl("AddCategory")", data).done(function (data) {
                                 if (data.status == "success") {
-                                    $("#AddCategoryModal").modal("hide");
+                                    addCategoryModal.modal("hide");
                                     location.reload();
                                 }
                                 else if (data.status == "error") {
@@ -105,14 +136,73 @@
 
                         return false;
                     },
-                    onDeny: function () {
-                        $("#AddCategoryModal form").form("clear").find(".error.message").empty();
+                    onHidden: function () {
+                        addCategoryModalForm.form("clear").find(".error.message").empty();
                     }
                 }).modal("show");
             });
 
+            $("#CategoryTable .edit-category").click(function () {
+                var editCategoryModal = $("#EditCategoryModal");
+                var editCategoryModalForm = editCategoryModal.find("form");
+
+                var categoryId = $(this).data("categoryId");
+                getCategoryById(categoryId).done(function (data) {
+                    editCategoryModalForm.form("set values", data.content);
+                    editCategoryModal.find(".bun-loading").removeClass("active").addClass("disabled");
+                }).fail(function (jqXHR, status, errorThrown) {
+                    showErrorMessage("载入分类信息失败: " + status);
+                });
+
+                editCategoryModal.modal({
+                    blurring: true,
+                    closable: false,
+                    onApprove: function () {
+                        var isValid = editCategoryModalForm.form("validate form");
+
+                        if (isValid) {
+                            editCategoryModal.find(".bun-submitting").removeClass("disabled").addClass("active");
+
+                            var data = editCategoryModalForm.form("get values", ["id", "code", "name"]);
+                            $.post("@Url.Action("Edit", "Category", new { Area = "Admin" })", data).done(function (data) {
+                                if (data.status == "success") {
+                                    editCategoryModal.modal("hide");
+                                    location.reload();
+                                }
+                                else if (data.status == "error") {
+                                    switch (data.message) {
+                                        case "CodeIsExists":
+                                            editCategoryModalForm.form("add errors", { code: "Code 重复，请重新输入" })
+                                            break;
+                                        case "ModelNotValid":
+                                            editCategoryModalForm.form("add errors", { _: "验证失败" })
+                                            break;
+                                    }
+                                }
+                                else {
+                                    showErrorMessage("未知的返回: " + data.status + " " + data.message);
+                                }
+                            }).fail(function (jqXHR, status, errorThrown) {
+                                showErrorMessage("修改分类失败: " + status);
+                            }).always(function () {
+                                editCategoryModal.find(".bun-submitting").removeClass("active").addClass("disabled");
+                            });
+                        }
+
+                        return false;
+                    },
+                    onHidden: function () {
+                        editCategoryModalForm.form("clear").find(".error.message").empty();
+                    }
+                }).modal("show");
+            });
+
+            function getCategoryById(categoryId) {
+                return $.get("@Url.Action("Get", "Category", new { Area = "Admin" })", { id: categoryId });
+            }
+
             // Modal form validation
-            $("#AddCategoryModal form").form({
+            $("#AddCategoryModal form, #EditCategoryModal form").form({
                 fields: {
                     code: {
                         identifier: "code",

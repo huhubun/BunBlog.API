@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Bun.Blog.Core.Data;
 using Bun.Blog.Core.Domain.Categories;
-using Bun.Blog.Core.Data;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Bun.Blog.Services.Categories
@@ -23,12 +21,19 @@ namespace Bun.Blog.Services.Categories
 
         public List<Category> GetAll()
         {
-            return _repository.Table.ToList();
+            return _repository.Table.OrderBy(c => c.Id).ToList();
         }
 
-        public bool CheckCodeExists(string code)
+        public bool CheckCodeExists(string code, int? id = null)
         {
-            return _repository.Table.Any(c => c.Code.ToUpper() == code.ToUpper());
+            var categories = _repository.Table;
+
+            if (id.HasValue)
+            {
+                categories = categories.Where(c => c.Id != id);
+            }
+
+            return categories.Any(c => c.Code.ToUpper() == code.ToUpper());
         }
 
         public Category Add(Category category)

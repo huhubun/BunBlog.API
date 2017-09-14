@@ -9,7 +9,7 @@ namespace Bun.Blog.Services.Categories
 
         List<Category> GetAll();
 
-        bool CheckCodeExists(string code);
+        bool CheckCodeExists(string code, int? id = null);
 
         Category Add(Category category);
 
