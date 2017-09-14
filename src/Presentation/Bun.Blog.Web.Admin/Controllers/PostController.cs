@@ -38,7 +38,7 @@ namespace Bun.Blog.Web.Admin.Controllers
         [HttpGet]
         public IActionResult New()
         {
-            return View("Edit", new PostModel());
+            return View("Post", new PostModel());
         }
 
         [HttpGet]
@@ -48,7 +48,7 @@ namespace Bun.Blog.Web.Admin.Controllers
 
             if (post != null)
             {
-                return View(Mapper.Map<Post, PostModel>(post));
+                return View("Post", Mapper.Map<Post, PostModel>(post));
             }
             else
             {

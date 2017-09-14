@@ -10,6 +10,7 @@
 <div class="ui container form">
     <form asp-area="Admin" asp-route="PostNew">
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CategoryId" />
 
         <div class="ui fluid icon input field">
             <input asp-for="Title" type="text" placeholder="在此输入标题" />
@@ -18,6 +19,20 @@
         <div class="field">
             <textarea asp-for="Content" rows="22"></textarea>
         </div>
+
+        <div class="ui horizontal divider">other settings</div>
+
+        <div class="fields">
+            <div class="four wide field">
+                <label>分类</label>
+                <div class="ui selection dropdown" id="CategoryDropdown">
+                    <div class="text"></div>
+                    <i class="dropdown icon"></i>
+                </div>
+            </div>
+        </div>
+
+        
     </form>
 </div>
 
@@ -33,6 +48,8 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
+            initCategory();
+
             $("#Publish, #Update").click(function () {
                 hideNotification();
 
@@ -40,14 +57,14 @@
                 var loadingClassName = "loading";
                 var isNewPost = btn.attr("id") == "Publish";
 
-                var requestData = getRequestData();
+                var postData = getPostData();
 
                 if (!btn.hasClass(loadingClassName)) {
-                    // HACK SemanticUI 为 .transition.loading 设置了 top: -99999px; left: -99999px 
-                    // 这里为了能让按钮的载入器正确显示，故先移除 .transition 
+                    // HACK SemanticUI 为 .transition.loading 设置了 top: -99999px; left: -99999px
+                    // 这里为了能让按钮的载入器正确显示，故先移除 .transition
                     btn.removeClass("transition").addClass(loadingClassName);
 
-                    $.post("@Url.RouteUrl("SavePost")", requestData)
+                    $.post("@Url.RouteUrl("SavePost")", postData)
                         .done(function (data, status, jqXHR) {
                             console.log("post save success, id is " + data.id);
 
@@ -82,13 +99,29 @@
                 $(this).parent().transition("fade");
             });
 
-            function getRequestData() {
+            function getPostData() {
+                var categoryId = $("#CategoryDropdown").dropdown("get value") || null;
+
                 return {
                     id: $("#Id").val(),
                     title: $("#Title").val(),
                     content: $("#Content").val(),
+                    categoryId: categoryId,
                     status: "Published"
                 };
+            }
+
+            function initCategory() {
+                $.get("@Url.Action("GetAll", "Category", new { Area = "Admin" })").done(function (data) {
+                    var currentCategoryId = $("#CategoryId").val();
+                    var items = [{ name: "无分类", value: "" }];
+
+                    data.content.forEach(function (element) { items.push({ name: element.name, value: element.id }) });
+
+                    $("#CategoryDropdown").dropdown({
+                        values: items
+                    }).dropdown("set selected", currentCategoryId);
+                });
             }
 
             function showSuccessNotification(isNewPost, successResult) {

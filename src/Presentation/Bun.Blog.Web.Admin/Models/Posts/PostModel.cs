@@ -12,6 +12,8 @@ namespace Bun.Blog.Web.Admin.Models.Posts
 
         public string Content { get; set; }
 
+        public int? CategoryId { get; set; }
+
         public string AuthorId { get; set; }
 
         public string AuthorName { get; set; }

@@ -32,6 +32,14 @@ namespace Bun.Blog.Web.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetAll()
+        {
+            var result = Mapper.Map<List<Category>, List<CategoryModel>>(_categoryService.GetAll());
+
+            return Json(new JsonResponse<List<CategoryModel>>(result));
+        }
+
+        [HttpGet]
         public IActionResult Get(int id)
         {
             var entity = _categoryService.GetById(id);
