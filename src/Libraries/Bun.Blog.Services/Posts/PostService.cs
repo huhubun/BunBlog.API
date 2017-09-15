@@ -27,6 +27,7 @@ namespace Bun.Blog.Services.Posts
         {
             return _repository.Table
                 .Include(p => p.Author)
+                .Include(p => p.Category)
                 .OrderByDescending(p => p.InsertDate)
                 .ToList();
         }

@@ -16,6 +16,10 @@ namespace Bun.Blog.Web.Admin.Mappers
             CreateMap<Post, PostModel>()
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.UserName));
 
+            CreateMap<Post, PostListItem>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.UserName))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+
             CreateMap<PostModel, Post>()
                 .ForMember(dest => dest.Content, opt => opt.Ignore())
                 .ForMember(dest => dest.Draft, opt => opt.Ignore())

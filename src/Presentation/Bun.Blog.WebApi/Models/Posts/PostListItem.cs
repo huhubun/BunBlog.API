@@ -1,4 +1,5 @@
-﻿using Bun.Blog.WebApi.Models.Users;
+﻿using Bun.Blog.WebApi.Models.Categories;
+using Bun.Blog.WebApi.Models.Users;
 
 namespace Bun.Blog.WebApi.Models.Posts
 {
@@ -11,5 +12,7 @@ namespace Bun.Blog.WebApi.Models.Posts
         public string Excerpt { get; set; }
 
         public UserOverviewModel Author { get; set; }
+
+        public CategoryModel Category { get; set; }
     }
 }

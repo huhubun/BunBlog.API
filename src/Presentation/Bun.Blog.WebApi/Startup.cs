@@ -39,6 +39,7 @@ namespace Bun.Blog.WebApi
             services.AddAutoMapper(config =>{
                 config.AddProfile<PostMapperProfile>();
                 config.AddProfile<UserMapperProfile>();
+                config.AddProfile<CategoryMapperProfile>();
             });
 
 

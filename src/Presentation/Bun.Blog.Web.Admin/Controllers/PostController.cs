@@ -29,7 +29,7 @@ namespace Bun.Blog.Web.Admin.Controllers
         {
             var model = new PostListModel
             {
-                PostList = Mapper.Map<List<Post>, List<PostModel>>(_postService.GetAll())
+                PostList = Mapper.Map<List<Post>, List<PostListItem>>(_postService.GetAll())
             };
 
             return View(model);

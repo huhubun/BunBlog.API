@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Bun.Blog.Web.Admin.Models.Posts
 {
     public class PostListModel
     {
-        public List<PostModel> PostList { get; set; }
+        public List<PostListItem> PostList { get; set; }
     }
 }
