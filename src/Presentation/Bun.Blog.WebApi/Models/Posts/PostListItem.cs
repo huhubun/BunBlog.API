@@ -11,6 +11,8 @@ namespace Bun.Blog.WebApi.Models.Posts
 
         public string Excerpt { get; set; }
 
+        public int Visits { get; set; }
+
         public UserOverviewModel Author { get; set; }
 
         public CategoryModel Category { get; set; }

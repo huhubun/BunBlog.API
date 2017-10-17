@@ -28,13 +28,19 @@ namespace Bun.Blog.Services.Posts
             return _repository.Table
                 .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Include(p => p.Metas)
                 .OrderByDescending(p => p.InsertDate)
                 .ToList();
         }
 
         public Post GetById(int id)
         {
-            return _repository.GetById(id);
+            //return _repository.GetById(id);
+            return _repository.Table
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Include(p => p.Metas)
+                .SingleOrDefault(p => p.Id == id);
         }
 
         public Post Add(Post post)

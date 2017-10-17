@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bun.Blog.Core.Domain.Posts;
+using Bun.Blog.Services.Posts;
 using Bun.Blog.WebApi.Models.Posts;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,11 @@ namespace Bun.Blog.WebApi.Mappers
     {
         public PostMapperProfile()
         {
-            CreateMap<Post, PostListItem>();
+            CreateMap<Post, PostListItem>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Visits = Convert.ToInt32(src?.Metas.SingleOrDefault(meta => meta.MetaKey == PostMetaKey.VISITS)?.MetaValue);
+                });
 
             CreateMap<Post, PostDetailModel>()
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author));
