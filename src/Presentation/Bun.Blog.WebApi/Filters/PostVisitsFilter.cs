@@ -22,7 +22,7 @@ namespace Bun.Blog.WebApi.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var postId = Convert.ToInt32(context.RouteData.Values["id"]);
+            var postId = Convert.ToInt32(context.RouteData.Values["postId"]);
 
             if (postId != default(int))
             {

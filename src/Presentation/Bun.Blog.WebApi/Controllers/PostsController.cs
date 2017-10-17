@@ -29,14 +29,13 @@ namespace Bun.Blog.WebApi.Controllers
             return Ok(Mapper.Map<List<Post>, IEnumerable<PostListItem>>(posts));
         }
 
-        [HttpGet, Route("{id:int}", Name = nameof(GetById))]
+        [HttpGet, Route("{postId:int}", Name = nameof(GetById))]
         [ServiceFilter(typeof(PostVisitsFilter))]
-        public IActionResult GetById([FromRoute] int id)
+        public IActionResult GetById([FromRoute] int postId)
         {
-            var post = _postService.GetById(id);
+            var post = _postService.GetById(postId);
 
             return Ok(Mapper.Map<Post, PostDetailModel>(post));
         }
-
     }
 }
