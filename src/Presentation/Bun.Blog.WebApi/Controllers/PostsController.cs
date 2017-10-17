@@ -15,10 +15,13 @@ namespace Bun.Blog.WebApi.Controllers
     public class PostsController : Controller
     {
         private readonly IPostService _postService;
+        private readonly IPostMetaService _postMetaService;
 
-        public PostsController(IPostService postService)
+        public PostsController(IPostService postService,
+            IPostMetaService postMetaService)
         {
             _postService = postService;
+            _postMetaService = postMetaService;
         }
 
         [HttpGet, Route("")]
@@ -36,6 +39,41 @@ namespace Bun.Blog.WebApi.Controllers
             var post = _postService.GetById(postId);
 
             return Ok(Mapper.Map<Post, PostDetailModel>(post));
+        }
+
+        [HttpGet, Route("{postId:int}/metas")]
+        public IActionResult GetMetas([FromRoute] int postId)
+        {
+            if (!_postService.Exists(postId))
+            {
+                return NotFound();
+            }
+
+            var metas = _postMetaService.GetList(postId);
+
+            return Ok(metas.ToDictionary(m => m.MetaKey, m => m.MetaValue));
+        }
+
+        [HttpGet, Route("{postId:int}/metas/{metaKey}")]
+        public IActionResult GetMeta([FromRoute] int postId, [FromRoute] string metaKey)
+        {
+            if (!PostMetaKey.IsKey(metaKey))
+            {
+                return BadRequest();
+            }
+
+            if (!_postService.Exists(postId))
+            {
+                return NotFound();
+            }
+
+            var postMeta = _postMetaService.GetMeta(postId, metaKey);
+            if (postMeta == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(Mapper.Map<PostMeta, PostMetaModel>(postMeta));
         }
     }
 }
