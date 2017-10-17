@@ -54,5 +54,10 @@ namespace Bun.Blog.Services.Posts
 
             return _repository.Update(post);
         }
+
+        public bool Exists(int id)
+        {
+            return _repository.Table.Any(post => post.Id == id);
+        }
     }
 }

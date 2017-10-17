@@ -14,6 +14,7 @@ using Bun.Blog.Services.Posts;
 using Bun.Blog.Core.Data;
 using AutoMapper;
 using Bun.Blog.WebApi.Mappers;
+using Bun.Blog.WebApi.Filters;
 
 namespace Bun.Blog.WebApi
 {
@@ -42,8 +43,10 @@ namespace Bun.Blog.WebApi
                 config.AddProfile<CategoryMapperProfile>();
             });
 
+            services.AddScoped<PostVisitsFilter>();
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IPostMetaService, PostMetaService>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         }
 

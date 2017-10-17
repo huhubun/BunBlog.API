@@ -7,6 +7,7 @@ using Bun.Blog.Services.Posts;
 using AutoMapper;
 using Bun.Blog.Core.Domain.Posts;
 using Bun.Blog.WebApi.Models.Posts;
+using Bun.Blog.WebApi.Filters;
 
 namespace Bun.Blog.WebApi.Controllers
 {
@@ -29,6 +30,7 @@ namespace Bun.Blog.WebApi.Controllers
         }
 
         [HttpGet, Route("{id:int}", Name = nameof(GetById))]
+        [ServiceFilter(typeof(PostVisitsFilter))]
         public IActionResult GetById([FromRoute] int id)
         {
             var post = _postService.GetById(id);

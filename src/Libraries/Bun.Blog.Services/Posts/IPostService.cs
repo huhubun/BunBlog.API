@@ -12,5 +12,7 @@ namespace Bun.Blog.Services.Posts
         Post Add(Post post);
 
         Post Update(Post post);
+
+        bool Exists(int id);
     }
 }

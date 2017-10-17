@@ -47,5 +47,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties bundleconfig_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 </Project>
