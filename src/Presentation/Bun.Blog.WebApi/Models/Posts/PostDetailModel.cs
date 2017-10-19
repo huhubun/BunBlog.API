@@ -1,5 +1,7 @@
-﻿using Bun.Blog.WebApi.Models.Users;
+﻿using Bun.Blog.WebApi.Models.Categories;
+using Bun.Blog.WebApi.Models.Users;
 using System;
+using System.Collections.Generic;
 
 namespace Bun.Blog.WebApi.Models.Posts
 {
@@ -16,5 +18,9 @@ namespace Bun.Blog.WebApi.Models.Posts
         public DateTime UpdateTime { get; set; }
 
         public UserOverviewModel Author { get; set; }
+
+        public CategoryModel Category { get; set; }
+
+        public Dictionary<string, string> Metas { get; set; }
     }
 }
