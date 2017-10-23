@@ -23,7 +23,8 @@ import { BrowserTransferStateModule } from '../modules/transfer-state/browser-tr
 //}
 
 export function getOriginUrl() {
-  return window.location.origin;
+  return "http://localhost:2523";
+  //return window.location.origin;
 }
 
 export function getRequest() {

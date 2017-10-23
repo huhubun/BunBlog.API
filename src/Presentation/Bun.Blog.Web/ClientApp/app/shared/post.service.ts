@@ -15,11 +15,11 @@ export class PostService {
     }
 
     getPosts(): Observable<IPostListItem[]> {
-        return this.transferHttp.get("http://localhost:2523/api/posts");
+      return this.transferHttp.get(`${this.baseUrl}/api/posts`);
     }
 
     getPostById(id: number): Observable<IPostDetail> {
-        return this.transferHttp.get(`http://localhost:2523/api/posts/${id}`);
+      return this.transferHttp.get(`${this.baseUrl}/api/posts/${id}`);
     }
 
     getString(): string {
