@@ -29,7 +29,7 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 
 // myself
 import { SuiModule } from 'ng2-semantic-ui';
-import { TestPostListComponent } from './containers/test-post-list/test-post-list.component';
+import { TestPostListComponent } from './containers/post-list/post-list.component';
 import { PostViewer } from './containers/post-viewer/post-viewer.component';
 import { PostService } from './shared/post.service';
 

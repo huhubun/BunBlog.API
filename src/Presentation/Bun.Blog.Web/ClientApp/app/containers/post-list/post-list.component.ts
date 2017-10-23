@@ -4,9 +4,9 @@ import { IPostListItem } from '../../models/Posts/IPostListItem'
 import { PostService } from '../../shared/post.service'
 
 @Component({
-    selector: "test-post-list",
-    templateUrl: "./test-post-list.component.html",
-    styleUrls: ["./test-post-list.component.css"]
+    selector: "post-list",
+    templateUrl: "./post-list.component.html",
+    styleUrls: ["./post-list.component.css"]
 })
 
 export class TestPostListComponent implements OnInit {
