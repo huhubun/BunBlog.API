@@ -31,6 +31,7 @@ import { TransferHttpModule } from '../modules/transfer-http/transfer-http.modul
 import { SuiModule } from 'ng2-semantic-ui';
 import { TestPostListComponent } from './containers/post-list/post-list.component';
 import { PostViewer } from './containers/post-viewer/post-viewer.component';
+import { PostDetail } from './containers/post-detail/post-detail.component';
 import { PostService } from './shared/post.service';
 
 
@@ -55,7 +56,8 @@ export function createTranslateLoader(http: Http, baseHref) {
         NotFoundComponent,
         //NgxBootstrapComponent
         TestPostListComponent,
-        PostViewer
+        PostViewer,
+        PostDetail
     ],
     imports: [
         // myself

@@ -9,12 +9,12 @@ import { PostService } from '../../shared/post.service'
 
 
 @Component({
-    selector: "post-viewer",
-    templateUrl: "./post-viewer.component.html",
-    styleUrls: ["./post-viewer.component.css"]
+    selector: "post-detail",
+    templateUrl: "./post-detail.component.html",
+    styleUrls: ["./post-detail.component.css"]
 })
 
-export class PostViewer implements OnInit {
+export class PostDetail implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
@@ -24,11 +24,11 @@ export class PostViewer implements OnInit {
     postDetail: IPostDetail;
 
     ngOnInit(): void {
-        //this.route.paramMap
-        //    .switchMap((params: ParamMap) => this.postService.getPostById(+params.get("id")))
-        //    .subscribe(postDetail => {
-        //        this.postDetail = postDetail;
-        //        console.log(postDetail);
-        //    });
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.postService.getPostById(+params.get("id")))
+            .subscribe(postDetail => {
+                this.postDetail = postDetail;
+                console.log(postDetail);
+            });
     }
 }

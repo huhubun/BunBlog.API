@@ -1,0 +1,12 @@
+<div class="ui container">
+  <div *ngIf="postDetail">
+    <div class="ui basic segment">
+      <h1 class="ui header">{{ postDetail.title }}</h1>
+      <p>
+        <a *ngIf="postDetail.category"><i class="sidebar icon"></i> {{ postDetail.category.name }}</a>
+      </p>
+      <div class="ui divider"></div>
+      <p>{{ postDetail.content }}</p>
+    </div>
+  </div>
+</div>
