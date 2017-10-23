@@ -6,7 +6,7 @@
         <a *ngIf="postDetail.category"><i class="sidebar icon"></i> {{ postDetail.category.name }}</a>
       </p>
       <div class="ui divider"></div>
-      <p>{{ postDetail.content }}</p>
+      <div [innerHTML]="postDetail.content"></div>
     </div>
   </div>
 </div>

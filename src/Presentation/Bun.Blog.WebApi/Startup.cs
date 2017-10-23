@@ -15,6 +15,8 @@ using Bun.Blog.Core.Data;
 using AutoMapper;
 using Bun.Blog.WebApi.Mappers;
 using Bun.Blog.WebApi.Filters;
+using CommonMark;
+using Bun.Blog.WebApi.Formatters;
 
 namespace Bun.Blog.WebApi
 {
@@ -48,6 +50,10 @@ namespace Bun.Blog.WebApi
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostMetaService, PostMetaService>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            CommonMarkSettings.Default.OutputDelegate = (doc, output, settings) =>
+                new PostFormatter(output, settings).WriteDocument(doc);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

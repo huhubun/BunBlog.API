@@ -20,6 +20,7 @@ namespace Bun.Blog.WebApi.Mappers
                 });
 
             CreateMap<Post, PostDetailModel>()
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => CommonMark.CommonMarkConverter.Convert(src.Content, null)))
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
                 .ForMember(dest => dest.Metas, opt => opt.MapFrom(src => src.Metas.ToDictionary(m => m.MetaKey, m => m.MetaValue)));
 
