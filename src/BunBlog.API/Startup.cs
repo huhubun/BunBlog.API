@@ -81,7 +81,6 @@ namespace BunBlog.API
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Bun Blog API v1");
-
             });
         }
     }
