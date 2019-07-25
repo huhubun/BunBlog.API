@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BunBlog.API.Models.Posts
 {
-    public class PostBlogPostModel
+    public class CreateBlogPostModel
     {
         public string Title { get; set; }
     }
