@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BunBlog.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BunBlog.API.Controllers
 {
@@ -11,15 +13,17 @@ namespace BunBlog.API.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-        public TagController()
-        {
+        private readonly BunBlogContext _bunBlogContext;
 
+        public TagController(BunBlogContext bunBlogContext)
+        {
+            _bunBlogContext = bunBlogContext;
         }
         
         [HttpGet("")]
-        public IActionResult GetList()
+        public async Task<IActionResult> GetList()
         {
-            return Ok();
+            return Ok(await _bunBlogContext.Tags.AsNoTracking().ToListAsync());
         }
 
         [HttpGet("{id}")]
