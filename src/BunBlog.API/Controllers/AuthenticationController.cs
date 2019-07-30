@@ -13,7 +13,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BunBlog.API.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// 认证
+    /// </summary>
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -24,7 +27,24 @@ namespace BunBlog.API.Controllers
 
         }
 
+        /// <summary>
+        /// 获取 token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     {
+        ///         "username": "admin",
+        ///         "password": "Pa$$w0rd"
+        ///     }
+        /// </remarks>
+        /// <param name="request">获取 token 的请求</param>
+        /// <returns></returns>
+        /// <response code="200">成功获取 token</response>
+        /// <response code="401">获取 token 失败</response>
         [HttpPost("token")]
+        [ProducesResponseType(typeof(TokenModel), 200)]
+        [ProducesResponseType(typeof(string), 401)]
         public IActionResult CreateToken(CreateTokenRequest request)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

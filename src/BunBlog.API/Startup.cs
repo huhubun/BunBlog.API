@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using IdentityModel;
@@ -38,6 +40,10 @@ namespace BunBlog.API
                     Title = "Bun Blog API",
                     Version = "v1"
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
 
             services.AddAuthentication(options =>
@@ -80,6 +86,7 @@ namespace BunBlog.API
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
+                options.RoutePrefix = "docs";
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Bun Blog API v1");
             });
         }
