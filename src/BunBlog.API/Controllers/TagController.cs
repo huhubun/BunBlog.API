@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BunBlog.API.Models.Tags;
+using BunBlog.Core.Domain.Tags;
 using BunBlog.Data;
+using BunBlog.Services.Tags;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,33 +16,55 @@ namespace BunBlog.API.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-        private readonly BunBlogContext _bunBlogContext;
+        private readonly ITagService _tagService;
 
-        public TagController(BunBlogContext bunBlogContext)
+        public TagController(ITagService tagService)
         {
-            _bunBlogContext = bunBlogContext;
+            _tagService = tagService;
         }
-        
+
         [HttpGet("")]
-        public async Task<IActionResult> GetList()
+        public async Task<IActionResult> GetTagListAsync()
         {
-            return Ok(await _bunBlogContext.Tags.AsNoTracking().ToListAsync());
+            return Ok(await _tagService.GetListAsync());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get()
+        [HttpGet("{linkName}", Name = nameof(GetTagByLinkNameAsync))]
+        public async Task<IActionResult> GetTagByLinkNameAsync([FromRoute]string linkName)
+        {
+            var tag = await _tagService.GetByLinkNameAsync(linkName);
+
+            if (tag == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tag);
+        }
+
+
+        [HttpPost("")]
+        public async Task<IActionResult> AddTagAsync([FromBody]TagModel tagModel)
+        {
+            var tag = new Tag
+            {
+                LinkName = tagModel.LinkName,
+                Name = tagModel.Name
+            };
+
+            await _tagService.AddAsync(tag);
+
+            return CreatedAtRoute(nameof(GetTagByLinkNameAsync), new { linkName = tag.LinkName }, tag);
+        }
+
+        [HttpPut("{linkName}")]
+        public IActionResult EditTagByLinkName([FromRoute]string linkName, [FromBody]TagModel tagModel)
         {
             return Ok();
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Post(int id)
-        {
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{linkName}")]
+        public IActionResult DeleteTagByLinkName([FromRoute]string linkName)
         {
             return Ok();
         }
