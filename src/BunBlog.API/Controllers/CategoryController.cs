@@ -61,15 +61,15 @@ namespace BunBlog.API.Controllers
         /// <summary>
         /// 添加一个分类
         /// </summary>
-        /// <param name="CategoryModel">添加分类请求</param>
+        /// <param name="categoryModel">添加分类请求</param>
         /// <returns></returns>
         [HttpPost("")]
-        public async Task<IActionResult> AddCategoryAsync([FromBody]CategoryModel CategoryModel)
+        public async Task<IActionResult> AddCategoryAsync([FromBody]CategoryModel categoryModel)
         {
             var category = new Category
             {
-                LinkName = CategoryModel.LinkName,
-                Name = CategoryModel.Name
+                LinkName = categoryModel.LinkName,
+                Name = categoryModel.Name
             };
 
             await _categoryService.AddAsync(category);
@@ -81,12 +81,12 @@ namespace BunBlog.API.Controllers
         /// 根据链接名称，修改指定分类
         /// </summary>
         /// <param name="linkName">链接名称</param>
-        /// <param name="CategoryModel">分类新的内容</param>
+        /// <param name="categoryModel">分类新的内容</param>
         /// <returns></returns>
         [HttpPut("{linkName}")]
-        public async Task<IActionResult> EditCategoryByLinkNameAsync([FromRoute]string linkName, [FromBody]CategoryModel CategoryModel)
+        public async Task<IActionResult> EditCategoryByLinkNameAsync([FromRoute]string linkName, [FromBody]CategoryModel categoryModel)
         {
-            if (linkName != CategoryModel.LinkName)
+            if (linkName != categoryModel.LinkName)
             {
                 return BadRequest();
             }
@@ -98,7 +98,7 @@ namespace BunBlog.API.Controllers
                 return NotFound();
             }
 
-            category = _mapper.Map(CategoryModel, category);
+            category = _mapper.Map(categoryModel, category);
             await _categoryService.EditAsync(category);
 
             return NoContent();
