@@ -14,6 +14,7 @@ namespace BunBlog.Services.Tags
 
         Task<Tag> EditAsync(Tag tag);
 
+        Task DeleteAsync(Tag tag);
 
     }
 }

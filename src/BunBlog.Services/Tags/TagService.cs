@@ -48,5 +48,11 @@ namespace BunBlog.Services.Tags
 
             return tag;
         }
+
+        public async Task DeleteAsync(Tag tag)
+        {
+            _bunBlogContext.Tags.Remove(tag);
+            await _bunBlogContext.SaveChangesAsync();
+        }
     }
 }

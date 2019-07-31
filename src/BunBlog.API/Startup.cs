@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using BunBlog.Data;
 using BunBlog.Services.Tags;
 using IdentityModel;
@@ -84,6 +85,8 @@ namespace BunBlog.API
             });
 
             services.AddScoped<ITagService, TagService>();
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
