@@ -5,10 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using BunBlog.API.Models.Authentication;
+using BunBlog.API.Models.Authentications;
 using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BunBlog.API.Controllers
@@ -22,9 +23,11 @@ namespace BunBlog.API.Controllers
     {
         const int EXPIRES_IN_SECONDS = 1 * 60 * 60; // 3600s = 1h
 
-        public AuthenticationController()
-        {
+        private readonly IConfiguration _configuration;
 
+        public AuthenticationController(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -47,8 +50,26 @@ namespace BunBlog.API.Controllers
         [ProducesResponseType(typeof(string), 401)]
         public IActionResult CreateToken(CreateTokenRequest request)
         {
+            var authenticationSecret = _configuration.GetValue<string>("Authentication:Secret");
+            if (String.IsNullOrEmpty(authenticationSecret))
+            {
+                throw new ArgumentNullException("Secret", "未配置 Authentication:Secret");
+            }
+
+            var users = new List<UserModel>();
+            _configuration.Bind("Authentication:Users", users);
+
+            var isUserMatched = users.Where(u => u.Username == request.Username)
+                .Where(u => u.Password == request.Password)
+                .Any();
+
+            if (!isUserMatched)
+            {
+                return BadRequest(new { message = "用户名或密码不匹配" });
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
-            var secret = Encoding.ASCII.GetBytes("this_is_a_secret");
+            var secret = Encoding.ASCII.GetBytes(authenticationSecret);
             var notValidBefore = DateTime.UtcNow;
             var expirationTime = notValidBefore.AddSeconds(EXPIRES_IN_SECONDS);
             var tokenDescriptor = new SecurityTokenDescriptor

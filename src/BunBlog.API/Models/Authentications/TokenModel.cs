@@ -1,4 +1,4 @@
-﻿namespace BunBlog.API.Models.Authentication
+﻿namespace BunBlog.API.Models.Authentications
 {
     public class TokenModel
     {
