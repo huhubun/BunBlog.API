@@ -14,10 +14,10 @@ namespace BunBlog.Data.Mapping.Categories
 
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.LinkName).IsRequired().HasMaxLength(100);
-            builder.Property(c => c.Name).IsRequired();
+            builder.Property(c => c.DisplayName).IsRequired();
 
             builder.HasIndex(c => c.Id).HasName("IX_Category_Id");
-            builder.HasIndex(c => c.Name).IsUnique().HasName("IX_Category_Name");
+            builder.HasIndex(c => c.DisplayName).IsUnique().HasName("IX_Category_Name");
         }
     }
 }

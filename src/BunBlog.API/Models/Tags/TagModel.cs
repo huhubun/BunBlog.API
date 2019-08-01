@@ -13,6 +13,6 @@
         /// <summary>
         /// 显示名称
         /// </summary>
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
     }
 }

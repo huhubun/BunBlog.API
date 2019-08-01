@@ -71,7 +71,7 @@ namespace BunBlog.API.Controllers
             var tag = new Tag
             {
                 LinkName = tagModel.LinkName,
-                Name = tagModel.Name
+                DisplayName = tagModel.DisplayName
             };
 
             await _tagService.AddAsync(tag);

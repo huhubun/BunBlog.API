@@ -69,7 +69,7 @@ namespace BunBlog.API.Controllers
             var category = new Category
             {
                 LinkName = categoryModel.LinkName,
-                Name = categoryModel.Name
+                DisplayName = categoryModel.DisplayName
             };
 
             await _categoryService.AddAsync(category);

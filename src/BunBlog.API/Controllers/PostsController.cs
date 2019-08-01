@@ -37,16 +37,16 @@ namespace BunBlog.API.Controllers
                     Title = "Test blog",
                     Visits = 2,
                     PublishedOn = new DateTime(2019, 7, 26, 12, 13, 14),
-                    Tags = new List<TagModel>{ new TagModel {  LinkName = "a-tag", Name = "AAA"}, new TagModel { LinkName = "test", Name = "test" } },
-                    Category = new CategoryModel{ LinkName="category", Name = "My Category" }
+                    Tags = new List<TagModel>{ new TagModel {  LinkName = "a-tag", DisplayName = "AAA"}, new TagModel { LinkName = "test", DisplayName = "test" } },
+                    Category = new CategoryModel{ LinkName="category", DisplayName = "My Category" }
                 },
                 new BlogPostModel
                 {
                     Title = "222",
                     Visits = 0,
                     PublishedOn = new DateTime(2019, 7, 28, 17, 16, 15),
-                    Tags = new List<TagModel>{ new TagModel {  LinkName = "a-tag", Name = "AAA"}, new TagModel { LinkName = "2", Name = "2" } },
-                    Category = new CategoryModel{ LinkName="category", Name = "My Category" }
+                    Tags = new List<TagModel>{ new TagModel {  LinkName = "a-tag", DisplayName = "AAA"}, new TagModel { LinkName = "2", DisplayName = "2" } },
+                    Category = new CategoryModel{ LinkName="category", DisplayName = "My Category" }
                 }
             });
         }
@@ -64,8 +64,8 @@ namespace BunBlog.API.Controllers
                 Title = "Test blog",
                 Visits = 2,
                 PublishedOn = new DateTime(2019, 7, 26, 12, 13, 14),
-                Tags = new List<TagModel> { new TagModel { LinkName = "a-tag", Name = "AAA" }, new TagModel { LinkName = "test", Name = "test" } },
-                Category = new CategoryModel { LinkName = "category", Name = "My Category" }
+                Tags = new List<TagModel> { new TagModel { LinkName = "a-tag", DisplayName = "AAA" }, new TagModel { LinkName = "test", DisplayName = "test" } },
+                Category = new CategoryModel { LinkName = "category", DisplayName = "My Category" }
             });
         }
 
