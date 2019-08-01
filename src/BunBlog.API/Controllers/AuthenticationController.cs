@@ -1,16 +1,16 @@
-﻿using System;
+﻿using BunBlog.API.Const;
+using BunBlog.API.Models;
+using BunBlog.API.Models.Authentications;
+using IdentityModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using BunBlog.API.Models.Authentications;
-using IdentityModel;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace BunBlog.API.Controllers
 {
@@ -44,10 +44,13 @@ namespace BunBlog.API.Controllers
         /// <param name="request">获取 token 的请求</param>
         /// <returns></returns>
         /// <response code="200">成功获取 token</response>
-        /// <response code="401">获取 token 失败</response>
+        /// <response code="400">
+        /// 获取 token 失败
+        /// WRONG_USERNAME_OR_PASSWORD 用户名或密码不匹配
+        /// </response>
         [HttpPost("token")]
         [ProducesResponseType(typeof(TokenModel), 200)]
-        [ProducesResponseType(typeof(string), 401)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult CreateToken(CreateTokenRequest request)
         {
             var authenticationSecret = _configuration.GetValue<string>("Authentication:Secret");
@@ -65,7 +68,7 @@ namespace BunBlog.API.Controllers
 
             if (!isUserMatched)
             {
-                return BadRequest(new { message = "用户名或密码不匹配" });
+                return BadRequest(new ErrorResponse(ErrorResponseCode.WRONG_USERNAME_OR_PASSWORD, "用户名或密码不匹配"));
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
