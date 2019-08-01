@@ -8,6 +8,8 @@ namespace BunBlog.Services.Tags
     {
         Task<List<Tag>> GetListAsync();
 
+        Task<List<Tag>> GetListByLinkNameAsync(params string[] linkNames);
+
         Task<Tag> GetByLinkNameAsync(string linkName, bool noTracking = true);
 
         Task<Tag> AddAsync(Tag tag);
@@ -15,6 +17,5 @@ namespace BunBlog.Services.Tags
         Task<Tag> EditAsync(Tag tag);
 
         Task DeleteAsync(Tag tag);
-
     }
 }

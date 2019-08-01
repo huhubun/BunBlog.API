@@ -22,6 +22,11 @@ namespace BunBlog.Core.Domain.Posts
         public string Excerpt { get; set; }
 
         /// <summary>
+        /// 内容
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
         /// 链接名称
         /// </summary>
         public string LinkName { get; set; }

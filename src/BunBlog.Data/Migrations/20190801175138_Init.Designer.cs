@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BunBlog.Data.Migrations
 {
     [DbContext(typeof(BunBlogContext))]
-    [Migration("20190801144547_Init")]
+    [Migration("20190801175138_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,8 @@ namespace BunBlog.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("CategoryId");
+
+                    b.Property<string>("Content");
 
                     b.Property<string>("Excerpt");
 

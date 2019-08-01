@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BunBlog.API.Const;
+using BunBlog.API.Models;
 using BunBlog.API.Models.Categories;
 using BunBlog.API.Models.Posts;
 using BunBlog.API.Models.Tags;
+using BunBlog.Core.Domain.Posts;
+using BunBlog.Services.Categories;
+using BunBlog.Services.Posts;
+using BunBlog.Services.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +25,22 @@ namespace BunBlog.API.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        public PostsController()
-        {
+        private readonly IMapper _mapper;
+        private readonly IPostService _postService;
+        private readonly ICategoryService _categoryService;
+        private readonly ITagService _tagService;
 
+        public PostsController(
+            IMapper mapper,
+            IPostService postService,
+            ICategoryService categoryService,
+            ITagService tagService
+            )
+        {
+            _mapper = mapper;
+            _postService = postService;
+            _categoryService = categoryService;
+            _tagService = tagService;
         }
 
         /// <summary>
@@ -28,27 +48,11 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <returns>博文列表</returns>
         [HttpGet("")]
-        public IActionResult GetList()
+        public async Task<IActionResult> GetListAsync()
         {
-            return Ok(new List<BlogPostModel>
-            {
-                new BlogPostModel
-                {
-                    Title = "Test blog",
-                    Visits = 2,
-                    PublishedOn = new DateTime(2019, 7, 26, 12, 13, 14),
-                    Tags = new List<TagModel>{ new TagModel {  LinkName = "a-tag", DisplayName = "AAA"}, new TagModel { LinkName = "test", DisplayName = "test" } },
-                    Category = new CategoryModel{ LinkName="category", DisplayName = "My Category" }
-                },
-                new BlogPostModel
-                {
-                    Title = "222",
-                    Visits = 0,
-                    PublishedOn = new DateTime(2019, 7, 28, 17, 16, 15),
-                    Tags = new List<TagModel>{ new TagModel {  LinkName = "a-tag", DisplayName = "AAA"}, new TagModel { LinkName = "2", DisplayName = "2" } },
-                    Category = new CategoryModel{ LinkName="category", DisplayName = "My Category" }
-                }
-            });
+            var posts = await _postService.GetListAsync();
+
+            return Ok(_mapper.Map<List<BlogPostModel>>(posts));
         }
 
         /// <summary>
@@ -57,29 +61,49 @@ namespace BunBlog.API.Controllers
         /// <param name="id">博文 id</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
-            return Ok(new BlogPostModel
+            // 这里 noTracking 设为 false 是因为
+            // Lazy-loading is not supported for detached entities or entities that are loaded with 'AsNoTracking()'.
+            var post = await _postService.GetByIdAsync(id, noTracking: false);
+
+            if (post == null)
             {
-                Title = "Test blog",
-                Visits = 2,
-                PublishedOn = new DateTime(2019, 7, 26, 12, 13, 14),
-                Tags = new List<TagModel> { new TagModel { LinkName = "a-tag", DisplayName = "AAA" }, new TagModel { LinkName = "test", DisplayName = "test" } },
-                Category = new CategoryModel { LinkName = "category", DisplayName = "My Category" }
-            });
+                return NotFound(new ErrorResponse(ErrorResponseCode.ID_NOT_FOUND, $"没有 id = {id} 的博文"));
+            }
+
+            return Ok(_mapper.Map<BlogPostModel>(post));
         }
 
         /// <summary>
         /// 创建一条博文
         /// </summary>
-        /// <param name="model">创建博文的请求</param>
+        /// <param name="createBlogPostModel">创建博文的请求</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
-        public IActionResult Post(CreateBlogPostModel model)
+        //[Authorize]
+        public async Task<IActionResult> PostAsync(CreateBlogPostModel createBlogPostModel)
         {
-            //return Created($"~/{model.Title}", model);
-            return Ok();
+            var post = _mapper.Map<Post>(createBlogPostModel);
+
+            if (!String.IsNullOrEmpty(createBlogPostModel.Category))
+            {
+                var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category);
+                post.CategoryId = category.Id;
+            }
+
+            if (createBlogPostModel.Tags != null && createBlogPostModel.Tags.Any())
+            {
+                var tags = await _tagService.GetListByLinkNameAsync(createBlogPostModel.Tags.ToArray());
+                post.PostTags = tags.Select(t => new PostTag
+                {
+                    TagId = t.Id
+                }).ToList();
+            }
+
+            await _postService.PostAsync(post);
+
+            return CreatedAtAction(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
         }
     }
 }
