@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BunBlog.Data.Migrations
 {
     [DbContext(typeof(BunBlogContext))]
-    [Migration("20190801175138_Init")]
+    [Migration("20190801191608_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
