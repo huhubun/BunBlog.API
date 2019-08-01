@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BunBlog.API.Models.Tags
+﻿namespace BunBlog.API.Models.Tags
 {
     /// <summary>
-    /// Tag
+    /// 标签
     /// </summary>
     public class TagModel
     {
@@ -18,6 +13,6 @@ namespace BunBlog.API.Models.Tags
         /// <summary>
         /// 显示名称
         /// </summary>
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
     }
 }

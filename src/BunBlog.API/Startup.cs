@@ -5,11 +5,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using BunBlog.Data;
+using BunBlog.Services.Categories;
+using BunBlog.Services.Tags;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,6 +38,18 @@ namespace BunBlog.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<BunBlogContext>(options =>
+            {
+                options.UseLazyLoadingProxies().UseNpgsql(Configuration.GetConnectionString("BunBlogConnection"), npgsqlOptions =>
+                {
+                    npgsqlOptions.MigrationsHistoryTable("MigrationHistory");
+                });
+
+                // 设置当客户端求值时引发异常
+                // https://docs.microsoft.com/zh-cn/ef/core/querying/client-eval#optional-behavior-throw-an-exception-for-client-evaluation
+                options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+            }).BuildServiceProvider();
 
             services.AddSwaggerGen(options =>
             {
@@ -66,6 +84,11 @@ namespace BunBlog.API
                     ValidateLifetime = true
                 };
             });
+
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +103,6 @@ namespace BunBlog.API
             app.UseAuthentication();
 
             app.UseMvc();
-
 
             // https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio
             app.UseSwagger();

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BunBlog.Services", "src\Bun
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BunBlog.API", "src\BunBlog.API\BunBlog.API.csproj", "{53B3E71E-7F3C-4290-852B-F9B618FDEF06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BunBlog.Core", "src\BunBlog.Core\BunBlog.Core.csproj", "{D9828E9F-CE16-4144-BA90-FB39263390A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BunBlog.Core", "src\BunBlog.Core\BunBlog.Core.csproj", "{D9828E9F-CE16-4144-BA90-FB39263390A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BunBlog.Data", "src\BunBlog.Data\BunBlog.Data.csproj", "{E1BF2746-4BAC-4F68-A65E-CC5CE802FA33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{D9828E9F-CE16-4144-BA90-FB39263390A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9828E9F-CE16-4144-BA90-FB39263390A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9828E9F-CE16-4144-BA90-FB39263390A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1BF2746-4BAC-4F68-A65E-CC5CE802FA33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BF2746-4BAC-4F68-A65E-CC5CE802FA33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1BF2746-4BAC-4F68-A65E-CC5CE802FA33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1BF2746-4BAC-4F68-A65E-CC5CE802FA33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +43,7 @@ Global
 		{6DE23F60-1B13-44B3-9365-6F81488D4DD2} = {3B73EC68-189D-4227-B2F5-42FDB970E514}
 		{53B3E71E-7F3C-4290-852B-F9B618FDEF06} = {3B73EC68-189D-4227-B2F5-42FDB970E514}
 		{D9828E9F-CE16-4144-BA90-FB39263390A6} = {3B73EC68-189D-4227-B2F5-42FDB970E514}
+		{E1BF2746-4BAC-4F68-A65E-CC5CE802FA33} = {3B73EC68-189D-4227-B2F5-42FDB970E514}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92F41774-B666-41D8-8F48-602B067B71D0}

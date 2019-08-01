@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BunBlog.API.Models.Categories
+﻿namespace BunBlog.Core.Domain.Categories
 {
-    /// <summary>
-    /// 分类
-    /// </summary>
-    public class CategoryModel
+    public class Category
     {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// 链接名称
         /// </summary>

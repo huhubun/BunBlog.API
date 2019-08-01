@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BunBlog.Data\BunBlog.Data.csproj" />
+    <ProjectReference Include="..\BunBlog.Core\BunBlog.Core.csproj" />
   </ItemGroup>
 
 </Project>
