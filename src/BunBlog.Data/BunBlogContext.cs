@@ -11,6 +11,12 @@ namespace BunBlog.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BunBlogContext).Assembly);
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Category> Categories { get; set; }

@@ -1,5 +1,4 @@
 ﻿using BunBlog.Core.Domain.Categories;
-using BunBlog.Core.Domain.Tags;
 using System;
 using System.Collections.Generic;
 
@@ -23,6 +22,11 @@ namespace BunBlog.Core.Domain.Posts
         public string Excerpt { get; set; }
 
         /// <summary>
+        /// 链接名称
+        /// </summary>
+        public string LinkName { get; set; }
+
+        /// <summary>
         /// 发表时间
         /// </summary>
         public DateTime PublishedOn { get; set; }
@@ -30,12 +34,7 @@ namespace BunBlog.Core.Domain.Posts
         /// <summary>
         /// 分类 Id
         /// </summary>
-        public int CategoryId { get; set; }
-
-        /// <summary>
-        /// 标签 Id
-        /// </summary>
-        public int TagId { get; set; }
+        public int? CategoryId { get; set; }
 
         /// <summary>
         /// 访问量
@@ -48,8 +47,8 @@ namespace BunBlog.Core.Domain.Posts
         public virtual Category Category { get; set; }
 
         /// <summary>
-        /// 标签
+        /// 标签集合
         /// </summary>
-        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<PostTag> PostTags { get; set; }
     }
 }

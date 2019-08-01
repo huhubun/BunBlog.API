@@ -1,7 +1,7 @@
 ﻿namespace BunBlog.API.Models.Tags
 {
     /// <summary>
-    /// Tag
+    /// 标签
     /// </summary>
     public class TagModel
     {

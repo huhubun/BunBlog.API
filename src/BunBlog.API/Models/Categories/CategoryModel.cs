@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace BunBlog.API.Models.Categories
 {
     /// <summary>
-    /// Category
+    /// 分类
     /// </summary>
     public class CategoryModel
     {
