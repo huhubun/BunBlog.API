@@ -1,9 +1,6 @@
 ﻿using BunBlog.Core.Domain.Posts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BunBlog.Data.Mapping.Posts
 {
@@ -19,10 +16,12 @@ namespace BunBlog.Data.Mapping.Posts
             builder.Property(c => c.PublishedOn).IsRequired();
             builder.Property(c => c.Visits).IsRequired();
 
-            builder.HasIndex(c => c.Id);
-
-            builder.HasOne(p => p.Category).WithOne().HasForeignKey<Post>(p => p.CategoryId);
+            builder.HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
             builder.HasMany(p => p.PostTags).WithOne(pt => pt.Post).HasForeignKey(pt => pt.PostId);
+
+            builder.HasIndex(c => c.Id).HasName("IX_Post_Id");
+            builder.HasIndex(c => c.LinkName).IsUnique().HasName("IX_Post_LinkName");
+            builder.HasIndex(c => c.PublishedOn).HasName("IX_Post_PublishedOn");
         }
     }
 }

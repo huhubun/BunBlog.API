@@ -17,7 +17,8 @@ namespace BunBlog.Data.Mapping.Categories
             builder.Property(c => c.DisplayName).IsRequired();
 
             builder.HasIndex(c => c.Id).HasName("IX_Category_Id");
-            builder.HasIndex(c => c.DisplayName).IsUnique().HasName("IX_Category_Name");
+            builder.HasIndex(c => c.LinkName).IsUnique().HasName("IX_Category_LinkName");
+            builder.HasIndex(c => c.DisplayName).IsUnique().HasName("IX_Category_DisplayName");
         }
     }
 }

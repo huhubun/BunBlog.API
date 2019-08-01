@@ -13,9 +13,10 @@ namespace BunBlog.Data.Mapping.Posts
             builder.HasKey(pt => new { pt.PostId, pt.TagId });
 
             builder.HasOne(pt => pt.Post).WithMany(p => p.PostTags).HasForeignKey(pt => pt.PostId);
-            builder.HasOne(pt => pt.Tag).WithOne().HasForeignKey<PostTag>(pt => pt.TagId);
+            builder.HasOne(pt => pt.Tag).WithMany().HasForeignKey(pt => pt.TagId);
 
-            builder.HasIndex(pt => new { pt.PostId, pt.TagId });
+            builder.HasIndex(pt => pt.PostId).HasName("IX_PostTag_PostId");
+            builder.HasIndex(pt => pt.TagId).HasName("IX_PostTag_TagId");
         }
     }
 }

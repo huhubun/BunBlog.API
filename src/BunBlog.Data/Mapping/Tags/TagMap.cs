@@ -17,7 +17,8 @@ namespace BunBlog.Data.Mapping.Tags
             builder.Property(t => t.DisplayName).IsRequired();
 
             builder.HasIndex(t => t.Id).HasName("IX_Tag_Id");
-            builder.HasIndex(t => t.DisplayName).IsUnique().HasName("IX_Tag_Name");
+            builder.HasIndex(t => t.LinkName).IsUnique().HasName("IX_Tag_LinkName");
+            builder.HasIndex(t => t.DisplayName).IsUnique().HasName("IX_Tag_DisplayName");
         }
     }
 }
