@@ -93,7 +93,7 @@ namespace BunBlog.API.Controllers
                 return BadRequest();
             }
 
-            var tag = await _tagService.GetByLinkNameAsync(linkName, noTracking: false);
+            var tag = await _tagService.GetByLinkNameAsync(linkName, tracking: true);
 
             if (tag == null)
             {
@@ -114,7 +114,7 @@ namespace BunBlog.API.Controllers
         [HttpDelete("{linkName}")]
         public async Task<IActionResult> DeleteTagByLinkNameAsync([FromRoute]string linkName)
         {
-            var tag = await _tagService.GetByLinkNameAsync(linkName, noTracking: false);
+            var tag = await _tagService.GetByLinkNameAsync(linkName, tracking: true);
 
             if (tag == null)
             {

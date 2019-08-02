@@ -21,11 +21,11 @@ namespace BunBlog.Services.Tags
             return await _bunBlogContext.Tags.AsNoTracking().ToListAsync();
         }
 
-        public async Task<List<Tag>> GetListByLinkNameAsync(bool noTracking = true, params string[] linkNames)
+        public async Task<List<Tag>> GetListByLinkNameAsync(bool tracking = false, params string[] linkNames)
         {
             var tags = _bunBlogContext.Tags.Where(t => linkNames.Contains(t.LinkName));
 
-            if (noTracking)
+            if (!tracking)
             {
                 tags = tags.AsNoTracking();
             }
@@ -33,11 +33,11 @@ namespace BunBlog.Services.Tags
             return await tags.ToListAsync();
         }
 
-        public async Task<Tag> GetByLinkNameAsync(string linkName, bool noTracking = true)
+        public async Task<Tag> GetByLinkNameAsync(string linkName, bool tracking = false)
         {
             var tag = _bunBlogContext.Tags.Where(t => t.LinkName == linkName);
 
-            if (noTracking)
+            if (!tracking)
             {
                 tag = tag.AsNoTracking();
             }

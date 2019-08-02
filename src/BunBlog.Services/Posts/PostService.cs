@@ -23,11 +23,11 @@ namespace BunBlog.Services.Posts
             return await _bunBlogContext.Posts.ToListAsync();
         }
 
-        public async Task<Post> GetByIdAsync(int id, bool noTracking = true)
+        public async Task<Post> GetByIdAsync(int id, bool tracking = false)
         {
             var posts = _bunBlogContext.Posts.Where(p => p.Id == id);
 
-            if (noTracking)
+            if (!tracking)
             {
                 posts = posts.AsNoTracking();
             }

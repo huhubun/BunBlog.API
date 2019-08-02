@@ -21,11 +21,11 @@ namespace BunBlog.Services.Categories
             return await _bunBlogContext.Categories.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Category> GetByLinkNameAsync(string linkName, bool noTracking = true)
+        public async Task<Category> GetByLinkNameAsync(string linkName, bool tracking = false)
         {
             var category = _bunBlogContext.Categories.Where(t => t.LinkName == linkName);
 
-            if (noTracking)
+            if (!tracking)
             {
                 category = category.AsNoTracking();
             }

@@ -10,7 +10,7 @@ namespace BunBlog.Services.Posts
     {
         Task<List<Post>> GetListAsync();
 
-        Task<Post> GetByIdAsync(int id, bool noTracking = true);
+        Task<Post> GetByIdAsync(int id, bool tracking = false);
 
         Task<Post> PostAsync(Post post);
     }

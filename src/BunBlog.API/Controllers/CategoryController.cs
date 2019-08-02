@@ -91,7 +91,7 @@ namespace BunBlog.API.Controllers
                 return BadRequest();
             }
 
-            var category = await _categoryService.GetByLinkNameAsync(linkName, noTracking: false);
+            var category = await _categoryService.GetByLinkNameAsync(linkName, tracking: true);
 
             if (category == null)
             {
@@ -112,7 +112,7 @@ namespace BunBlog.API.Controllers
         [HttpDelete("{linkName}")]
         public async Task<IActionResult> DeleteCategoryByLinkNameAsync([FromRoute]string linkName)
         {
-            var category = await _categoryService.GetByLinkNameAsync(linkName, noTracking: false);
+            var category = await _categoryService.GetByLinkNameAsync(linkName, tracking: true);
 
             if (category == null)
             {

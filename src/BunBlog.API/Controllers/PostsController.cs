@@ -63,9 +63,9 @@ namespace BunBlog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            // 这里 noTracking 设为 false 是因为
+            // 这里 tracking 设为 true 是因为
             // Lazy-loading is not supported for detached entities or entities that are loaded with 'AsNoTracking()'.
-            var post = await _postService.GetByIdAsync(id, noTracking: false);
+            var post = await _postService.GetByIdAsync(id, tracking: true);
 
             if (post == null)
             {
@@ -88,14 +88,14 @@ namespace BunBlog.API.Controllers
 
             if (!String.IsNullOrEmpty(createBlogPostModel.Category))
             {
-                var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category, noTracking: false);
+                var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category, tracking: true);
                 post.Category = category;
                 //post.CategoryId = category.Id;
             }
 
             if (createBlogPostModel.Tags != null && createBlogPostModel.Tags.Any())
             {
-                var tags = await _tagService.GetListByLinkNameAsync(noTracking: false, createBlogPostModel.Tags.ToArray());
+                var tags = await _tagService.GetListByLinkNameAsync(tracking: true, createBlogPostModel.Tags.ToArray());
                 post.PostTags = tags.Select(t => new PostTag
                 {
                     Tag = t
