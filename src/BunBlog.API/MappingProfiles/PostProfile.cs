@@ -12,10 +12,11 @@ namespace BunBlog.API.MappingProfiles
     {
         public PostProfile()
         {
-            CreateMap<CreateBlogPostModel, Post>();
+            CreateMap<CreateBlogPostModel, Post>()
+                .ForMember(p => p.Category, mo => mo.Ignore());
+
             CreateMap<Post, BlogPostModel>()
                 .ForMember(m => m.Tags, mo => mo.MapFrom(p => p.PostTags));
-                //.ForMember(m => m.Category, mo => mo.MapFrom(p => p.Category?.LinkName));
         }
     }
 }

@@ -21,11 +21,16 @@ namespace BunBlog.Services.Tags
             return await _bunBlogContext.Tags.AsNoTracking().ToListAsync();
         }
 
-        public async Task<List<Tag>> GetListByLinkNameAsync(params string[] linkNames)
+        public async Task<List<Tag>> GetListByLinkNameAsync(bool noTracking = true, params string[] linkNames)
         {
             var tags = _bunBlogContext.Tags.Where(t => linkNames.Contains(t.LinkName));
 
-            return await tags.AsNoTracking().ToListAsync();
+            if (noTracking)
+            {
+                tags = tags.AsNoTracking();
+            }
+
+            return await tags.ToListAsync();
         }
 
         public async Task<Tag> GetByLinkNameAsync(string linkName, bool noTracking = true)

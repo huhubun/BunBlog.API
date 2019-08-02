@@ -2,13 +2,16 @@
 using BunBlog.API.Models.Tags;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BunBlog.API.Models.Posts
 {
     public class BlogPostModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// 标题
         /// </summary>
@@ -20,9 +23,24 @@ namespace BunBlog.API.Models.Posts
         public string Excerpt { get; set; }
 
         /// <summary>
+        /// 内容
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
+        /// 链接名称
+        /// </summary>
+        public string LinkName { get; set; }
+
+        /// <summary>
         /// 发表时间
         /// </summary>
         public DateTime PublishedOn { get; set; }
+
+        /// <summary>
+        /// 访问量
+        /// </summary>
+        public ulong Visits { get; set; }
 
         /// <summary>
         /// 分类
@@ -33,10 +51,5 @@ namespace BunBlog.API.Models.Posts
         /// 标签
         /// </summary>
         public List<TagModel> Tags { get; set; }
-
-        /// <summary>
-        /// 访问量
-        /// </summary>
-        public ulong Visits { get; set; }
     }
 }

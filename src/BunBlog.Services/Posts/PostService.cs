@@ -40,8 +40,9 @@ namespace BunBlog.Services.Posts
             post.PublishedOn = DateTime.Now;
 
             _bunBlogContext.Posts.Add(post);
-            await _bunBlogContext.SaveChangesAsync();
 
+            await _bunBlogContext.SaveChangesAsync();
+            
             return post;
         }
     }

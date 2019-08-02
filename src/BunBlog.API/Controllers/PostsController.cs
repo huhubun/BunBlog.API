@@ -81,26 +81,29 @@ namespace BunBlog.API.Controllers
         /// <param name="createBlogPostModel">创建博文的请求</param>
         /// <returns></returns>
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> PostAsync(CreateBlogPostModel createBlogPostModel)
         {
             var post = _mapper.Map<Post>(createBlogPostModel);
 
             if (!String.IsNullOrEmpty(createBlogPostModel.Category))
             {
-                var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category);
-                post.CategoryId = category.Id;
+                var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category, noTracking: false);
+                post.Category = category;
+                //post.CategoryId = category.Id;
             }
 
             if (createBlogPostModel.Tags != null && createBlogPostModel.Tags.Any())
             {
-                var tags = await _tagService.GetListByLinkNameAsync(createBlogPostModel.Tags.ToArray());
+                var tags = await _tagService.GetListByLinkNameAsync(noTracking: false, createBlogPostModel.Tags.ToArray());
                 post.PostTags = tags.Select(t => new PostTag
                 {
-                    TagId = t.Id
+                    Tag = t
+                    //TagId = t.Id
                 }).ToList();
             }
 
+            // TODO 用上面注释掉的方式为 id 赋值的话，会导致这里的 post 中导航属性没有值？
             await _postService.PostAsync(post);
 
             return CreatedAtAction(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
