@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BunBlog.API.Models.Authentication
+﻿namespace BunBlog.API.Models.Authentications
 {
     /// <summary>
     /// 获取 token 的请求

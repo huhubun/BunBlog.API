@@ -54,6 +54,8 @@ namespace BunBlog.Data.Migrations
 
                     b.Property<int?>("CategoryId");
 
+                    b.Property<string>("Content");
+
                     b.Property<string>("Excerpt");
 
                     b.Property<string>("LinkName");

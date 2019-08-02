@@ -8,7 +8,7 @@ namespace BunBlog.Services.Categories
     {
         Task<List<Category>> GetListAsync();
 
-        Task<Category> GetByLinkNameAsync(string linkName, bool noTracking = true);
+        Task<Category> GetByLinkNameAsync(string linkName, bool tracking = false);
 
         Task<Category> AddAsync(Category tag);
 

@@ -44,6 +44,7 @@ namespace BunBlog.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Title = table.Column<string>(nullable: true),
                     Excerpt = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     LinkName = table.Column<string>(nullable: true),
                     PublishedOn = table.Column<DateTime>(nullable: false),
                     CategoryId = table.Column<int>(nullable: true),

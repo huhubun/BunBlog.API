@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BunBlog.Data;
 using BunBlog.Services.Categories;
+using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -87,6 +88,7 @@ namespace BunBlog.API
 
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IPostService, PostService>();
 
             services.AddAutoMapper(typeof(Startup));
         }
