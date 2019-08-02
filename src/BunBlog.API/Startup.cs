@@ -6,7 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BunBlog.Core.Configuration;
 using BunBlog.Data;
+using BunBlog.Services.Authentications;
 using BunBlog.Services.Categories;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
@@ -65,6 +67,8 @@ namespace BunBlog.API
                 options.IncludeXmlComments(xmlPath);
             });
 
+            var authenticationConfig = Configuration.GetSection("Authentication").Get<AuthenticationConfig>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -77,9 +81,9 @@ namespace BunBlog.API
                     NameClaimType = JwtClaimTypes.Name,
                     RoleClaimType = JwtClaimTypes.Role,
 
-                    ValidIssuer = "https://api.bun.dev",
-                    ValidAudience = "api",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("this_is_a_secret")),
+                    ValidIssuer = authenticationConfig.Issuer,
+                    ValidAudience = authenticationConfig.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authenticationConfig.Secret)),
 
                     RequireExpirationTime = true,
                     ValidateLifetime = true
@@ -89,6 +93,14 @@ namespace BunBlog.API
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
+
+            // appsettings.json 中 Authentication 的配置
+            services.AddSingleton<AuthenticationConfig>(service =>
+            {
+                BunAuthenticationService.AuthenticationConfigValidate(authenticationConfig);
+                return authenticationConfig;
+            });
 
             services.AddAutoMapper(typeof(Startup));
         }
