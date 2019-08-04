@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using BunBlog.API.Models.Posts;
 using BunBlog.Core.Domain.Posts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BunBlog.API.MappingProfiles
 {
@@ -17,6 +13,8 @@ namespace BunBlog.API.MappingProfiles
 
             CreateMap<Post, BlogPostModel>()
                 .ForMember(m => m.Tags, mo => mo.MapFrom(p => p.PostTags));
+
+            CreateMap<PostMetadata, PostMetadataModel>();
         }
     }
 }

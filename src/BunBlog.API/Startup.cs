@@ -30,6 +30,8 @@ namespace BunBlog.API
 {
     public class Startup
     {
+        private const string CORS_POLICY_NAME = "BUN_BLOG_API_CORS";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -93,6 +95,7 @@ namespace BunBlog.API
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IPostMetadataService, PostMetadataService>();
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
 
             // appsettings.json 中 Authentication 的配置
@@ -103,6 +106,11 @@ namespace BunBlog.API
             });
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CORS_POLICY_NAME, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +119,7 @@ namespace BunBlog.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(CORS_POLICY_NAME);
             }
 
             // 必须放在 UseMvc() 的前面

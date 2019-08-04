@@ -42,11 +42,6 @@ namespace BunBlog.Core.Domain.Posts
         public int? CategoryId { get; set; }
 
         /// <summary>
-        /// 访问量
-        /// </summary>
-        public ulong Visits { get; set; }
-
-        /// <summary>
         /// 分类
         /// </summary>
         public virtual Category Category { get; set; }
@@ -55,5 +50,10 @@ namespace BunBlog.Core.Domain.Posts
         /// 标签集合
         /// </summary>
         public virtual ICollection<PostTag> PostTags { get; set; }
+
+        /// <summary>
+        /// 元数据集合
+        /// </summary>
+        public virtual ICollection<PostMetadata> MetadataList { get; set; }
     }
 }

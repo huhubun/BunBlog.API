@@ -38,11 +38,6 @@ namespace BunBlog.API.Models.Posts
         public DateTime PublishedOn { get; set; }
 
         /// <summary>
-        /// 访问量
-        /// </summary>
-        public ulong Visits { get; set; }
-
-        /// <summary>
         /// 分类
         /// </summary>
         public CategoryModel Category { get; set; }
@@ -51,5 +46,11 @@ namespace BunBlog.API.Models.Posts
         /// 标签
         /// </summary>
         public List<TagModel> Tags { get; set; }
+
+        /// <summary>
+        /// 元数据信息
+        /// </summary>
+        public List<PostMetadataModel> MetadataList { get; set; }
+
     }
 }

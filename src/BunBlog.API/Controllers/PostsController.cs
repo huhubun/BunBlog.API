@@ -29,18 +29,21 @@ namespace BunBlog.API.Controllers
         private readonly IPostService _postService;
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
+        private readonly IPostMetadataService _postMetadataService;
 
         public PostsController(
             IMapper mapper,
             IPostService postService,
             ICategoryService categoryService,
-            ITagService tagService
+            ITagService tagService,
+            IPostMetadataService postMetadataService
             )
         {
             _mapper = mapper;
             _postService = postService;
             _categoryService = categoryService;
             _tagService = tagService;
+            _postMetadataService = postMetadataService;
         }
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace BunBlog.API.Controllers
         /// <param name="id">博文 id</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<IActionResult> GetAsync([FromRoute]int id)
         {
             // 这里 tracking 设为 true 是因为
             // Lazy-loading is not supported for detached entities or entities that are loaded with 'AsNoTracking()'.
@@ -82,7 +85,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostAsync(CreateBlogPostModel createBlogPostModel)
+        public async Task<IActionResult> PostAsync([FromBody]CreateBlogPostModel createBlogPostModel)
         {
             var post = _mapper.Map<Post>(createBlogPostModel);
 
@@ -107,6 +110,18 @@ namespace BunBlog.API.Controllers
             await _postService.PostAsync(post);
 
             return CreatedAtAction(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
+        }
+
+        /// <summary>
+        /// 为指定博文增加访问量
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("{id}/visits")]
+        public async Task<IActionResult> UpdateVisits([FromRoute]int id)
+        {
+            var metadata = await _postMetadataService.AddVisitsAsync(id);
+
+            return Ok(_mapper.Map<PostMetadataModel>(metadata));
         }
     }
 }

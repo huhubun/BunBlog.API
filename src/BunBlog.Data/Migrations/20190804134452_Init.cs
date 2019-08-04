@@ -47,8 +47,7 @@ namespace BunBlog.Data.Migrations
                     Content = table.Column<string>(nullable: true),
                     LinkName = table.Column<string>(nullable: true),
                     PublishedOn = table.Column<DateTime>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true),
-                    Visits = table.Column<decimal>(nullable: false)
+                    CategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,6 +58,25 @@ namespace BunBlog.Data.Migrations
                         principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostMetadata",
+                columns: table => new
+                {
+                    PostId = table.Column<int>(nullable: false),
+                    Key = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostMetadata", x => new { x.PostId, x.Key });
+                    table.ForeignKey(
+                        name: "FK_PostMetadata_Post_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Post",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,6 +142,11 @@ namespace BunBlog.Data.Migrations
                 column: "PublishedOn");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostMetadata_PostId_Key",
+                table: "PostMetadata",
+                columns: new[] { "PostId", "Key" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostTag_PostId",
                 table: "PostTag",
                 column: "PostId");
@@ -153,6 +176,9 @@ namespace BunBlog.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PostMetadata");
+
             migrationBuilder.DropTable(
                 name: "PostTag");
 

@@ -64,9 +64,6 @@ namespace BunBlog.Data.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<decimal>("Visits")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -82,6 +79,22 @@ namespace BunBlog.Data.Migrations
                         .HasName("IX_Post_PublishedOn");
 
                     b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("BunBlog.Core.Domain.Posts.PostMetadata", b =>
+                {
+                    b.Property<int>("PostId");
+
+                    b.Property<string>("Key");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("PostId", "Key");
+
+                    b.HasIndex("PostId", "Key")
+                        .HasName("IX_PostMetadata_PostId_Key");
+
+                    b.ToTable("PostMetadata");
                 });
 
             modelBuilder.Entity("BunBlog.Core.Domain.Posts.PostTag", b =>
@@ -134,6 +147,14 @@ namespace BunBlog.Data.Migrations
                     b.HasOne("BunBlog.Core.Domain.Categories.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("BunBlog.Core.Domain.Posts.PostMetadata", b =>
+                {
+                    b.HasOne("BunBlog.Core.Domain.Posts.Post")
+                        .WithMany("MetadataList")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BunBlog.Core.Domain.Posts.PostTag", b =>
