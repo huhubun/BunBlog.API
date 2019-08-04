@@ -49,7 +49,7 @@ namespace BunBlog.Core.Domain.Posts
         /// <summary>
         /// 标签集合
         /// </summary>
-        public virtual ICollection<PostTag> PostTags { get; set; }
+        public virtual ICollection<PostTag> TagList { get; set; }
 
         /// <summary>
         /// 元数据集合

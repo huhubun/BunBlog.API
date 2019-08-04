@@ -96,10 +96,10 @@ namespace BunBlog.API.Controllers
                 //post.CategoryId = category.Id;
             }
 
-            if (createBlogPostModel.Tags != null && createBlogPostModel.Tags.Any())
+            if (createBlogPostModel.TagList != null && createBlogPostModel.TagList.Any())
             {
-                var tags = await _tagService.GetListByLinkNameAsync(tracking: true, createBlogPostModel.Tags.ToArray());
-                post.PostTags = tags.Select(t => new PostTag
+                var tags = await _tagService.GetListByLinkNameAsync(tracking: true, createBlogPostModel.TagList.ToArray());
+                post.TagList = tags.Select(t => new PostTag
                 {
                     Tag = t
                     //TagId = t.Id

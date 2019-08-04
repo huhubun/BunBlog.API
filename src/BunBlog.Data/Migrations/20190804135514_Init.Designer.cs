@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BunBlog.Data.Migrations
 {
     [DbContext(typeof(BunBlogContext))]
-    [Migration("20190804134452_Init")]
+    [Migration("20190804135514_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,7 +162,7 @@ namespace BunBlog.Data.Migrations
             modelBuilder.Entity("BunBlog.Core.Domain.Posts.PostTag", b =>
                 {
                     b.HasOne("BunBlog.Core.Domain.Posts.Post", "Post")
-                        .WithMany("PostTags")
+                        .WithMany("TagList")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 

@@ -160,7 +160,7 @@ namespace BunBlog.Data.Migrations
             modelBuilder.Entity("BunBlog.Core.Domain.Posts.PostTag", b =>
                 {
                     b.HasOne("BunBlog.Core.Domain.Posts.Post", "Post")
-                        .WithMany("PostTags")
+                        .WithMany("TagList")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 

@@ -45,7 +45,7 @@ namespace BunBlog.API.Models.Posts
         /// <summary>
         /// 标签
         /// </summary>
-        public List<TagModel> Tags { get; set; }
+        public List<TagModel> TagList { get; set; }
 
         /// <summary>
         /// 元数据信息

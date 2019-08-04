@@ -9,10 +9,10 @@ namespace BunBlog.API.MappingProfiles
         public PostProfile()
         {
             CreateMap<CreateBlogPostModel, Post>()
-                .ForMember(p => p.Category, mo => mo.Ignore());
+                .ForMember(p => p.Category, mo => mo.Ignore())
+                .ForMember(p => p.TagList, mo => mo.Ignore());
 
-            CreateMap<Post, BlogPostModel>()
-                .ForMember(m => m.Tags, mo => mo.MapFrom(p => p.PostTags));
+            CreateMap<Post, BlogPostModel>();
 
             CreateMap<PostMetadata, PostMetadataModel>();
         }

@@ -28,13 +28,13 @@ namespace BunBlog.API.Models.Posts
         public string LinkName { get; set; }
 
         /// <summary>
-        /// 分类，值为分类链接名称
+        /// 分类（值为分类链接名称）
         /// </summary>
         public string Category { get; set; }
 
         /// <summary>
-        /// 标签集合，值为标签链接名称
+        /// 标签集合（值为标签链接名称）
         /// </summary>
-        public List<string> Tags { get; set; }
+        public List<string> TagList { get; set; }
     }
 }
