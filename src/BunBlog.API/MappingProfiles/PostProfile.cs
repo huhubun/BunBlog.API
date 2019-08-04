@@ -14,6 +14,8 @@ namespace BunBlog.API.MappingProfiles
 
             CreateMap<Post, BlogPostModel>();
 
+            CreateMap<Post, BlogPostListItemModel>();
+
             CreateMap<PostMetadata, PostMetadataModel>();
         }
     }

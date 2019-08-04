@@ -8,7 +8,7 @@ namespace BunBlog.Services.Posts
 {
     public interface IPostService
     {
-        Task<List<Post>> GetListAsync();
+        Task<List<Post>> GetListAsync(int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true);
 
         Task<Post> GetByIdAsync(int id, bool tracking = false);
 

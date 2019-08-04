@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BunBlog.API.Const;
 using BunBlog.API.Models;
-using BunBlog.API.Models.Categories;
 using BunBlog.API.Models.Posts;
-using BunBlog.API.Models.Tags;
 using BunBlog.Core.Domain.Posts;
 using BunBlog.Services.Categories;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {
@@ -55,7 +52,7 @@ namespace BunBlog.API.Controllers
         {
             var posts = await _postService.GetListAsync();
 
-            return Ok(_mapper.Map<List<BlogPostModel>>(posts));
+            return Ok(_mapper.Map<List<BlogPostListItemModel>>(posts));
         }
 
         /// <summary>

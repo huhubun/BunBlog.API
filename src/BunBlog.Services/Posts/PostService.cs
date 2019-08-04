@@ -1,12 +1,11 @@
-﻿using BunBlog.Core.Domain.Posts;
+﻿using BunBlog.Core.Consts;
+using BunBlog.Core.Domain.Posts;
 using BunBlog.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using BunBlog.Core.Consts;
+using System.Threading.Tasks;
 
 namespace BunBlog.Services.Posts
 {
@@ -19,9 +18,21 @@ namespace BunBlog.Services.Posts
             _bunBlogContext = bunBlogContext;
         }
 
-        public async Task<List<Post>> GetListAsync()
+        public async Task<List<Post>> GetListAsync(int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
         {
-            return await _bunBlogContext.Posts.ToListAsync();
+            var skip = (pageIndex - 1) * pageSize;
+            var posts = _bunBlogContext.Posts.Take(pageSize).Skip(skip);
+
+            if (orderByPublishedOnDesc)
+            {
+                posts = posts.OrderByDescending(p => p.PublishedOn);
+            }
+            else
+            {
+                posts = posts.OrderBy(p => p.PublishedOn);
+            }
+
+            return await posts.ToListAsync();
         }
 
         public async Task<Post> GetByIdAsync(int id, bool tracking = false)
