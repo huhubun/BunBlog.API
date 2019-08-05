@@ -109,7 +109,7 @@ namespace BunBlog.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy(CORS_POLICY_NAME, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                options.AddPolicy(CORS_POLICY_NAME, builder => builder.WithOrigins("https://bun.dev", "http://localhost:17088").AllowAnyMethod().AllowAnyHeader());
             });
         }
 
@@ -119,8 +119,9 @@ namespace BunBlog.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors(CORS_POLICY_NAME);
             }
+
+            app.UseCors(CORS_POLICY_NAME);
 
             // 必须放在 UseMvc() 的前面
             app.UseAuthentication();
