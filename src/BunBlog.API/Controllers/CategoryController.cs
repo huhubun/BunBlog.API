@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BunBlog.API.Models.Categories;
 using BunBlog.Core.Domain.Categories;
 using BunBlog.Services.Categories;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {
@@ -64,6 +62,7 @@ namespace BunBlog.API.Controllers
         /// <param name="categoryModel">添加分类请求</param>
         /// <returns></returns>
         [HttpPost("")]
+        [Authorize]
         public async Task<IActionResult> AddCategoryAsync([FromBody]CategoryModel categoryModel)
         {
             var category = new Category
@@ -84,6 +83,7 @@ namespace BunBlog.API.Controllers
         /// <param name="categoryModel">分类新的内容</param>
         /// <returns></returns>
         [HttpPut("{linkName}")]
+        [Authorize]
         public async Task<IActionResult> EditCategoryByLinkNameAsync([FromRoute]string linkName, [FromBody]CategoryModel categoryModel)
         {
             if (linkName != categoryModel.LinkName)
@@ -110,6 +110,7 @@ namespace BunBlog.API.Controllers
         /// <param name="linkName">链接名称</param>
         /// <returns></returns>
         [HttpDelete("{linkName}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCategoryByLinkNameAsync([FromRoute]string linkName)
         {
             var category = await _categoryService.GetByLinkNameAsync(linkName, tracking: true);

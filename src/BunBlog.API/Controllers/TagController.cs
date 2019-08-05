@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BunBlog.API.Models.Tags;
 using BunBlog.Core.Domain.Tags;
-using BunBlog.Data;
 using BunBlog.Services.Tags;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {
@@ -66,6 +62,7 @@ namespace BunBlog.API.Controllers
         /// <param name="tagModel">添加标签请求</param>
         /// <returns></returns>
         [HttpPost("")]
+        [Authorize]
         public async Task<IActionResult> AddTagAsync([FromBody]TagModel tagModel)
         {
             var tag = new Tag
@@ -86,6 +83,7 @@ namespace BunBlog.API.Controllers
         /// <param name="tagModel">标签新的内容</param>
         /// <returns></returns>
         [HttpPut("{linkName}")]
+        [Authorize]
         public async Task<IActionResult> EditTagByLinkNameAsync([FromRoute]string linkName, [FromBody]TagModel tagModel)
         {
             if (linkName != tagModel.LinkName)
@@ -112,6 +110,7 @@ namespace BunBlog.API.Controllers
         /// <param name="linkName">链接名称</param>
         /// <returns></returns>
         [HttpDelete("{linkName}")]
+        [Authorize]
         public async Task<IActionResult> DeleteTagByLinkNameAsync([FromRoute]string linkName)
         {
             var tag = await _tagService.GetByLinkNameAsync(linkName, tracking: true);
