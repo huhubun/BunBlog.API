@@ -86,11 +86,6 @@ namespace BunBlog.API.Controllers
         [Authorize]
         public async Task<IActionResult> EditTagByLinkNameAsync([FromRoute]string linkName, [FromBody]TagModel tagModel)
         {
-            if (linkName != tagModel.LinkName)
-            {
-                return BadRequest();
-            }
-
             var tag = await _tagService.GetByLinkNameAsync(linkName, tracking: true);
 
             if (tag == null)

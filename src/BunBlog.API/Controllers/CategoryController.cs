@@ -86,11 +86,6 @@ namespace BunBlog.API.Controllers
         [Authorize]
         public async Task<IActionResult> EditCategoryByLinkNameAsync([FromRoute]string linkName, [FromBody]CategoryModel categoryModel)
         {
-            if (linkName != categoryModel.LinkName)
-            {
-                return BadRequest();
-            }
-
             var category = await _categoryService.GetByLinkNameAsync(linkName, tracking: true);
 
             if (category == null)
