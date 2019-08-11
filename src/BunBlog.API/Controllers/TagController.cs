@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BunBlog.API.Const;
+using BunBlog.API.Models;
 using BunBlog.API.Models.Tags;
 using BunBlog.Core.Domain.Tags;
 using BunBlog.Services.Tags;
@@ -65,15 +67,26 @@ namespace BunBlog.API.Controllers
         [Authorize]
         public async Task<IActionResult> AddTagAsync([FromBody]TagModel tagModel)
         {
-            var tag = new Tag
+            if (ModelState.IsValid)
             {
-                LinkName = tagModel.LinkName,
-                DisplayName = tagModel.DisplayName
-            };
+                var isExists = (await _tagService.GetByLinkNameAsync(tagModel.LinkName)) != null;
+                if (isExists)
+                {
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{tagModel.LinkName}\" 已存在"));
+                }
 
-            await _tagService.AddAsync(tag);
+                var tag = new Tag
+                {
+                    LinkName = tagModel.LinkName,
+                    DisplayName = tagModel.DisplayName
+                };
 
-            return CreatedAtRoute(nameof(GetTagByLinkNameAsync), new { linkName = tag.LinkName }, _mapper.Map<TagModel>(tag));
+                await _tagService.AddAsync(tag);
+
+                return CreatedAtRoute(nameof(GetTagByLinkNameAsync), new { linkName = tag.LinkName }, _mapper.Map<TagModel>(tag));
+            }
+
+            return UnprocessableEntity(ModelState);
         }
 
         /// <summary>

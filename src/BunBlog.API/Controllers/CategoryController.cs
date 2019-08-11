@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BunBlog.API.Const;
+using BunBlog.API.Models;
 using BunBlog.API.Models.Categories;
 using BunBlog.Core.Domain.Categories;
 using BunBlog.Services.Categories;
@@ -65,15 +67,26 @@ namespace BunBlog.API.Controllers
         [Authorize]
         public async Task<IActionResult> AddCategoryAsync([FromBody]CategoryModel categoryModel)
         {
-            var category = new Category
+            if (ModelState.IsValid)
             {
-                LinkName = categoryModel.LinkName,
-                DisplayName = categoryModel.DisplayName
-            };
+                var isExists= (await _categoryService.GetByLinkNameAsync(categoryModel.LinkName)) != null;
+                if (isExists)
+                {
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{categoryModel.LinkName}\" 已存在"));
+                }
 
-            await _categoryService.AddAsync(category);
+                var category = new Category
+                {
+                    LinkName = categoryModel.LinkName,
+                    DisplayName = categoryModel.DisplayName
+                };
 
-            return CreatedAtRoute(nameof(GetCategoryByLinkNameAsync), new { linkName = category.LinkName }, _mapper.Map<CategoryModel>(category));
+                await _categoryService.AddAsync(category);
+
+                return CreatedAtRoute(nameof(GetCategoryByLinkNameAsync), new { linkName = category.LinkName }, _mapper.Map<CategoryModel>(category));
+            }
+
+            return UnprocessableEntity(ModelState);
         }
 
         /// <summary>
