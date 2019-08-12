@@ -21,6 +21,21 @@ namespace BunBlog.Services.Categories
             return await _bunBlogContext.Categories.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IsCategoryExists> IsExistsAsync(Category category)
+        {
+            if (await _bunBlogContext.Categories.AnyAsync(c => c.DisplayName == category.DisplayName))
+            {
+                return IsCategoryExists.DisplayName;
+            }
+
+            if (await _bunBlogContext.Categories.AnyAsync(c => c.LinkName == category.LinkName))
+            {
+                return IsCategoryExists.LinkName;
+            }
+
+            return IsCategoryExists.None;
+        }
+
         public async Task<Category> GetByLinkNameAsync(string linkName, bool tracking = false)
         {
             var category = _bunBlogContext.Categories.Where(t => t.LinkName == linkName);

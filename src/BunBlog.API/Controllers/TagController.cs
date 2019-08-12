@@ -6,6 +6,7 @@ using BunBlog.Core.Domain.Tags;
 using BunBlog.Services.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -69,17 +70,23 @@ namespace BunBlog.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isExists = (await _tagService.GetByLinkNameAsync(tagModel.LinkName)) != null;
-                if (isExists)
-                {
-                    return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{tagModel.LinkName}\" 已存在"));
-                }
+                var tag = _mapper.Map<Tag>(tagModel);
 
-                var tag = new Tag
+                var isExistsResult = await _tagService.IsExistsAsync(tag);
+                switch (isExistsResult)
                 {
-                    LinkName = tagModel.LinkName,
-                    DisplayName = tagModel.DisplayName
-                };
+                    case IsTagExists.None:
+                        break;
+
+                    case IsTagExists.DisplayName:
+                        return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"displayName \"{tagModel.DisplayName}\" 已存在"));
+
+                    case IsTagExists.LinkName:
+                        return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{tagModel.LinkName}\" 已存在"));
+
+                    default:
+                        throw new Exception($"意料外的枚举值 {isExistsResult.ToString()}");
+                }
 
                 await _tagService.AddAsync(tag);
 

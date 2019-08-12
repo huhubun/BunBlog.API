@@ -8,6 +8,8 @@ namespace BunBlog.Services.Categories
     {
         Task<List<Category>> GetListAsync();
 
+        Task<IsCategoryExists> IsExistsAsync(Category category);
+
         Task<Category> GetByLinkNameAsync(string linkName, bool tracking = false);
 
         Task<Category> AddAsync(Category tag);

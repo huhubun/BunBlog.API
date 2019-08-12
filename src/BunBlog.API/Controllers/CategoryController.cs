@@ -6,6 +6,7 @@ using BunBlog.Core.Domain.Categories;
 using BunBlog.Services.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -69,17 +70,23 @@ namespace BunBlog.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isExists= (await _categoryService.GetByLinkNameAsync(categoryModel.LinkName)) != null;
-                if (isExists)
-                {
-                    return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{categoryModel.LinkName}\" 已存在"));
-                }
+                var category = _mapper.Map<Category>(categoryModel);
 
-                var category = new Category
+                var isExistsResult = await _categoryService.IsExistsAsync(category);
+                switch (isExistsResult)
                 {
-                    LinkName = categoryModel.LinkName,
-                    DisplayName = categoryModel.DisplayName
-                };
+                    case IsCategoryExists.None:
+                        break;
+
+                    case IsCategoryExists.DisplayName:
+                        return BadRequest(new ErrorResponse(ErrorResponseCode.DISPLAY_NAME_ALREADY_EXISTS, $"displayName \"{categoryModel.DisplayName}\" 已存在"));
+
+                    case IsCategoryExists.LinkName:
+                        return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{categoryModel.LinkName}\" 已存在"));
+
+                    default:
+                        throw new Exception($"意料外的枚举值 {isExistsResult.ToString()}");
+                }
 
                 await _categoryService.AddAsync(category);
 

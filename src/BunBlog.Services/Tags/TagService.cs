@@ -21,6 +21,21 @@ namespace BunBlog.Services.Tags
             return await _bunBlogContext.Tags.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IsTagExists> IsExistsAsync(Tag tag)
+        {
+            if(await _bunBlogContext.Tags.AnyAsync(t => t.DisplayName == tag.DisplayName))
+            {
+                return IsTagExists.DisplayName;
+            }
+
+            if(await _bunBlogContext.Tags.AnyAsync(t => t.LinkName == tag.LinkName))
+            {
+                return IsTagExists.LinkName;
+            }
+
+            return IsTagExists.None;
+        }
+
         public async Task<List<Tag>> GetListByLinkNameAsync(bool tracking = false, params string[] linkNames)
         {
             var tags = _bunBlogContext.Tags.Where(t => linkNames.Contains(t.LinkName));

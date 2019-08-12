@@ -8,6 +8,8 @@ namespace BunBlog.Services.Tags
     {
         Task<List<Tag>> GetListAsync();
 
+        Task<IsTagExists> IsExistsAsync(Tag tag);
+
         Task<List<Tag>> GetListByLinkNameAsync(bool tracking = false, params string[] linkNames);
 
         Task<Tag> GetByLinkNameAsync(string linkName, bool tracking = false);
