@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using BunBlog.API.Models.Informations;
-using Microsoft.AspNetCore.Http;
+﻿using BunBlog.API.Models.Informations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BunBlog.API.Controllers
@@ -21,7 +15,6 @@ namespace BunBlog.API.Controllers
         [ProducesResponseType(typeof(InformationModel), 200)]
         public IActionResult GetInformation()
         {
-            Thread.Sleep(2000);
             return Ok(new InformationModel());
         }
     }
