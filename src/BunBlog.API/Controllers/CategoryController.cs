@@ -85,7 +85,7 @@ namespace BunBlog.API.Controllers
                         return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{categoryModel.LinkName}\" 已存在"));
 
                     default:
-                        throw new Exception($"意料外的枚举值 {isExistsResult.ToString()}");
+                        throw new InvalidOperationException($"意料外的枚举值 {isExistsResult.ToString()}");
                 }
 
                 await _categoryService.AddAsync(category);
