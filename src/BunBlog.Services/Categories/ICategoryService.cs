@@ -12,6 +12,8 @@ namespace BunBlog.Services.Categories
 
         Task<Category> GetByLinkNameAsync(string linkName, bool tracking = false);
 
+        Task<bool> IsInUse(int id);
+
         Task<Category> AddAsync(Category tag);
 
         Task<Category> EditAsync(Category tag);

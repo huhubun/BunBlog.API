@@ -21,6 +21,8 @@ namespace BunBlog.Data
 
         public DbSet<PostMetadata> PostMetadatas { get; set; }
 
+        public DbSet<PostTag> PostTags { get; set; }
+
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Tag> Tags { get; set; }

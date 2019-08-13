@@ -14,6 +14,8 @@ namespace BunBlog.Services.Tags
 
         Task<Tag> GetByLinkNameAsync(string linkName, bool tracking = false);
 
+        Task<bool> IsInUse(int id);
+
         Task<Tag> AddAsync(Tag tag);
 
         Task<Tag> EditAsync(Tag tag);

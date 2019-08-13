@@ -60,6 +60,11 @@ namespace BunBlog.Services.Tags
             return await tag.SingleOrDefaultAsync();
         }
 
+        public async Task<bool> IsInUse(int id)
+        {
+            return await _bunBlogContext.PostTags.AnyAsync(t => t.TagId == id);
+        }
+
         public async Task<Tag> AddAsync(Tag tag)
         {
             _bunBlogContext.Tags.Add(tag);

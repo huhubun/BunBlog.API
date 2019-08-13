@@ -48,6 +48,11 @@ namespace BunBlog.Services.Categories
             return await category.SingleOrDefaultAsync();
         }
 
+        public async Task<bool> IsInUse(int id)
+        {
+            return await _bunBlogContext.Posts.AnyAsync(p => p.CategoryId == id);
+        }
+
         public async Task<Category> AddAsync(Category category)
         {
             _bunBlogContext.Categories.Add(category);

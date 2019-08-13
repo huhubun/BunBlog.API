@@ -35,6 +35,18 @@ namespace BunBlog.Services.Posts
             return await posts.ToListAsync();
         }
 
+        public async Task<List<Post>> GetListByTagAsync(int tagId, bool tracking = false)
+        {
+            var posts = _bunBlogContext.Posts.Where(p => p.TagList.Any(t => t.TagId == tagId));
+
+            if (!tracking)
+            {
+                posts = posts.AsNoTracking();
+            }
+
+            return await posts.ToListAsync();
+        }
+
         public async Task<Post> GetByIdAsync(int id, bool tracking = false)
         {
             var posts = _bunBlogContext.Posts.Where(p => p.Id == id);

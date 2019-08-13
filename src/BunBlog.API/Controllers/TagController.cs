@@ -135,6 +135,11 @@ namespace BunBlog.API.Controllers
                 return NotFound();
             }
 
+            if (await _tagService.IsInUse(tag.Id))
+            {
+                return BadRequest(new ErrorResponse(ErrorResponseCode.IN_USE, $"标签 {tag.LinkName} 有博文使用，不能删除"));
+            }
+
             await _tagService.DeleteAsync(tag);
 
             return NoContent();

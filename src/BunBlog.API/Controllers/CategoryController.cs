@@ -135,6 +135,11 @@ namespace BunBlog.API.Controllers
                 return NotFound();
             }
 
+            if (await _categoryService.IsInUse(category.Id))
+            {
+                return BadRequest(new ErrorResponse(ErrorResponseCode.IN_USE, $"分类 {category.LinkName} 有博文使用，不能删除"));
+            }
+
             await _categoryService.DeleteAsync(category);
 
             return NoContent();

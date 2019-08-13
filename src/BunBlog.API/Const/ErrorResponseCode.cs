@@ -22,5 +22,10 @@
         /// </summary>
         public const string DISPLAY_NAME_ALREADY_EXISTS = nameof(DISPLAY_NAME_ALREADY_EXISTS);
 
+        /// <summary>
+        /// 使用中（因为有其它引用导致的操作失败）
+        /// </summary>
+        public const string IN_USE = nameof(IN_USE);
+
     }
 }
