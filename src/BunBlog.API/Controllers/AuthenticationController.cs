@@ -1,9 +1,11 @@
-﻿using BunBlog.API.Const;
+﻿using AutoMapper;
+using BunBlog.API.Const;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Authentications;
 using BunBlog.Core.Consts;
 using BunBlog.Services.Authentications;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace BunBlog.API.Controllers
 {
@@ -15,12 +17,14 @@ namespace BunBlog.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IBunAuthenticationService _authenticationService;
+        private readonly IMapper _mapper;
 
         public AuthenticationController(
-            IBunAuthenticationService authenticationService
-            )
+            IBunAuthenticationService authenticationService,
+            IMapper mapper)
         {
             _authenticationService = authenticationService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -39,27 +43,80 @@ namespace BunBlog.API.Controllers
         /// <response code="200">成功获取 token</response>
         /// <response code="400">
         /// 获取 token 失败
-        /// WRONG_USERNAME_OR_PASSWORD 用户名或密码不匹配
+        /// WRONG_USERNAME_OR_PASSWORD: 用户名或密码不匹配
+        /// INVALID_GRANT_TYPE: 无效的 grant_type
+        /// INVALID_REFRESH_TOKEN: 无效的 refresh_token
         /// </response>
         [HttpPost("token")]
         [ProducesResponseType(typeof(TokenModel), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult CreateToken(CreateTokenRequest request)
         {
+            CreateTokenResult createTokenResult;
+
+            switch (request.GrantType)
+            {
+                case GrantType.REFRESH_TOKEN:
+                    createTokenResult = CreateTokenByRefreshToken(request);
+                    break;
+
+                case GrantType.PASSWORD:
+                    createTokenResult = CreateTokenByPassword(request);
+                    break;
+
+                default:
+                    createTokenResult = new CreateTokenResult(ErrorResponseCode.INVALID_GRANT_TYPE);
+                    break;
+            }
+
+            if (createTokenResult.ErrorCode != null)
+            {
+                return HandlerCreateTokenError(createTokenResult);
+            }
+
+            return Ok(_mapper.Map<TokenModel>(createTokenResult));
+        }
+
+        private CreateTokenResult CreateTokenByRefreshToken(CreateTokenRequest request)
+        {
+            return _authenticationService.CreateToken(request.Username, request.RefreshToken);
+        }
+
+        private CreateTokenResult CreateTokenByPassword(CreateTokenRequest request)
+        {
             var user = _authenticationService.GetUser(request.Username, request.Password);
 
             if (user == null)
             {
-                return BadRequest(new ErrorResponse(ErrorResponseCode.WRONG_USERNAME_OR_PASSWORD, "用户名或密码不匹配"));
+                return new CreateTokenResult(ErrorResponseCode.WRONG_USERNAME_OR_PASSWORD);
             }
 
-            var tokenString = _authenticationService.CreateToken(user);
+            return _authenticationService.CreateToken(user);
+        }
 
-            return Ok(new TokenModel
+        private IActionResult HandlerCreateTokenError(CreateTokenResult createTokenResult)
+        {
+            string errorMessage;
+
+            switch (createTokenResult.ErrorCode)
             {
-                AccessToken = tokenString,
-                ExpiresIn = AuthenticationConst.TOKEN_EXPIRES_IN_SECONDS
-            });
+                case AuthenticationConst.INVALID_REFRESH_TOKEN:
+                    errorMessage = "无效的 refresh_token";
+                    break;
+
+                case ErrorResponseCode.INVALID_GRANT_TYPE:
+                    errorMessage = "无效的 grant_type";
+                    break;
+
+                case ErrorResponseCode.WRONG_USERNAME_OR_PASSWORD:
+                    errorMessage = "用户名或密码不匹配";
+                    break;
+
+                default:
+                    throw new Exception(createTokenResult.ErrorCode);
+            }
+
+            return BadRequest(new ErrorResponse(createTokenResult.ErrorCode, errorMessage));
         }
     }
 }

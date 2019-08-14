@@ -6,6 +6,10 @@ namespace BunBlog.Services.Authentications
     {
         AuthenticationUserConfig GetUser(string username, string password);
 
-        string CreateToken(AuthenticationUserConfig user);
+        CreateTokenResult CreateToken(AuthenticationUserConfig user);
+
+        bool IsRefreshTokenValid(string username, string refreshToken);
+
+        CreateTokenResult CreateToken(string username, string refreshToken);
     }
 }

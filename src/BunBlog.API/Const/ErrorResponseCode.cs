@@ -27,5 +27,10 @@
         /// </summary>
         public const string IN_USE = nameof(IN_USE);
 
+        /// <summary>
+        /// 无效的 grant_type
+        /// </summary>
+        public const string INVALID_GRANT_TYPE = nameof(INVALID_GRANT_TYPE);
+
     }
 }
