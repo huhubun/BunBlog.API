@@ -56,9 +56,9 @@ namespace BunBlog.API.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult CreateToken(CreateTokenRequest request)
         {
-            CreateTokenResult createTokenResult;
-
             _logger.LogInformation($"GrantType is [{request.GrantType}]");
+
+            CreateTokenResult createTokenResult;
 
             switch (request.GrantType)
             {
