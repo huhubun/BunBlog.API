@@ -5,6 +5,7 @@ using BunBlog.API.Models.Authentications;
 using BunBlog.Core.Consts;
 using BunBlog.Services.Authentications;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace BunBlog.API.Controllers
@@ -16,13 +17,16 @@ namespace BunBlog.API.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private readonly ILogger<AuthenticationController> _logger;
         private readonly IBunAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
 
         public AuthenticationController(
+            ILogger<AuthenticationController> logger,
             IBunAuthenticationService authenticationService,
             IMapper mapper)
         {
+            _logger = logger;
             _authenticationService = authenticationService;
             _mapper = mapper;
         }
@@ -54,6 +58,8 @@ namespace BunBlog.API.Controllers
         {
             CreateTokenResult createTokenResult;
 
+            _logger.LogInformation($"GrantType is [{request.GrantType}]");
+
             switch (request.GrantType)
             {
                 case GrantType.REFRESH_TOKEN:
@@ -71,8 +77,11 @@ namespace BunBlog.API.Controllers
 
             if (createTokenResult.ErrorCode != null)
             {
+                _logger.LogError($"ErrorCode is [{createTokenResult.ErrorCode}]");
                 return HandlerCreateTokenError(createTokenResult);
             }
+
+            _logger.LogInformation($"Created token successfully");
 
             return Ok(_mapper.Map<TokenModel>(createTokenResult));
         }
