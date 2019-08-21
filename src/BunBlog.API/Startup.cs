@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BunBlog.API.Middleware;
 using BunBlog.Core.Configuration;
 using BunBlog.Data;
 using BunBlog.Services.Authentications;
@@ -122,6 +123,8 @@ namespace BunBlog.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseRequestResponseLogging();
 
             app.UseCors(CORS_POLICY_NAME);
 
