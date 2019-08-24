@@ -46,11 +46,14 @@ namespace BunBlog.API.Controllers
         /// <summary>
         /// 获取博文列表
         /// </summary>
+        /// <param name="page">页码</param>
+        /// <param name="pageSize">每页数据条数</param>
         /// <returns>博文列表</returns>
         [HttpGet("")]
-        public async Task<IActionResult> GetListAsync()
+        [ProducesResponseType(typeof(List<BlogPostListItemModel>), 200)]
+        public async Task<IActionResult> GetListAsync(int page = 1, int pageSize = 10)
         {
-            var posts = await _postService.GetListAsync();
+            var posts = await _postService.GetListAsync(page, pageSize);
 
             return Ok(_mapper.Map<List<BlogPostListItemModel>>(posts));
         }
