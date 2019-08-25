@@ -20,8 +20,7 @@ namespace BunBlog.Services.Posts
 
         public async Task<List<Post>> GetListAsync(int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
         {
-            var skip = (pageIndex - 1) * pageSize;
-            var posts = _bunBlogContext.Posts.Skip(skip).Take(pageSize);
+            var posts = _bunBlogContext.Posts.AsQueryable();
 
             if (orderByPublishedOnDesc)
             {
@@ -31,6 +30,9 @@ namespace BunBlog.Services.Posts
             {
                 posts = posts.OrderBy(p => p.PublishedOn);
             }
+
+            var skip = (pageIndex - 1) * pageSize;
+            posts = posts.Skip(skip).Take(pageSize);
 
             return await posts.ToListAsync();
         }
