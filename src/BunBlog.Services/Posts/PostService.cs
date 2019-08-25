@@ -79,5 +79,14 @@ namespace BunBlog.Services.Posts
 
             return post;
         }
+
+        public async Task<Post> EditAsync(Post post)
+        {
+            _bunBlogContext.Posts.Update(post);
+            await _bunBlogContext.SaveChangesAsync();
+
+            return post;
+        }
+
     }
 }

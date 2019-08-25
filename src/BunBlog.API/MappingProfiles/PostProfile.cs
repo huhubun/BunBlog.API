@@ -12,6 +12,8 @@ namespace BunBlog.API.MappingProfiles
                 .ForMember(p => p.Category, mo => mo.Ignore())
                 .ForMember(p => p.TagList, mo => mo.Ignore());
 
+            CreateMap<EditBlogPostModel, Post>();
+
             CreateMap<Post, BlogPostModel>();
 
             CreateMap<Post, BlogPostListItemModel>();

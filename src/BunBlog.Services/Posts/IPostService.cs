@@ -13,5 +13,7 @@ namespace BunBlog.Services.Posts
         Task<Post> GetByIdAsync(int id, bool tracking = false);
 
         Task<Post> PostAsync(Post post);
+
+        Task<Post> EditAsync(Post post);
     }
 }

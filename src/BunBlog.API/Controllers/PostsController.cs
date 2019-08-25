@@ -113,6 +113,29 @@ namespace BunBlog.API.Controllers
         }
 
         /// <summary>
+        /// 修改一条博文
+        /// </summary>
+        /// <param name="id">博文 id</param>
+        /// <param name="editBlogPostModel">修改博文的请求</param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> EditAsync([FromRoute] int id, [FromBody]EditBlogPostModel editBlogPostModel)
+        {
+            var post = await _postService.GetByIdAsync(id, tracking: true);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            post = _mapper.Map(editBlogPostModel, post);
+            await _postService.EditAsync(post);
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// 为指定博文增加访问量
         /// </summary>
         /// <returns></returns>
