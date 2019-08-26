@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using BunBlog.API.Const;
 using BunBlog.API.Middleware;
+using BunBlog.API.Models;
 using BunBlog.Core.Configuration;
 using BunBlog.Data;
 using BunBlog.Services.Authentications;
@@ -16,16 +11,22 @@ using BunBlog.Services.Tags;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace BunBlog.API
 {
@@ -119,12 +120,26 @@ namespace BunBlog.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseRequestResponseLogging();
+
+            app.UseExceptionHandler(builder =>
+            {
+                builder.Run(async context =>
+                {
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                    var exception = exceptionHandlerPathFeature.Error;
+
+                    var factory = context.RequestServices.GetService<ILoggerFactory>();
+                    var logger = factory.CreateLogger("ExceptionHandler");
+                    logger.LogError(exception, String.Empty);
+
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/json";
+
+                    var message = JsonConvert.SerializeObject(new ErrorResponse(ErrorResponseCode.SERVER_ERROR, $"服务器端发生错误，请将 {context.TraceIdentifier} 反馈给管理员以协助修复该问题"));
+                    await context.Response.WriteAsync(message);
+                });
+            });
 
             app.UseCors(CORS_POLICY_NAME);
 

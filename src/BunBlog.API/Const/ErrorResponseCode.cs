@@ -32,5 +32,10 @@
         /// </summary>
         public const string INVALID_GRANT_TYPE = nameof(INVALID_GRANT_TYPE);
 
+        /// <summary>
+        /// 服务器端发生错误
+        /// </summary>
+        public const string SERVER_ERROR = nameof(SERVER_ERROR);
+
     }
 }
