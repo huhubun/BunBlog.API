@@ -7,6 +7,7 @@ using BunBlog.Data;
 using BunBlog.Services.Authentications;
 using BunBlog.Services.Categories;
 using BunBlog.Services.Posts;
+using BunBlog.Services.Securities;
 using BunBlog.Services.Tags;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -101,6 +102,7 @@ namespace BunBlog.API
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostMetadataService, PostMetadataService>();
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
+            services.AddScoped<ISecurityService, SecurityService>();
 
             // appsettings.json 中 Authentication 的配置
             services.AddSingleton<AuthenticationConfig>(service =>

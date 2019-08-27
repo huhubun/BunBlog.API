@@ -1,5 +1,6 @@
 ﻿using BunBlog.Core.Configuration;
 using BunBlog.Core.Consts;
+using BunBlog.Services.Securities;
 using IdentityModel;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
@@ -17,20 +18,25 @@ namespace BunBlog.Services.Authentications
 
         private readonly AuthenticationConfig _authenticationConfig;
         private readonly IMemoryCache _memoryCache;
+        private readonly ISecurityService _securityService;
 
         public BunAuthenticationService(
             AuthenticationConfig authenticationConfig,
-            IMemoryCache memoryCache
+            IMemoryCache memoryCache,
+            ISecurityService securityService
             )
         {
             _authenticationConfig = authenticationConfig;
             _memoryCache = memoryCache;
+            _securityService = securityService;
         }
 
         public AuthenticationUserConfig GetUser(string username, string password)
         {
+            var passwordHash = _securityService.Sha256(password);
+
             return _authenticationConfig.Users.Where(u => u.Username == username)
-                .Where(u => u.Password == password)
+                .Where(u => u.Password == passwordHash)
                 .SingleOrDefault();
         }
 
