@@ -11,7 +11,9 @@ namespace BunBlog.API.Models.Informations
         {
             get
             {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+
+                return $"{version.Major}.{version.Minor}.{version.Build}";
             }
         }
     }
