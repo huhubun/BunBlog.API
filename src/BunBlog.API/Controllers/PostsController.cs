@@ -139,7 +139,7 @@ namespace BunBlog.API.Controllers
         /// 为指定博文增加访问量
         /// </summary>
         /// <returns></returns>
-        [HttpPut("{id}/visits")]
+        [HttpPost("{id}/visits")]
         public async Task<IActionResult> UpdateVisits([FromRoute]int id)
         {
             var metadata = await _postMetadataService.AddVisitsAsync(id);
