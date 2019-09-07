@@ -1,4 +1,6 @@
-﻿namespace BunBlog.API.Models.Posts
+﻿using System.Collections.Generic;
+
+namespace BunBlog.API.Models.Posts
 {
     /// <summary>
     /// 修改博文的请求
@@ -24,5 +26,15 @@
         /// 链接名称
         /// </summary>
         public string LinkName { get; set; }
+
+        /// <summary>
+        /// 分类（值为分类链接名称）
+        /// </summary>
+        public string Category { get; set; }
+
+        /// <summary>
+        /// 标签集合（值为标签链接名称）
+        /// </summary>
+        public List<string> TagList { get; set; } = new List<string>();
     }
 }

@@ -37,5 +37,14 @@
         /// </summary>
         public const string SERVER_ERROR = nameof(SERVER_ERROR);
 
+        /// <summary>
+        /// 分类不存在
+        /// </summary>
+        public const string CATEGORY_NOT_EXISTS = nameof(CATEGORY_NOT_EXISTS);
+
+        /// <summary>
+        /// 标签不存在
+        /// </summary>
+        public const string TAG_NOT_EXISTS = nameof(TAG_NOT_EXISTS);
     }
 }

@@ -93,7 +93,6 @@ namespace BunBlog.API.Controllers
             {
                 var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category, tracking: true);
                 post.Category = category;
-                //post.CategoryId = category.Id;
             }
 
             if (createBlogPostModel.TagList != null && createBlogPostModel.TagList.Any())
@@ -102,11 +101,9 @@ namespace BunBlog.API.Controllers
                 post.TagList = tags.Select(t => new PostTag
                 {
                     Tag = t
-                    //TagId = t.Id
                 }).ToList();
             }
 
-            // TODO 用上面注释掉的方式为 id 赋值的话，会导致这里的 post 中导航属性没有值？
             await _postService.PostAsync(post);
 
             return CreatedAtAction(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
@@ -130,6 +127,57 @@ namespace BunBlog.API.Controllers
             }
 
             post = _mapper.Map(editBlogPostModel, post);
+
+            // Category
+            if (!String.IsNullOrEmpty(editBlogPostModel.Category))
+            {
+                var category = await _categoryService.GetByLinkNameAsync(editBlogPostModel.Category, tracking: true);
+
+                if (category == null)
+                {
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.CATEGORY_NOT_EXISTS, $"分类 {editBlogPostModel.Category} 不存在"));
+                }
+
+                post.CategoryId = category.Id;
+            }
+            else
+            {
+                post.CategoryId = null;
+            }
+
+            // Tags
+            if (editBlogPostModel.TagList.Any())
+            {
+                var tags = await _tagService.GetListByLinkNameAsync(tracking: true, editBlogPostModel.TagList.ToArray());
+
+                if (editBlogPostModel.TagList.Count != tags.Count)
+                {
+                    var tagNames = tags.Select(t => t.LinkName);
+                    var notExistsTags = editBlogPostModel.TagList.Where(t => !tagNames.Contains(t));
+
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.TAG_NOT_EXISTS, $"标签 {String.Join(", ", notExistsTags)} 不存在"));
+                }
+
+                var tagIds = tags.Select(t => t.Id);
+
+                var currentTags = post.TagList.Where(t => tagIds.Contains(t.TagId)).ToList();
+                var currentTagIds = currentTags.Select(t => t.TagId);
+
+                foreach (var newTag in tags.Where(t => !currentTagIds.Contains(t.Id)))
+                {
+                    currentTags.Add(new PostTag
+                    {
+                        Tag = newTag
+                    });
+                }
+
+                post.TagList = currentTags;
+            }
+            else
+            {
+                post.TagList = new List<PostTag>();
+            }
+
             await _postService.EditAsync(post);
 
             return NoContent();
