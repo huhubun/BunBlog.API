@@ -59,11 +59,11 @@ namespace BunBlog.API.Controllers
         }
 
         /// <summary>
-        /// 获取一条博文内容
+        /// 获取一条博文内容（通过Id）
         /// </summary>
         /// <param name="id">博文 id</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync([FromRoute]int id)
         {
             // 这里 tracking 设为 true 是因为
@@ -72,7 +72,25 @@ namespace BunBlog.API.Controllers
 
             if (post == null)
             {
-                return NotFound(new ErrorResponse(ErrorResponseCode.ID_NOT_FOUND, $"没有 id = {id} 的博文"));
+                return NotFound(new ErrorResponse(ErrorResponseCode.ID_NOT_FOUND, $"没有 id 为 {id} 的博文"));
+            }
+
+            return Ok(_mapper.Map<BlogPostModel>(post));
+        }
+
+        /// <summary>
+        /// 获取一条博文内容（通过链接名称）
+        /// </summary>
+        /// <param name="linkName">博文链接名称</param>
+        /// <returns></returns>
+        [HttpGet("{linkName}")]
+        public async Task<IActionResult> GetByLinkNameAsync([FromRoute]string linkName)
+        {
+            var post = await _postService.GetByLinkNameAsync(linkName, tracking: true);
+
+            if (post == null)
+            {
+                return NotFound(new ErrorResponse(ErrorResponseCode.ID_NOT_FOUND, $"没有链接名称为 {linkName} 的博文"));
             }
 
             return Ok(_mapper.Map<BlogPostModel>(post));

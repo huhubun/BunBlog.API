@@ -61,6 +61,18 @@ namespace BunBlog.Services.Posts
             return await posts.SingleOrDefaultAsync();
         }
 
+        public async Task<Post> GetByLinkNameAsync(string linkName, bool tracking = false)
+        {
+            var posts = _bunBlogContext.Posts.Where(p => p.LinkName == linkName);
+
+            if (!tracking)
+            {
+                posts = posts.AsNoTracking();
+            }
+
+            return await posts.SingleOrDefaultAsync();
+        }
+
         public async Task<Post> PostAsync(Post post)
         {
             post.PublishedOn = DateTime.Now;

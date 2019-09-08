@@ -46,5 +46,10 @@
         /// 标签不存在
         /// </summary>
         public const string TAG_NOT_EXISTS = nameof(TAG_NOT_EXISTS);
+
+        /// <summary>
+        /// 链接名称不存在
+        /// </summary>
+        public const string LINK_NAME_NOT_EXISTS = nameof(LINK_NAME_NOT_EXISTS);
     }
 }
