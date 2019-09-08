@@ -111,16 +111,42 @@ namespace BunBlog.API.Controllers
             if (!String.IsNullOrEmpty(createBlogPostModel.Category))
             {
                 var category = await _categoryService.GetByLinkNameAsync(createBlogPostModel.Category, tracking: true);
+
+                if (category == null)
+                {
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.CATEGORY_NOT_EXISTS, $"分类 {createBlogPostModel.Category} 不存在"));
+                }
+
                 post.Category = category;
             }
 
             if (createBlogPostModel.TagList != null && createBlogPostModel.TagList.Any())
             {
                 var tags = await _tagService.GetListByLinkNameAsync(tracking: true, createBlogPostModel.TagList.ToArray());
+
+                if (createBlogPostModel.TagList.Count != tags.Count)
+                {
+                    var tagNames = tags.Select(t => t.LinkName);
+                    var notExistsTags = createBlogPostModel.TagList.Where(t => !tagNames.Contains(t));
+
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.TAG_NOT_EXISTS, $"标签 {String.Join(", ", notExistsTags)} 不存在"));
+                }
+
                 post.TagList = tags.Select(t => new PostTag
                 {
                     Tag = t
                 }).ToList();
+            }
+
+            if (await _postService.LinkNameExists(post.LinkName))
+            {
+                return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{post.LinkName}\" 已存在"));
+            }
+
+            // set default value when title is empty
+            if (String.IsNullOrEmpty(post.Title))
+            {
+                post.Title = DateTime.Now.ToString("yyyy-MM-dd");
             }
 
             await _postService.PostAsync(post);

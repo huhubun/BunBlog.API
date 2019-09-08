@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace BunBlog.API.Models.Posts
 {
@@ -25,6 +26,7 @@ namespace BunBlog.API.Models.Posts
         /// <summary>
         /// 链接名称
         /// </summary>
+        [DisplayName("链接名称")]
         public string LinkName { get; set; }
 
         /// <summary>

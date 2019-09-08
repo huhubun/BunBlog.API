@@ -17,5 +17,7 @@ namespace BunBlog.Services.Posts
         Task<Post> PostAsync(Post post);
 
         Task<Post> EditAsync(Post post);
+
+        Task<bool> LinkNameExists(string linkName);
     }
 }

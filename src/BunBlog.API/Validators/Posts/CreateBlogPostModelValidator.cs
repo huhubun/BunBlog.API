@@ -7,9 +7,10 @@ namespace BunBlog.API.Validators.Posts
     {
         public CreateBlogPostModelValidator()
         {
-            RuleFor(m => m.Title).NotEmpty();
-            RuleFor(m => m.Content).NotEmpty();
-            RuleFor(m => m.LinkName).NotEmpty().MaximumLength(100);
+            RuleFor(m => m.LinkName)
+                .NotEmpty()
+                .MaximumLength(100)
+                .LinkName();
         }
     }
 }

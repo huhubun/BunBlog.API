@@ -79,7 +79,7 @@ namespace BunBlog.API.Controllers
                         break;
 
                     case IsTagExists.DisplayName:
-                        return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"displayName \"{tagModel.DisplayName}\" 已存在"));
+                        return BadRequest(new ErrorResponse(ErrorResponseCode.DISPLAY_NAME_ALREADY_EXISTS, $"displayName \"{tagModel.DisplayName}\" 已存在"));
 
                     case IsTagExists.LinkName:
                         return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{tagModel.LinkName}\" 已存在"));

@@ -100,5 +100,9 @@ namespace BunBlog.Services.Posts
             return post;
         }
 
+        public async Task<bool> LinkNameExists(string linkName)
+        {
+            return await _bunBlogContext.Posts.AnyAsync(p => p.LinkName == linkName);
+        }
     }
 }
