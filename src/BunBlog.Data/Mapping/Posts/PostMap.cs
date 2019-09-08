@@ -13,6 +13,7 @@ namespace BunBlog.Data.Mapping.Posts
             builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Property(c => c.LinkName).IsRequired().HasMaxLength(100);
             builder.Property(c => c.PublishedOn).IsRequired();
 
             builder.HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);

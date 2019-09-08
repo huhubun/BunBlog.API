@@ -9,6 +9,7 @@ using BunBlog.Services.Categories;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Securities;
 using BunBlog.Services.Tags;
+using FluentValidation.AspNetCore;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -47,7 +48,24 @@ namespace BunBlog.API
         {
             services.AddMemoryCache();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new BunBlogValidationProblemDetails(context.ModelState)
+                        {
+                            TraceId = context.HttpContext.TraceIdentifier
+                        };
+
+                        return new BadRequestObjectResult(problemDetails);
+                    };
+                })
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssembly(typeof(Startup).Assembly);
+                });
 
             services.AddEntityFrameworkNpgsql().AddDbContext<BunBlogContext>(options =>
             {

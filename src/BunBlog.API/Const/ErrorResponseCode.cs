@@ -51,5 +51,9 @@
         /// 链接名称不存在
         /// </summary>
         public const string LINK_NAME_NOT_EXISTS = nameof(LINK_NAME_NOT_EXISTS);
+
+        // 模型验证错误（例如缺少必填字段）
+        public const string MODEL_VALIDATION_ERROR = nameof(MODEL_VALIDATION_ERROR);
+
     }
 }

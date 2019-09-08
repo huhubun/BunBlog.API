@@ -83,6 +83,7 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <param name="linkName">博文链接名称</param>
         /// <returns></returns>
+        [HttpHead("{linkName}")]
         [HttpGet("{linkName}")]
         public async Task<IActionResult> GetByLinkNameAsync([FromRoute]string linkName)
         {
