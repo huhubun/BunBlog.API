@@ -6,6 +6,7 @@ using BunBlog.Core.Configuration;
 using BunBlog.Data;
 using BunBlog.Services.Authentications;
 using BunBlog.Services.Categories;
+using BunBlog.Services.Images;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Securities;
 using BunBlog.Services.Tags;
@@ -121,12 +122,18 @@ namespace BunBlog.API
             services.AddScoped<IPostMetadataService, PostMetadataService>();
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
             services.AddScoped<ISecurityService, SecurityService>();
-
-            // appsettings.json 中 Authentication 的配置
+            services.AddScoped<IImageService, ImageService>();
+            
+            // appsettings.json 中的配置
             services.AddSingleton<AuthenticationConfig>(service =>
             {
                 BunAuthenticationService.AuthenticationConfigValidate(authenticationConfig);
                 return authenticationConfig;
+            });
+
+            services.AddSingleton<UploadImageConfig>(service =>
+            {
+                return Configuration.GetSection("UploadImage").Get<UploadImageConfig>();
             });
 
             services.AddAutoMapper(typeof(Startup));
