@@ -1,6 +1,7 @@
 ﻿using BunBlog.API.Models.Images;
 using BunBlog.Core.Configuration;
 using BunBlog.Services.Images;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
@@ -29,6 +30,7 @@ namespace BunBlog.API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("")]
+        [Authorize]
         public async Task<IActionResult> UploadImage([FromForm]UploadImageRequest request)
         {
             var image = request.Image;
