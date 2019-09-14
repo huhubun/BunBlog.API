@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using BunBlog.API.Models.Images;
+﻿using BunBlog.API.Models.Images;
+using BunBlog.Core.Configuration;
 using BunBlog.Services.Images;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {
@@ -14,10 +12,14 @@ namespace BunBlog.API.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
+        private readonly UploadImageConfig _uploadImageConfig;
         private readonly IImageService _imageService;
 
-        public ImageController(IImageService imageService)
+        public ImageController(
+            UploadImageConfig uploadImageConfig,
+            IImageService imageService)
         {
+            _uploadImageConfig = uploadImageConfig;
             _imageService = imageService;
         }
 
@@ -29,16 +31,21 @@ namespace BunBlog.API.Controllers
         [HttpPost("")]
         public async Task<IActionResult> UploadImage([FromForm]UploadImageRequest request)
         {
-            using (var imageStream = request.Image.OpenReadStream())
+            var image = request.Image;
+            using (var imageStream = image.OpenReadStream())
             {
                 // GetExtension() 的结果包含点号，如 ".jpg"
-                var extension = Path.GetExtension(request.FileName);
+                var extension = Path.GetExtension(image.FileName);
 
-                var url = await _imageService.Upload(extension, request.Description, imageStream);
+                var imageEntity = await _imageService.Upload(extension, imageStream);
+
+                var baseImageUrl = new Uri(_uploadImageConfig.Domain);
 
                 return Ok(new UploadImageSuccessfulResponse
                 {
-                    Url = url
+                    Id = imageEntity.Id,
+                    FileName = imageEntity.FileName,
+                    Url = new Uri(baseImageUrl, $"{imageEntity.Path}/{imageEntity.FileName}").ToString()
                 });
             }
         }

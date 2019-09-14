@@ -1,4 +1,5 @@
 ﻿using BunBlog.Core.Domain.Categories;
+using BunBlog.Core.Domain.Images;
 using BunBlog.Core.Domain.Posts;
 using BunBlog.Core.Domain.Tags;
 using Microsoft.EntityFrameworkCore;
@@ -26,5 +27,7 @@ namespace BunBlog.Data
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<Image> Images { get; set; }
     }
 }

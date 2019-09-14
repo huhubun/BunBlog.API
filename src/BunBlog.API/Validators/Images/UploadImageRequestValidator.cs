@@ -7,13 +7,6 @@ namespace BunBlog.API.Validators.Images
     {
         public UploadImageRequestValidator()
         {
-            RuleFor(m => m.FileName)
-                .NotEmpty()
-                .Must(fileName =>
-                {
-                    return fileName.Contains(".");
-                }).WithMessage("'{PropertyName}' 必须包含扩展名");
-
             RuleFor(m => m.Image)
                 .Must(image =>
                 {

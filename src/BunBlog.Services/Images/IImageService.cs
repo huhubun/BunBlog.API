@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BunBlog.Core.Domain.Images;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BunBlog.Services.Images
 {
     public interface IImageService
     {
-        Task<string> Upload(string extension, string description, Stream imageStream);
+        Task<Image> Upload(string extension, Stream imageStream);
     }
 }
