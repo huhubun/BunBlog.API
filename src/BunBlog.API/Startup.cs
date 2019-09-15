@@ -24,8 +24,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
@@ -49,8 +49,10 @@ namespace BunBlog.API
         {
             services.AddMemoryCache();
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services//.AddMvc()
+                .AddControllers()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson()
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.InvalidModelStateResponseFactory = context =>
@@ -82,7 +84,7 @@ namespace BunBlog.API
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Bun Blog API",
                     Version = "v1"
@@ -123,7 +125,7 @@ namespace BunBlog.API
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IImageService, ImageService>();
-            
+
             // appsettings.json 中的配置
             services.AddSingleton<AuthenticationConfig>(service =>
             {
@@ -145,7 +147,7 @@ namespace BunBlog.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseRequestResponseLogging();
 
@@ -168,12 +170,17 @@ namespace BunBlog.API
                 });
             });
 
+            app.UseRouting();
+
             app.UseCors(CORS_POLICY_NAME);
 
-            // 必须放在 UseMvc() 的前面
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             // https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.2&tabs=visual-studio
             app.UseSwagger();
