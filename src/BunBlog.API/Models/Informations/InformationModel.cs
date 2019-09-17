@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using BunBlog.Core;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace BunBlog.API.Models.Informations
@@ -19,20 +20,20 @@ namespace BunBlog.API.Models.Informations
         }
 
         /// <summary>
-        /// 运行程序的操作系统描述
+        /// 运行程序的操作系统
         /// </summary>
         public string OS
         {
             get
             {
-                return RuntimeInformation.OSDescription;
+                return BunHelper.GetOSName(RuntimeInformation.OSDescription);
             }
         }
 
         /// <summary>
         /// 运行程序的运行时描述
         /// </summary>
-        public string Runtime
+        public string RuntimeFramework
         {
             get
             {
