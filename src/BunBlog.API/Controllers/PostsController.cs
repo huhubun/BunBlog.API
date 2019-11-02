@@ -63,7 +63,7 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <param name="id">博文 id</param>
         /// <returns></returns>
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name =nameof(GetAsync))]
         public async Task<IActionResult> GetAsync([FromRoute]int id)
         {
             // 这里 tracking 设为 true 是因为
@@ -151,7 +151,7 @@ namespace BunBlog.API.Controllers
 
             await _postService.PostAsync(post);
 
-            return CreatedAtAction(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
+            return CreatedAtRoute(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
         }
 
         /// <summary>
