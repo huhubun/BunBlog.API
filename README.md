@@ -1,10 +1,10 @@
 # Bun Blog Web API
 
-## Database
-- PostgreSQL
+- Runtime: `.NET Core 3.0`
+- Database: `PostgreSQL`
 
-### Migrations
-#### Package Manager Console in Visual Studio
+## Migrations
+### Package Manager Console in Visual Studio
 
 ```powershell
 Add-Migration Init -StartupProject "BunBlog.API" -Project "BunBlog.Data"
@@ -12,9 +12,22 @@ Add-Migration Init -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 Update-Database -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 ```
 
-#### .NET CLI (2.2)
-```powershell
-dotnet ef migrations add Init --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj"
+### .NET CLI (3.0)
+If it is the first time to run, you need to install `dotnet-ef` first
 
-dotnet ef database update --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj"
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+Then you can use the `dotnet-ef` command
+
+```bash
+# Add migration
+dotnet-ef migrations add Init --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj"
+
+# Update database
+dotnet-ef database update --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj"
+
+# Generate db script
+dotnet-ef migrations script --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj" --idempotent  --output ./script.sql
 ```
