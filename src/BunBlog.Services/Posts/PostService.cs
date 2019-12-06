@@ -1,5 +1,6 @@
 ﻿using BunBlog.Core.Consts;
 using BunBlog.Core.Domain.Posts;
+using BunBlog.Core.Enums;
 using BunBlog.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,7 +21,7 @@ namespace BunBlog.Services.Posts
 
         public async Task<List<Post>> GetListAsync(int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
         {
-            var posts = _bunBlogContext.Posts.AsQueryable();
+            var posts = _bunBlogContext.Posts.Where(p => p.Type == PostType.Post);
 
             if (orderByPublishedOnDesc)
             {
@@ -49,9 +50,11 @@ namespace BunBlog.Services.Posts
             return await posts.ToListAsync();
         }
 
-        public async Task<Post> GetByIdAsync(int id, bool tracking = false)
+        public async Task<Post> GetByIdAsync(int id, bool tracking = false, PostType postType = PostType.Post)
         {
-            var posts = _bunBlogContext.Posts.Where(p => p.Id == id);
+            var posts = _bunBlogContext.Posts
+                    .Where(p => p.Id == id)
+                    .Where(p => p.Type == postType);
 
             if (!tracking)
             {
@@ -61,9 +64,11 @@ namespace BunBlog.Services.Posts
             return await posts.SingleOrDefaultAsync();
         }
 
-        public async Task<Post> GetByLinkNameAsync(string linkName, bool tracking = false)
+        public async Task<Post> GetByLinkNameAsync(string linkName, bool tracking = false, PostType postType = PostType.Post)
         {
-            var posts = _bunBlogContext.Posts.Where(p => p.LinkName == linkName);
+            var posts = _bunBlogContext.Posts
+                    .Where(p => p.LinkName == linkName)
+                    .Where(p => p.Type == postType);
 
             if (!tracking)
             {
@@ -100,9 +105,9 @@ namespace BunBlog.Services.Posts
             return post;
         }
 
-        public async Task<bool> LinkNameExists(string linkName)
+        public async Task<bool> LinkNameExists(string linkName, PostType type)
         {
-            return await _bunBlogContext.Posts.AnyAsync(p => p.LinkName == linkName);
+            return await _bunBlogContext.Posts.AnyAsync(p => p.LinkName == linkName && p.Type == type);
         }
     }
 }

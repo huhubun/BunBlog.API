@@ -1,4 +1,5 @@
 ﻿using BunBlog.Core.Domain.Categories;
+using BunBlog.Core.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -40,6 +41,11 @@ namespace BunBlog.Core.Domain.Posts
         /// 分类 Id
         /// </summary>
         public int? CategoryId { get; set; }
+
+        /// <summary>
+        /// 博文类型
+        /// </summary>
+        public PostType Type { get; set; }
 
         /// <summary>
         /// 分类

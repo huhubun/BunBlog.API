@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BunBlog.Core.Enums;
+using System.Collections.Generic;
 
 namespace BunBlog.API.Models.Posts
 {
@@ -36,5 +37,10 @@ namespace BunBlog.API.Models.Posts
         /// 标签集合（值为标签链接名称）
         /// </summary>
         public List<string> TagList { get; set; } = new List<string>();
+
+        /// <summary>
+        /// 博文类型
+        /// </summary>
+        public PostType Type { get; set; }
     }
 }

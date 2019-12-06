@@ -138,7 +138,7 @@ namespace BunBlog.API.Controllers
                 }).ToList();
             }
 
-            if (await _postService.LinkNameExists(post.LinkName))
+            if (await _postService.LinkNameExists(post.LinkName, post.Type))
             {
                 return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{post.LinkName}\" 已存在"));
             }

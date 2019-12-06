@@ -15,13 +15,14 @@ namespace BunBlog.Data.Mapping.Posts
             builder.Property(p => p.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.LinkName).IsRequired().HasMaxLength(100);
             builder.Property(c => c.PublishedOn).IsRequired();
+            builder.Property(c => c.Type).IsRequired();
 
             builder.HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
             builder.HasMany(p => p.TagList).WithOne(pt => pt.Post).HasForeignKey(pt => pt.PostId);
             builder.HasMany(p => p.MetadataList).WithOne().HasForeignKey(pt => pt.PostId);
 
             builder.HasIndex(c => c.Id).HasName("IX_Post_Id");
-            builder.HasIndex(c => c.LinkName).IsUnique().HasName("IX_Post_LinkName");
+            builder.HasIndex(c => new { c.LinkName, c.Type }).IsUnique().HasName("IX_Post_LinkName_Type");
             builder.HasIndex(c => c.PublishedOn).HasName("IX_Post_PublishedOn");
         }
     }
