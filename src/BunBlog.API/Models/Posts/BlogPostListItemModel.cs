@@ -1,5 +1,6 @@
 ﻿using BunBlog.API.Models.Categories;
 using BunBlog.API.Models.Tags;
+using BunBlog.Core.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -49,5 +50,10 @@ namespace BunBlog.API.Models.Posts
         /// 元数据信息
         /// </summary>
         public List<PostMetadataModel> MetadataList { get; set; }
+
+        /// <summary>
+        /// 博文类型
+        /// </summary>
+        public PostType Type { get; set; }
     }
 }

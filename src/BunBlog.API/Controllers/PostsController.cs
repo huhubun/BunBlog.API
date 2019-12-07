@@ -3,6 +3,7 @@ using BunBlog.API.Const;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Posts;
 using BunBlog.Core.Domain.Posts;
+using BunBlog.Core.Enums;
 using BunBlog.Services.Categories;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
@@ -46,14 +47,15 @@ namespace BunBlog.API.Controllers
         /// <summary>
         /// 获取博文列表
         /// </summary>
+        /// <param name="type">博文类型</param>
         /// <param name="page">页码</param>
         /// <param name="pageSize">每页数据条数</param>
         /// <returns>博文列表</returns>
         [HttpGet("")]
         [ProducesResponseType(typeof(List<BlogPostListItemModel>), 200)]
-        public async Task<IActionResult> GetListAsync(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetListAsync(PostType? type, int page = 1, int pageSize = 10)
         {
-            var posts = await _postService.GetListAsync(page, pageSize);
+            var posts = await _postService.GetListAsync(type, page, pageSize);
 
             return Ok(_mapper.Map<List<BlogPostListItemModel>>(posts));
         }
@@ -63,7 +65,7 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <param name="id">博文 id</param>
         /// <returns></returns>
-        [HttpGet("{id:int}", Name =nameof(GetAsync))]
+        [HttpGet("{id:int}", Name = nameof(GetAsync))]
         public async Task<IActionResult> GetAsync([FromRoute]int id)
         {
             // 这里 tracking 设为 true 是因为

@@ -7,7 +7,7 @@ namespace BunBlog.Services.Posts
 {
     public interface IPostService
     {
-        Task<List<Post>> GetListAsync(int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true);
+        Task<List<Post>> GetListAsync(PostType? postType = PostType.Post, int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true);
 
         Task<List<Post>> GetListByTagAsync(int tagId, bool tracking = false);
 

@@ -19,9 +19,14 @@ namespace BunBlog.Services.Posts
             _bunBlogContext = bunBlogContext;
         }
 
-        public async Task<List<Post>> GetListAsync(int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
+        public async Task<List<Post>> GetListAsync(PostType? postType = PostType.Post, int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
         {
-            var posts = _bunBlogContext.Posts.Where(p => p.Type == PostType.Post);
+            var posts = _bunBlogContext.Posts.AsQueryable();
+
+            if (postType.HasValue)
+            {
+                posts = posts.Where(p => p.Type == postType);
+            }
 
             if (orderByPublishedOnDesc)
             {
