@@ -11,6 +11,9 @@ namespace BunBlog.API.Validators.Posts
                 .NotEmpty()
                 .MaximumLength(100)
                 .LinkName();
+
+            RuleFor(m => m.Title)
+                .NotEmpty();
         }
     }
 }
