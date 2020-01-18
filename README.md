@@ -1,6 +1,6 @@
 # Bun Blog Web API
 
-- Runtime: `.NET Core 3.0`
+- Runtime: `.NET Core 3.1`
 - Database: `PostgreSQL`
 
 ## Migrations
