@@ -12,11 +12,17 @@ Add-Migration Init -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 Update-Database -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 ```
 
-### .NET CLI (3.0)
+### .NET CLI (3.1)
 If it is the first time to run, you need to install `dotnet-ef` first
 
 ```bash
 dotnet tool install --global dotnet-ef
+```
+
+If you have installed `dotnet-ef` before version 3.1, you need to upgrade `dotnet-ef`
+
+```bash
+dotnet tool update --global dotnet-ef
 ```
 
 Then you can use the `dotnet-ef` command

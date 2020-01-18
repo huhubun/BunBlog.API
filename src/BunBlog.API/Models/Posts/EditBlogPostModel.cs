@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BunBlog.Core.Enums;
+using System.Collections.Generic;
 
 namespace BunBlog.API.Models.Posts
 {

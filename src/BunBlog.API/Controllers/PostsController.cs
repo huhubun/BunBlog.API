@@ -3,6 +3,7 @@ using BunBlog.API.Const;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Posts;
 using BunBlog.Core.Domain.Posts;
+using BunBlog.Core.Enums;
 using BunBlog.Services.Categories;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
@@ -46,14 +47,15 @@ namespace BunBlog.API.Controllers
         /// <summary>
         /// 获取博文列表
         /// </summary>
+        /// <param name="type">博文类型</param>
         /// <param name="page">页码</param>
         /// <param name="pageSize">每页数据条数</param>
         /// <returns>博文列表</returns>
         [HttpGet("")]
         [ProducesResponseType(typeof(List<BlogPostListItemModel>), 200)]
-        public async Task<IActionResult> GetListAsync(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetListAsync(PostType? type, int page = 1, int pageSize = 10)
         {
-            var posts = await _postService.GetListAsync(page, pageSize);
+            var posts = await _postService.GetListAsync(type, page, pageSize);
 
             return Ok(_mapper.Map<List<BlogPostListItemModel>>(posts));
         }
@@ -63,7 +65,7 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <param name="id">博文 id</param>
         /// <returns></returns>
-        [HttpGet("{id:int}", Name =nameof(GetAsync))]
+        [HttpGet("{id:int}", Name = nameof(GetAsync))]
         public async Task<IActionResult> GetAsync([FromRoute]int id)
         {
             // 这里 tracking 设为 true 是因为
@@ -98,7 +100,7 @@ namespace BunBlog.API.Controllers
         }
 
         /// <summary>
-        /// 创建一条博文
+        /// 创建一条博文（不论是保存草稿还是正式发布，首次调用的都是本接口）
         /// </summary>
         /// <param name="createBlogPostModel">创建博文的请求</param>
         /// <returns></returns>
@@ -138,9 +140,9 @@ namespace BunBlog.API.Controllers
                 }).ToList();
             }
 
-            if (await _postService.LinkNameExists(post.LinkName))
+            if (await _postService.LinkNameExists(post.LinkName, post.Type))
             {
-                return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{post.LinkName}\" 已存在"));
+                return BadRequest(new ErrorResponse(ErrorResponseCode.LINK_NAME_ALREADY_EXISTS, $"linkName \"{post.LinkName}\" 的 {post.Type.ToString()} 已存在"));
             }
 
             // set default value when title is empty
@@ -155,16 +157,108 @@ namespace BunBlog.API.Controllers
         }
 
         /// <summary>
-        /// 修改一条博文
+        /// 修改一条已发布的博文
         /// </summary>
         /// <param name="id">博文 id</param>
         /// <param name="editBlogPostModel">修改博文的请求</param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         [Authorize]
         public async Task<IActionResult> EditAsync([FromRoute] int id, [FromBody]EditBlogPostModel editBlogPostModel)
         {
             var post = await _postService.GetByIdAsync(id, tracking: true);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return await EditImplAsync(post, editBlogPostModel);
+        }
+
+        [HttpPut("{linkName}")]
+        [Authorize]
+        public async Task<IActionResult> EditByLinkNameAsync([FromRoute] string linkName, [FromBody]EditBlogPostModel editBlogPostModel)
+        {
+            var post = await _postService.GetByLinkNameAsync(linkName, tracking: true);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return await EditImplAsync(post, editBlogPostModel);
+        }
+
+        private async Task<IActionResult> EditImplAsync(Post post, EditBlogPostModel editBlogPostModel)
+        {
+            post = _mapper.Map(editBlogPostModel, post);
+
+            // Category
+            if (!String.IsNullOrEmpty(editBlogPostModel.Category))
+            {
+                var category = await _categoryService.GetByLinkNameAsync(editBlogPostModel.Category, tracking: true);
+
+                if (category == null)
+                {
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.CATEGORY_NOT_EXISTS, $"分类 {editBlogPostModel.Category} 不存在"));
+                }
+
+                post.CategoryId = category.Id;
+            }
+            else
+            {
+                post.CategoryId = null;
+            }
+
+            // Tags
+            if (editBlogPostModel.TagList.Any())
+            {
+                var tags = await _tagService.GetListByLinkNameAsync(tracking: true, editBlogPostModel.TagList.ToArray());
+
+                if (editBlogPostModel.TagList.Count != tags.Count)
+                {
+                    var tagNames = tags.Select(t => t.LinkName);
+                    var notExistsTags = editBlogPostModel.TagList.Where(t => !tagNames.Contains(t));
+
+                    return BadRequest(new ErrorResponse(ErrorResponseCode.TAG_NOT_EXISTS, $"标签 {String.Join(", ", notExistsTags)} 不存在"));
+                }
+
+                var tagIds = tags.Select(t => t.Id);
+
+                var currentTags = post.TagList.Where(t => tagIds.Contains(t.TagId)).ToList();
+                var currentTagIds = currentTags.Select(t => t.TagId);
+
+                foreach (var newTag in tags.Where(t => !currentTagIds.Contains(t.Id)))
+                {
+                    currentTags.Add(new PostTag
+                    {
+                        Tag = newTag
+                    });
+                }
+
+                post.TagList = currentTags;
+            }
+            else
+            {
+                post.TagList = new List<PostTag>();
+            }
+
+            await _postService.EditAsync(post);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// 修改一篇草稿
+        /// </summary>
+        /// <param name="linkName"></param>
+        /// <returns></returns>
+        [HttpPut("{linkName}/draft")]
+        [Authorize]
+        public async Task<IActionResult> EditDraftAsync([FromRoute]string linkName, [FromBody]EditBlogPostModel editBlogPostModel)
+        {
+            var post = await _postService.GetByLinkNameAsync(linkName, PostType.Draft, tracking: true);
 
             if (post == null)
             {
@@ -223,8 +317,28 @@ namespace BunBlog.API.Controllers
                 post.TagList = new List<PostTag>();
             }
 
-            await _postService.EditAsync(post);
+            await _postService.EditDraftAsync(post);
 
+            return NoContent();
+        }
+
+        /// <summary>
+        /// 删除一篇草稿
+        /// </summary>
+        /// <param name="linkName"></param>
+        /// <returns></returns>
+        [HttpDelete("{linkName}/draft")]
+        [Authorize]
+        public async Task<IActionResult> DeleteDraftAsync([FromRoute]string linkName)
+        {
+            var post = await _postService.GetByLinkNameAsync(linkName, PostType.Draft, tracking: true);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            await _postService.DeleteDraft(post);
             return NoContent();
         }
 
