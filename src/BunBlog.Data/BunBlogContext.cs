@@ -1,4 +1,5 @@
 ﻿using BunBlog.Core.Domain.Categories;
+using BunBlog.Core.Domain.Configurations;
 using BunBlog.Core.Domain.Images;
 using BunBlog.Core.Domain.Posts;
 using BunBlog.Core.Domain.Tags;
@@ -29,5 +30,7 @@ namespace BunBlog.Data
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Image> Images { get; set; }
+
+        public DbSet<Configuration> Configuration { get; set; }
     }
 }

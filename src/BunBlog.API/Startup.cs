@@ -6,6 +6,7 @@ using BunBlog.Core.Configuration;
 using BunBlog.Data;
 using BunBlog.Services.Authentications;
 using BunBlog.Services.Categories;
+using BunBlog.Services.Configurations;
 using BunBlog.Services.Images;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Securities;
@@ -26,6 +27,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
 using System.Reflection;
@@ -49,10 +52,14 @@ namespace BunBlog.API
         {
             services.AddMemoryCache();
 
-            services//.AddMvc()
+            services
                 .AddControllers()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddNewtonsoftJson()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
+                })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.InvalidModelStateResponseFactory = context =>
@@ -125,6 +132,7 @@ namespace BunBlog.API
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IConfigurationService, ConfigurationService>();
 
             // appsettings.json 中的配置
             services.AddSingleton<AuthenticationConfig>(service =>

@@ -1,0 +1,11 @@
+﻿[
+    {
+        "code": "layout.footer",
+        "category": "layout",
+        "type": "text",
+        "valueType": "string",
+        "allowNull": true,
+        "defaultValue": null,
+        "description": "自定义 footer"
+    }
+]

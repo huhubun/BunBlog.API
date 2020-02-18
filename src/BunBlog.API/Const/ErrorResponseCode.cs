@@ -55,5 +55,15 @@
         // 模型验证错误（例如缺少必填字段）
         public const string MODEL_VALIDATION_ERROR = nameof(MODEL_VALIDATION_ERROR);
 
+        /// <summary>
+        /// 无效的 Code
+        /// </summary>
+        public const string INVALID_CODE = nameof(INVALID_CODE);
+
+        /// <summary>
+        /// 无效的配置项值（例如 ConfigurationResource 要求不为 null，但 value 却为 null）
+        /// </summary>
+        public const string INVALID_CONFIGURATION_VALUE = nameof(INVALID_CONFIGURATION_VALUE);
+
     }
 }
