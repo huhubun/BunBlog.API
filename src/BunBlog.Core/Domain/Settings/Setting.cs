@@ -1,9 +1,9 @@
-﻿namespace BunBlog.Core.Domain.Configurations
+﻿namespace BunBlog.Core.Domain.Settings
 {
     /// <summary>
     /// 博客配置
     /// </summary>
-    public class Configuration
+    public class Setting
     {
         /// <summary>
         /// Id

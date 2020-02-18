@@ -1,6 +1,6 @@
-﻿namespace BunBlog.API.Models.Configurations
+﻿namespace BunBlog.API.Models.Settings
 {
-    public class EditConfigurationRequest
+    public class EditSettingRequest
     {
         /// <summary>
         /// 配置项的新值

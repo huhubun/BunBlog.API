@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BunBlog.Data.Migrations
 {
     [DbContext(typeof(BunBlogContext))]
-    [Migration("20200217182310_AddConfigurationTable")]
-    partial class AddConfigurationTable
+    [Migration("20200218174248_AddSettingTable")]
+    partial class AddSettingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,32 +51,6 @@ namespace BunBlog.Data.Migrations
                         .HasName("IX_Category_LinkName");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("BunBlog.Core.Domain.Configurations.Configuration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasName("IX_Configuration_Code");
-
-                    b.HasIndex("Id")
-                        .HasName("IX_Configuration_Id");
-
-                    b.ToTable("Configuration");
                 });
 
             modelBuilder.Entity("BunBlog.Core.Domain.Images.Image", b =>
@@ -194,6 +168,32 @@ namespace BunBlog.Data.Migrations
                         .HasName("IX_PostTag_TagId");
 
                     b.ToTable("PostTag");
+                });
+
+            modelBuilder.Entity("BunBlog.Core.Domain.Settings.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasName("IX_Setting_Code");
+
+                    b.HasIndex("Id")
+                        .HasName("IX_Setting_Id");
+
+                    b.ToTable("Setting");
                 });
 
             modelBuilder.Entity("BunBlog.Core.Domain.Tags.Tag", b =>

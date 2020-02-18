@@ -1,37 +1,37 @@
-﻿using BunBlog.Core.Domain.Configurations;
+﻿using BunBlog.Core.Domain.Settings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BunBlog.Services.Configurations
+namespace BunBlog.Services.Settings
 {
-    public interface IConfigurationService
+    public interface ISettingService
     {
         /// <summary>
         /// 获取所有配置项的定义
         /// </summary>
         /// <returns></returns>
-        Task<List<ConfigurationResourceItem>> GetConfigurationResourcesAsync();
+        Task<List<SettingDefinition>> GetDefinitionsAsync();
 
         /// <summary>
         /// 根据配置代码获取配置项的定义
         /// </summary>
         /// <param name="code">配置代码</param>
         /// <returns></returns>
-        Task<ConfigurationResourceItem> GetConfigurationResourceByCodeAsync(string code);
+        Task<SettingDefinition> GetDefinitionByCodeAsync(string code);
 
         /// <summary>
         /// 验证配置是否符合定义的要求
         /// </summary>
-        /// <param name="configuration">要验证的配置</param>
-        /// <param name="configurationResource">配置项定义</param>
+        /// <param name="value">要验证的值</param>
+        /// <param name="definition">定义</param>
         /// <returns></returns>
-        ConfigurationVerifyResult Verify(string value, ConfigurationResourceItem configurationResource);
+        SettingVerifyResult Verify(string value, SettingDefinition definition);
 
         /// <summary>
         /// 获取所有配置项
         /// </summary>
         /// <returns></returns>
-        Task<List<Configuration>> GetListAsync();
+        Task<List<Setting>> GetListAsync();
 
         /// <summary>
         /// 根据配置代码获取单个配置
@@ -39,10 +39,10 @@ namespace BunBlog.Services.Configurations
         /// <param name="code">配置代码</param>
         /// <param name="tracking">是否跟踪</param>
         /// <returns></returns>
-        Task<Configuration> GetByCodeAsync(string code, bool tracking = false);
+        Task<Setting> GetByCodeAsync(string code, bool tracking = false);
 
-        Task<Configuration> AddAsync(Configuration configuration);
+        Task<Setting> AddAsync(Setting setting);
 
-        Task<Configuration> EditAsync(Configuration configuration);
+        Task<Setting> EditAsync(Setting setting);
     }
 }

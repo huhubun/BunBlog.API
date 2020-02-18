@@ -61,9 +61,9 @@
         public const string INVALID_CODE = nameof(INVALID_CODE);
 
         /// <summary>
-        /// 无效的配置项值（例如 ConfigurationResource 要求不为 null，但 value 却为 null）
+        /// 无效的值（例如 Setting 定义中要求不为 null，但 value 却为 null）
         /// </summary>
-        public const string INVALID_CONFIGURATION_VALUE = nameof(INVALID_CONFIGURATION_VALUE);
+        public const string INVALID_VALUE = nameof(INVALID_VALUE);
 
     }
 }

@@ -6,7 +6,7 @@ using BunBlog.Core.Configuration;
 using BunBlog.Data;
 using BunBlog.Services.Authentications;
 using BunBlog.Services.Categories;
-using BunBlog.Services.Configurations;
+using BunBlog.Services.Settings;
 using BunBlog.Services.Images;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Securities;
@@ -132,7 +132,7 @@ namespace BunBlog.API
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IImageService, ImageService>();
-            services.AddScoped<IConfigurationService, ConfigurationService>();
+            services.AddScoped<ISettingService, SettingService>();
 
             // appsettings.json 中的配置
             services.AddSingleton<AuthenticationConfig>(service =>

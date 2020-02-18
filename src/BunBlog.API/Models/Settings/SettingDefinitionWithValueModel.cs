@@ -1,8 +1,8 @@
-﻿using BunBlog.Services.Configurations;
+﻿using BunBlog.Services.Settings;
 
-namespace BunBlog.API.Models.Configurations
+namespace BunBlog.API.Models.Settings
 {
-    public class ConfigurationResourceItemWithValueModel
+    public class SettingDefinitionWithValueModel
     {
         /// <summary>
         /// 配置项代码
@@ -17,12 +17,12 @@ namespace BunBlog.API.Models.Configurations
         /// <summary>
         /// 配置项的类型
         /// </summary>
-        public ConfigurationResourceType Type { get; set; }
+        public SettingType Type { get; set; }
 
         /// <summary>
         /// 配置项值的类型
         /// </summary>
-        public ConfigurationResourceValueType ValueType { get; set; }
+        public SettingValueType ValueType { get; set; }
 
         /// <summary>
         /// 配置项描述
@@ -33,6 +33,5 @@ namespace BunBlog.API.Models.Configurations
         /// 配置项的值
         /// </summary>
         public string Value { get; set; }
-
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace BunBlog.Services.Configurations
+﻿namespace BunBlog.Services.Settings
 {
     /// <summary>
     /// 配置项定义
     /// </summary>
-    public class ConfigurationResourceItem
+    public class SettingDefinition
     {
         /// <summary>
         /// 配置项代码
@@ -18,12 +18,12 @@
         /// <summary>
         /// 配置项的类型
         /// </summary>
-        public ConfigurationResourceType Type { get; set; }
+        public SettingType Type { get; set; }
 
         /// <summary>
         /// 配置项值的类型
         /// </summary>
-        public ConfigurationResourceValueType ValueType { get; set; }
+        public SettingValueType ValueType { get; set; }
 
         /// <summary>
         /// 允许为 null
@@ -44,7 +44,7 @@
     /// <summary>
     /// 配置项类型
     /// </summary>
-    public enum ConfigurationResourceType
+    public enum SettingType
     {
         /// <summary>
         /// 文本
@@ -55,7 +55,7 @@
     /// <summary>
     /// 配置项值的类型
     /// </summary>
-    public enum ConfigurationResourceValueType
+    public enum SettingValueType
     {
         /// <summary>
         /// 字符串

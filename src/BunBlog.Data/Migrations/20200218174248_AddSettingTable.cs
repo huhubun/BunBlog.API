@@ -3,12 +3,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BunBlog.Data.Migrations
 {
-    public partial class AddConfigurationTable : Migration
+    public partial class AddSettingTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Configuration",
+                name: "Setting",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -18,25 +18,25 @@ namespace BunBlog.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Configuration", x => x.Id);
+                    table.PrimaryKey("PK_Setting", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Configuration_Code",
-                table: "Configuration",
+                name: "IX_Setting_Code",
+                table: "Setting",
                 column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Configuration_Id",
-                table: "Configuration",
+                name: "IX_Setting_Id",
+                table: "Setting",
                 column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Configuration");
+                name: "Setting");
         }
     }
 }

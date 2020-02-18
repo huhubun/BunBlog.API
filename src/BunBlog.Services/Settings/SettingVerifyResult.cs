@@ -1,13 +1,13 @@
-﻿namespace BunBlog.Services.Configurations
+﻿namespace BunBlog.Services.Settings
 {
-    public class ConfigurationVerifyResult
+    public class SettingVerifyResult
     {
-        public ConfigurationVerifyResult(bool isVerify)
+        public SettingVerifyResult(bool isVerify)
         {
             this.IsVerify = isVerify;
         }
 
-        public ConfigurationVerifyResult(string message)
+        public SettingVerifyResult(string message)
         {
             this.IsVerify = false;
             this.Message = message;
