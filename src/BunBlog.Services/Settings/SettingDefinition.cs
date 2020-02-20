@@ -47,9 +47,14 @@
     public enum SettingType
     {
         /// <summary>
-        /// 文本
+        /// 文本（适用于单行内容）
         /// </summary>
-        Text
+        Text,
+
+        /// <summary>
+        /// 文本域（适用于多行内容）
+        /// </summary>
+        Textarea
     }
 
     /// <summary>

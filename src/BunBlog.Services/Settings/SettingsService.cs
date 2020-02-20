@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace BunBlog.Services.Settings
 {
-    public class SettingService : ISettingService
+    public class SettingsService : ISettingsService
     {
         private readonly BunBlogContext _bunBlogContext;
 
-        public SettingService(BunBlogContext bunBlogContext)
+        public SettingsService(BunBlogContext bunBlogContext)
         {
             _bunBlogContext = bunBlogContext;
         }
@@ -38,14 +38,14 @@ namespace BunBlog.Services.Settings
             return (await GetDefinitionsAsync()).SingleOrDefault(r => r.Code == code);
         }
 
-        public SettingVerifyResult Verify(string value, SettingDefinition definition)
+        public SettingsVerifyResult Verify(string value, SettingDefinition definition)
         {
             if (!definition.AllowNull && value == null)
             {
-                return new SettingVerifyResult("cannot be null");
+                return new SettingsVerifyResult("cannot be null");
             }
 
-            return new SettingVerifyResult(isVerify: true);
+            return new SettingsVerifyResult(isVerify: true);
         }
 
         public async Task<List<Setting>> GetListAsync()

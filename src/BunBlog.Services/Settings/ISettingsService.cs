@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BunBlog.Services.Settings
 {
-    public interface ISettingService
+    public interface ISettingsService
     {
         /// <summary>
         /// 获取所有配置项的定义
@@ -25,7 +25,7 @@ namespace BunBlog.Services.Settings
         /// <param name="value">要验证的值</param>
         /// <param name="definition">定义</param>
         /// <returns></returns>
-        SettingVerifyResult Verify(string value, SettingDefinition definition);
+        SettingsVerifyResult Verify(string value, SettingDefinition definition);
 
         /// <summary>
         /// 获取所有配置项

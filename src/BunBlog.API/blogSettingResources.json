@@ -2,10 +2,28 @@
     {
         "code": "layout.footer",
         "category": "layout",
-        "type": "text",
+        "type": "textarea",
         "valueType": "string",
         "allowNull": true,
         "defaultValue": null,
         "description": "自定义 footer"
+    },
+    {
+        "code": "image.domain",
+        "category": "image",
+        "type": "text",
+        "valueType": "string",
+        "allowNull": true,
+        "defaultValue": null,
+        "description": "图片域名"
+    },
+    {
+        "code": "image.server-path",
+        "category": "image",
+        "type": "text",
+        "valueType": "string",
+        "allowNull": false,
+        "defaultValue": "./img/",
+        "description": "图片在服务器的物理存储路径"
     }
 ]

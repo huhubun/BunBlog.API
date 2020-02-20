@@ -1,5 +1,6 @@
 ﻿namespace BunBlog.Core.Domain.Settings
 {
+    // 为了避免与命名空间重名，实体类先叫做 Setting 吧
     /// <summary>
     /// 博客配置
     /// </summary>

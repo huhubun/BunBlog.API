@@ -25,6 +25,16 @@ namespace BunBlog.API.Models.Settings
         public SettingValueType ValueType { get; set; }
 
         /// <summary>
+        /// 允许为 null
+        /// </summary>
+        public bool AllowNull { get; set; }
+
+        /// <summary>
+        /// 默认值
+        /// </summary>
+        public string DefaultValue { get; set; }
+
+        /// <summary>
         /// 配置项描述
         /// </summary>
         public string Description { get; set; }

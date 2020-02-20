@@ -1,4 +1,5 @@
-﻿using BunBlog.API.Const;
+﻿using AutoMapper;
+using BunBlog.API.Const;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Settings;
 using BunBlog.Core.Domain.Settings;
@@ -15,15 +16,18 @@ namespace BunBlog.API.Controllers
     /// </summary>
     [Route("api/settings")]
     [ApiController]
-    public class SettingController : ControllerBase
+    public class SettingsController : ControllerBase
     {
-        private readonly ISettingService _settingService;
+        private readonly ISettingsService _settingService;
+        private readonly IMapper _mapper;
 
-        public SettingController(
-            ISettingService settingService
+        public SettingsController(
+            ISettingsService settingService,
+            IMapper mapper
             )
         {
             _settingService = settingService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -49,11 +53,26 @@ namespace BunBlog.API.Controllers
                              Category = _d.Category,
                              Type = _d.Type,
                              ValueType = _d.ValueType,
+                             AllowNull = _d.AllowNull,
+                             DefaultValue = _d.DefaultValue,
                              Description = _d.Description,
                              Value = si?.Value
                          };
 
             return Ok(result);
+        }
+
+        [HttpGet("{code}")]
+        public async Task<IActionResult> GetByCode([FromRoute]string code)
+        {
+            var setting = await _settingService.GetByCodeAsync(code);
+
+            if (setting == null)
+            {
+                return BadRequest(new ErrorResponse(ErrorResponseCode.RECORD_NOT_FOUND, $"没有 code 为 \"{code}\" 的配置"));
+            }
+
+            return Ok(_mapper.Map<SettingsValueModel>(setting));
         }
 
         /// <summary>
@@ -64,7 +83,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPut("{code}")]
         [Authorize]
-        public async Task<IActionResult> EditByCode([FromRoute]string code, [FromBody]EditSettingRequest request)
+        public async Task<IActionResult> EditByCode([FromRoute]string code, [FromBody]EditSettingsRequest request)
         {
             var definition = await _settingService.GetDefinitionByCodeAsync(code);
             if (definition == null)

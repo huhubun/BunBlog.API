@@ -132,7 +132,7 @@ namespace BunBlog.API
             services.AddScoped<IBunAuthenticationService, BunAuthenticationService>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IImageService, ImageService>();
-            services.AddScoped<ISettingService, SettingService>();
+            services.AddScoped<ISettingsService, SettingsService>();
 
             // appsettings.json 中的配置
             services.AddSingleton<AuthenticationConfig>(service =>

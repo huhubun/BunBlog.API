@@ -13,6 +13,11 @@
         public const string ID_NOT_FOUND = nameof(ID_NOT_FOUND);
 
         /// <summary>
+        /// 找不到记录
+        /// </summary>
+        public const string RECORD_NOT_FOUND = nameof(RECORD_NOT_FOUND);
+
+        /// <summary>
         /// 链接名称已经存在（用于带有 LinkName 的配置，如分类、标签等）
         /// </summary>
         public const string LINK_NAME_ALREADY_EXISTS = nameof(LINK_NAME_ALREADY_EXISTS);
