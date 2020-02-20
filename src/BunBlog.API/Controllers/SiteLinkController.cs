@@ -2,6 +2,7 @@
 using BunBlog.API.Models.SiteLinks;
 using BunBlog.Core.Domain.SiteLinks;
 using BunBlog.Services.SiteLinks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace BunBlog.API.Controllers
         }
 
         [HttpPost("")]
+        [Authorize]
         public async Task<IActionResult> AddSiteLinkAsync([FromBody]SiteLinkModel siteLinkModel)
         {
             if (!ModelState.IsValid)
@@ -59,6 +61,7 @@ namespace BunBlog.API.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> EditSiteLinkAsync([FromRoute]int id, [FromBody]SiteLinkModel siteLinkModel)
         {
             if (!ModelState.IsValid)
@@ -79,6 +82,7 @@ namespace BunBlog.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> DeleteSiteLinkByIdAsync([FromRoute]int id)
         {
             var siteLink = await _siteLinkService.GetByIdAsync(id);
