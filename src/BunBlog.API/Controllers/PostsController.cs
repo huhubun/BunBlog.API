@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BunBlog.API.Const;
+using BunBlog.API.Extensions;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Posts;
+using BunBlog.Core.Consts;
 using BunBlog.Core.Domain.Posts;
 using BunBlog.Core.Enums;
 using BunBlog.Services.Categories;
@@ -9,6 +11,7 @@ using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,13 +31,15 @@ namespace BunBlog.API.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
         private readonly IPostMetadataService _postMetadataService;
+        private readonly IMemoryCache _cache;
 
         public PostsController(
             IMapper mapper,
             IPostService postService,
             ICategoryService categoryService,
             ITagService tagService,
-            IPostMetadataService postMetadataService
+            IPostMetadataService postMetadataService,
+            IMemoryCache cache
             )
         {
             _mapper = mapper;
@@ -42,6 +47,7 @@ namespace BunBlog.API.Controllers
             _categoryService = categoryService;
             _tagService = tagService;
             _postMetadataService = postMetadataService;
+            _cache = cache;
         }
 
         /// <summary>
@@ -68,9 +74,14 @@ namespace BunBlog.API.Controllers
         [HttpGet("{id:int}", Name = nameof(GetAsync))]
         public async Task<IActionResult> GetAsync([FromRoute]int id)
         {
-            // 这里 tracking 设为 true 是因为
-            // Lazy-loading is not supported for detached entities or entities that are loaded with 'AsNoTracking()'.
-            var post = await _postService.GetByIdAsync(id, tracking: true);
+            var post = await _cache.GetOrCreateAsync(String.Format(CacheKeys.API_GET_POST_BY_ID, id), async entry =>
+            {
+                entry.SetSlidingExpirationByDefault();
+
+                // 这里 tracking 设为 true 是因为
+                // Lazy-loading is not supported for detached entities or entities that are loaded with 'AsNoTracking()'.
+                return await _postService.GetByIdAsync(id, tracking: true);
+            });
 
             if (post == null)
             {
@@ -89,7 +100,12 @@ namespace BunBlog.API.Controllers
         [HttpGet("{linkName}")]
         public async Task<IActionResult> GetByLinkNameAsync([FromRoute]string linkName)
         {
-            var post = await _postService.GetByLinkNameAsync(linkName, tracking: true);
+            var post = await _cache.GetOrCreateAsync(String.Format(CacheKeys.API_GET_POST_BY_LINK_NAME, linkName), async entry =>
+            {
+                entry.SetSlidingExpirationByDefault();
+
+                return await _postService.GetByLinkNameAsync(linkName, tracking: true);
+            });
 
             if (post == null)
             {
@@ -152,6 +168,9 @@ namespace BunBlog.API.Controllers
             }
 
             await _postService.PostAsync(post);
+
+            _cache.Remove(String.Format(CacheKeys.API_GET_POST_BY_ID, post.Id));
+            _cache.Remove(String.Format(CacheKeys.API_GET_POST_BY_LINK_NAME, post.LinkName));
 
             return CreatedAtRoute(nameof(GetAsync), new { id = post.Id }, _mapper.Map<BlogPostModel>(post));
         }
@@ -245,6 +264,9 @@ namespace BunBlog.API.Controllers
             }
 
             await _postService.EditAsync(post);
+
+            _cache.Remove(String.Format(CacheKeys.API_GET_POST_BY_ID, post.Id));
+            _cache.Remove(String.Format(CacheKeys.API_GET_POST_BY_LINK_NAME, post.LinkName));
 
             return NoContent();
         }

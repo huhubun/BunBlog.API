@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BunBlog.API.Extensions;
 using BunBlog.API.Models.SiteLinks;
 using BunBlog.Core.Consts;
 using BunBlog.Core.Domain.SiteLinks;
@@ -34,9 +35,9 @@ namespace BunBlog.API.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetSiteLinkListAsync()
         {
-            var list = await _cache.GetOrCreateAsync(CacheKeys.SiteLinks, async entry =>
+            var list = await _cache.GetOrCreateAsync(CacheKeys.API_GET_SITE_LINKS_LIST, async entry =>
             {
-                entry.SlidingExpiration = TimeSpan.FromDays(30);
+                entry.SetSlidingExpirationByDefault();
                 return await _siteLinkService.GetListAsync();
             });
 
@@ -68,6 +69,8 @@ namespace BunBlog.API.Controllers
             var siteLink = _mapper.Map<SiteLink>(siteLinkModel);
             await _siteLinkService.AddAsync(siteLink);
 
+            _cache.Remove(CacheKeys.API_GET_SITE_LINKS_LIST);
+
             return CreatedAtRoute(nameof(GetSiteLinkByIdAsync), new { id = siteLink.Id }, _mapper.Map<SiteLinkModel>(siteLink));
         }
 
@@ -89,6 +92,8 @@ namespace BunBlog.API.Controllers
             siteLink = _mapper.Map(siteLinkModel, siteLink);
             await _siteLinkService.EditAsync(siteLink);
 
+            _cache.Remove(CacheKeys.API_GET_SITE_LINKS_LIST);
+
             return NoContent();
         }
 
@@ -103,6 +108,8 @@ namespace BunBlog.API.Controllers
             }
 
             await _siteLinkService.DeleteAsync(siteLink);
+
+            _cache.Remove(CacheKeys.API_GET_SITE_LINKS_LIST);
 
             return NoContent();
         }

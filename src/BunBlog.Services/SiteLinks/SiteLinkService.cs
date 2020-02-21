@@ -49,8 +49,6 @@ namespace BunBlog.Services.SiteLinks
             _bunBlogContext.SiteLink.Add(siteLink);
             await _bunBlogContext.SaveChangesAsync();
 
-            _cache.Remove(CacheKeys.SiteLinks);
-
             return siteLink;
         }
 
@@ -59,8 +57,6 @@ namespace BunBlog.Services.SiteLinks
             _bunBlogContext.Entry(siteLink).State = EntityState.Modified;
             await _bunBlogContext.SaveChangesAsync();
 
-            _cache.Remove(CacheKeys.SiteLinks);
-
             return siteLink;
         }
 
@@ -68,9 +64,6 @@ namespace BunBlog.Services.SiteLinks
         {
             _bunBlogContext.SiteLink.Remove(siteLink);
             await _bunBlogContext.SaveChangesAsync();
-
-            _cache.Remove(CacheKeys.SiteLinks);
         }
-
     }
 }
