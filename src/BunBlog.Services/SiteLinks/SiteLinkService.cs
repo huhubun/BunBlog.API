@@ -1,6 +1,8 @@
-﻿using BunBlog.Core.Domain.SiteLinks;
+﻿using BunBlog.Core.Consts;
+using BunBlog.Core.Domain.SiteLinks;
 using BunBlog.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,10 +12,15 @@ namespace BunBlog.Services.SiteLinks
     public class SiteLinkService : ISiteLinkService
     {
         private readonly BunBlogContext _bunBlogContext;
+        private readonly IMemoryCache _cache;
 
-        public SiteLinkService(BunBlogContext bunBlogContext)
+        public SiteLinkService(
+            BunBlogContext bunBlogContext,
+            IMemoryCache cache
+            )
         {
             _bunBlogContext = bunBlogContext;
+            _cache = cache;
         }
 
         public async Task<List<SiteLink>> GetListAsync()
@@ -42,6 +49,8 @@ namespace BunBlog.Services.SiteLinks
             _bunBlogContext.SiteLink.Add(siteLink);
             await _bunBlogContext.SaveChangesAsync();
 
+            _cache.Remove(CacheKeys.SiteLinks);
+
             return siteLink;
         }
 
@@ -50,6 +59,8 @@ namespace BunBlog.Services.SiteLinks
             _bunBlogContext.Entry(siteLink).State = EntityState.Modified;
             await _bunBlogContext.SaveChangesAsync();
 
+            _cache.Remove(CacheKeys.SiteLinks);
+
             return siteLink;
         }
 
@@ -57,6 +68,8 @@ namespace BunBlog.Services.SiteLinks
         {
             _bunBlogContext.SiteLink.Remove(siteLink);
             await _bunBlogContext.SaveChangesAsync();
+
+            _cache.Remove(CacheKeys.SiteLinks);
         }
 
     }

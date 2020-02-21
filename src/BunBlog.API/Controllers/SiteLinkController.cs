@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using BunBlog.API.Models.SiteLinks;
+using BunBlog.Core.Consts;
 using BunBlog.Core.Domain.SiteLinks;
 using BunBlog.Services.SiteLinks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,20 +18,28 @@ namespace BunBlog.API.Controllers
     {
         private readonly ISiteLinkService _siteLinkService;
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
 
         public SiteLinkController(
             ISiteLinkService siteLinkService,
-            IMapper mapper
+            IMapper mapper,
+            IMemoryCache cache
             )
         {
             _siteLinkService = siteLinkService;
             _mapper = mapper;
+            _cache = cache;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> GetSiteLinkListAsync()
         {
-            var list = await _siteLinkService.GetListAsync();
+            var list = await _cache.GetOrCreateAsync(CacheKeys.SiteLinks, async entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromDays(30);
+                return await _siteLinkService.GetListAsync();
+            });
+
             return Ok(_mapper.Map<List<SiteLinkModel>>(list));
         }
 
