@@ -1,7 +1,8 @@
 ﻿using BunBlog.Core.Domain.Categories;
-using BunBlog.Core.Domain.Settings;
 using BunBlog.Core.Domain.Images;
 using BunBlog.Core.Domain.Posts;
+using BunBlog.Core.Domain.Settings;
+using BunBlog.Core.Domain.SiteLinks;
 using BunBlog.Core.Domain.Tags;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,5 +33,7 @@ namespace BunBlog.Data
         public DbSet<Image> Images { get; set; }
 
         public DbSet<Setting> Setting { get; set; }
+
+        public DbSet<SiteLink> SiteLink { get; set; }
     }
 }

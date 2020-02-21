@@ -6,10 +6,11 @@ using BunBlog.Core.Configuration;
 using BunBlog.Data;
 using BunBlog.Services.Authentications;
 using BunBlog.Services.Categories;
-using BunBlog.Services.Settings;
 using BunBlog.Services.Images;
 using BunBlog.Services.Posts;
 using BunBlog.Services.Securities;
+using BunBlog.Services.Settings;
+using BunBlog.Services.SiteLinks;
 using BunBlog.Services.Tags;
 using FluentValidation.AspNetCore;
 using IdentityModel;
@@ -133,6 +134,7 @@ namespace BunBlog.API
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ISettingsService, SettingsService>();
+            services.AddScoped<ISiteLinkService, SiteLinkService>();
 
             // appsettings.json 中的配置
             services.AddSingleton<AuthenticationConfig>(service =>
