@@ -35,5 +35,5 @@ dotnet-ef migrations add Init --startup-project "./src/BunBlog.API/BunBlog.API.c
 dotnet-ef database update --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj"
 
 # Generate db script
-dotnet-ef migrations script --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj" --idempotent  --output ./script.sql
+dotnet-ef migrations script --startup-project "./src/BunBlog.API/BunBlog.API.csproj" --project "./src/BunBlog.Data/BunBlog.Data.csproj" --idempotent  --output ./scripts/script.sql
 ```
