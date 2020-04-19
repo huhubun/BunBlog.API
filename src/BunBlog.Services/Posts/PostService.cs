@@ -65,6 +65,10 @@ namespace BunBlog.Services.Posts
                 posts = posts.AsNoTracking();
             }
 
+            posts = posts.Include(p => p.Category)
+                        .Include(p => p.MetadataList)
+                        .Include(p => p.TagList);
+
             return await posts.SingleOrDefaultAsync();
         }
 
