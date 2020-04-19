@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>0.1.4.0</Version>
+    <Version>0.1.5.0</Version>
     <Company>huhubun</Company>
     <Authors>huhubun</Authors>
-    <Copyright>© 2019 huhubun</Copyright>
+    <Copyright>© 2019-2020 huhubun</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
