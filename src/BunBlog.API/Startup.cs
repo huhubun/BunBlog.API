@@ -152,7 +152,7 @@ namespace BunBlog.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy(CORS_POLICY_NAME, builder => builder.WithOrigins("https://bun.dev", "http://localhost:17088").AllowAnyMethod().AllowAnyHeader());
+                options.AddPolicy(CORS_POLICY_NAME, builder => builder.WithOrigins("https://bun.plus", "https://bun.dev", "http://localhost:17088").AllowAnyMethod().AllowAnyHeader());
             });
         }
 
