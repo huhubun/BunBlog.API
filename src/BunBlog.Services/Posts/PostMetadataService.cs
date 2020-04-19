@@ -33,6 +33,18 @@ namespace BunBlog.Services.Posts
             return await metadatas.SingleOrDefaultAsync();
         }
 
+        public async Task<List<PostMetadata>> GetAllByPostIdAsync(int postId, bool tracking = false)
+        {
+            var metadatas = _bunBlogContext.PostMetadatas.Where(pm => pm.PostId == postId);
+
+            if (!tracking)
+            {
+                metadatas = metadatas.AsNoTracking();
+            }
+
+            return await metadatas.ToListAsync();
+        }
+
         public async Task<PostMetadata> AddAsync(PostMetadata postMetadata)
         {
             _bunBlogContext.PostMetadatas.Add(postMetadata);

@@ -112,6 +112,11 @@ namespace BunBlog.API.Controllers
                 return NotFound(new ErrorResponse(ErrorResponseCode.ID_NOT_FOUND, $"没有链接名称为 {linkName} 的博文"));
             }
 
+            foreach (var item in post.MetadataList)
+            {
+                post.MetadataList = await _postMetadataService.GetAllByPostIdAsync(post.Id);
+            }
+
             return Ok(_mapper.Map<BlogPostModel>(post));
         }
 
