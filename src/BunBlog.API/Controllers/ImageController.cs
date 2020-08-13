@@ -3,8 +3,6 @@ using BunBlog.Core.Configuration;
 using BunBlog.Services.Images;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
@@ -31,23 +29,18 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPost("")]
         [Authorize]
-        public async Task<IActionResult> UploadImage([FromForm]UploadImageRequest request)
+        public async Task<IActionResult> UploadImage([FromForm] UploadImageRequest request)
         {
             var image = request.Image;
             using (var imageStream = image.OpenReadStream())
             {
-                // GetExtension() 的结果包含点号，如 ".jpg"
-                var extension = Path.GetExtension(image.FileName);
-
-                var imageEntity = await _imageService.Upload(extension, imageStream);
-
-                var baseImageUrl = new Uri(_uploadImageConfig.Domain);
+                var result = await _imageService.UploadAsync(image.FileName, imageStream);
 
                 return Ok(new UploadImageSuccessfulResponse
                 {
-                    Id = imageEntity.Id,
-                    FileName = imageEntity.FileName,
-                    Url = new Uri(baseImageUrl, $"{imageEntity.Path}/{imageEntity.FileName}").ToString()
+                    Id = result.Id,
+                    FileName = result.FileName,
+                    Url = result.Url
                 });
             }
         }
