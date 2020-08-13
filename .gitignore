@@ -305,4 +305,3 @@ coverage/
 
 .DS_Store
 package-lock.json
-src/BunBlog.API/appsettings.Development.json
