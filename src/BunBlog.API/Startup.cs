@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -152,7 +153,17 @@ namespace BunBlog.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy(CORS_POLICY_NAME, builder => builder.WithOrigins("https://bun.plus", "https://bun.dev", "http://localhost:17088").AllowAnyMethod().AllowAnyHeader());
+                var origins = new List<string>
+                {
+                    "https://bun.plus",
+                    "https://bun.dev"
+                };
+
+#if DEBUG
+                origins.Add("http://localhost:17088");
+#endif
+
+                options.AddPolicy(CORS_POLICY_NAME, builder => builder.WithOrigins(origins.ToArray()).AllowAnyMethod().AllowAnyHeader());
             });
         }
 
