@@ -2,6 +2,7 @@
 using BunBlog.API.Const;
 using BunBlog.API.Extensions;
 using BunBlog.API.Models;
+using BunBlog.API.Models.Paging;
 using BunBlog.API.Models.Posts;
 using BunBlog.Core.Consts;
 using BunBlog.Core.Domain.Posts;
@@ -63,7 +64,7 @@ namespace BunBlog.API.Controllers
         {
             var posts = await _postService.GetListAsync(type, page, pageSize);
 
-            return Ok(_mapper.Map<List<BlogPostListItemModel>>(posts));
+            return Ok(_mapper.Map<PagedModel<BlogPostListItemModel>>(posts));
         }
 
         /// <summary>
@@ -72,15 +73,13 @@ namespace BunBlog.API.Controllers
         /// <param name="id">博文 id</param>
         /// <returns></returns>
         [HttpGet("{id:int}", Name = nameof(GetAsync))]
-        public async Task<IActionResult> GetAsync([FromRoute]int id)
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
             var post = await _cache.GetOrCreateAsync(String.Format(CacheKeys.API_GET_POST_BY_ID, id), async entry =>
             {
                 entry.SetSlidingExpirationByDefault();
 
-                // 这里 tracking 设为 true 是因为
-                // Lazy-loading is not supported for detached entities or entities that are loaded with 'AsNoTracking()'.
-                return await _postService.GetByIdAsync(id, tracking: true);
+                return await _postService.GetByIdAsync(id);
             });
 
             if (post == null)
@@ -98,23 +97,18 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpHead("{linkName}")]
         [HttpGet("{linkName}")]
-        public async Task<IActionResult> GetByLinkNameAsync([FromRoute]string linkName)
+        public async Task<IActionResult> GetByLinkNameAsync([FromRoute] string linkName)
         {
             var post = await _cache.GetOrCreateAsync(String.Format(CacheKeys.API_GET_POST_BY_LINK_NAME, linkName), async entry =>
             {
                 entry.SetSlidingExpirationByDefault();
 
-                return await _postService.GetByLinkNameAsync(linkName, tracking: true);
+                return await _postService.GetByLinkNameAsync(linkName);
             });
 
             if (post == null)
             {
                 return NotFound(new ErrorResponse(ErrorResponseCode.ID_NOT_FOUND, $"没有链接名称为 {linkName} 的博文"));
-            }
-
-            foreach (var item in post.MetadataList)
-            {
-                post.MetadataList = await _postMetadataService.GetAllByPostIdAsync(post.Id);
             }
 
             return Ok(_mapper.Map<BlogPostModel>(post));
@@ -127,7 +121,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostAsync([FromBody]CreateBlogPostModel createBlogPostModel)
+        public async Task<IActionResult> PostAsync([FromBody] CreateBlogPostModel createBlogPostModel)
         {
             var post = _mapper.Map<Post>(createBlogPostModel);
 
@@ -188,7 +182,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPut("{id:int}")]
         [Authorize]
-        public async Task<IActionResult> EditAsync([FromRoute] int id, [FromBody]EditBlogPostModel editBlogPostModel)
+        public async Task<IActionResult> EditAsync([FromRoute] int id, [FromBody] EditBlogPostModel editBlogPostModel)
         {
             var post = await _postService.GetByIdAsync(id, tracking: true);
 
@@ -202,7 +196,7 @@ namespace BunBlog.API.Controllers
 
         [HttpPut("{linkName}")]
         [Authorize]
-        public async Task<IActionResult> EditByLinkNameAsync([FromRoute] string linkName, [FromBody]EditBlogPostModel editBlogPostModel)
+        public async Task<IActionResult> EditByLinkNameAsync([FromRoute] string linkName, [FromBody] EditBlogPostModel editBlogPostModel)
         {
             var post = await _postService.GetByLinkNameAsync(linkName, tracking: true);
 
@@ -283,7 +277,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPut("{linkName}/draft")]
         [Authorize]
-        public async Task<IActionResult> EditDraftAsync([FromRoute]string linkName, [FromBody]EditBlogPostModel editBlogPostModel)
+        public async Task<IActionResult> EditDraftAsync([FromRoute] string linkName, [FromBody] EditBlogPostModel editBlogPostModel)
         {
             var post = await _postService.GetByLinkNameAsync(linkName, PostType.Draft, tracking: true);
 
@@ -356,7 +350,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpDelete("{linkName}/draft")]
         [Authorize]
-        public async Task<IActionResult> DeleteDraftAsync([FromRoute]string linkName)
+        public async Task<IActionResult> DeleteDraftAsync([FromRoute] string linkName)
         {
             var post = await _postService.GetByLinkNameAsync(linkName, PostType.Draft, tracking: true);
 
@@ -374,7 +368,7 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("{id}/visits")]
-        public async Task<IActionResult> UpdateVisits([FromRoute]int id)
+        public async Task<IActionResult> UpdateVisits([FromRoute] int id)
         {
             var metadata = await _postMetadataService.AddVisitsAsync(id);
 
