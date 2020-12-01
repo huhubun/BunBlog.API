@@ -79,17 +79,11 @@ namespace BunBlog.API
                     fv.RegisterValidatorsFromAssembly(typeof(Startup).Assembly);
                 });
 
-            services.AddEntityFrameworkNpgsql().AddDbContext<BunBlogContext>(options =>
-            {
-                options.UseLazyLoadingProxies().UseNpgsql(Configuration.GetConnectionString("BunBlogConnection"), npgsqlOptions =>
+            services.AddDbContext<BunBlogContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("BunBlogConnection"), npgsqlOptions =>
                 {
                     npgsqlOptions.MigrationsHistoryTable("MigrationHistory");
-                });
-
-                // 设置当客户端求值时引发异常
-                // https://docs.microsoft.com/zh-cn/ef/core/querying/client-eval#optional-behavior-throw-an-exception-for-client-evaluation
-                options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-            }).BuildServiceProvider();
+                }));
 
             services.AddSwaggerGen(options =>
             {

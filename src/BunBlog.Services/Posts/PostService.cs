@@ -2,6 +2,7 @@
 using BunBlog.Core.Domain.Posts;
 using BunBlog.Core.Enums;
 using BunBlog.Data;
+using BunBlog.Services.Paging;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,14 @@ namespace BunBlog.Services.Posts
             _bunBlogContext = bunBlogContext;
         }
 
-        public async Task<List<Post>> GetListAsync(PostType? postType = PostType.Post, int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
+        public async Task<Paged<Post>> GetListAsync(PostType? postType = PostType.Post, int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true)
         {
-            var posts = _bunBlogContext.Posts.AsQueryable();
+            var posts = _bunBlogContext.Posts
+                            .Include(p => p.Category)
+                            .Include(p => p.MetadataList)
+                            .Include(p => p.TagList)
+                                .ThenInclude(t => t.Tag)
+                            .AsQueryable();
 
             if (postType.HasValue)
             {
@@ -37,10 +43,7 @@ namespace BunBlog.Services.Posts
                 posts = posts.OrderBy(p => p.PublishedOn);
             }
 
-            var skip = (pageIndex - 1) * pageSize;
-            posts = posts.Skip(skip).Take(pageSize);
-
-            return await posts.ToListAsync();
+            return await Paged<Post>.Async(posts, pageIndex, pageSize);
         }
 
         public async Task<List<Post>> GetListByTagAsync(int tagId, bool tracking = false)
@@ -58,16 +61,16 @@ namespace BunBlog.Services.Posts
         public async Task<Post> GetByIdAsync(int id, bool tracking = false)
         {
             var posts = _bunBlogContext.Posts
-                    .Where(p => p.Id == id);
+                        .Include(p => p.Category)
+                        .Include(p => p.MetadataList)
+                        .Include(p => p.TagList)
+                            .ThenInclude(t => t.Tag)
+                        .Where(p => p.Id == id);
 
             if (!tracking)
             {
                 posts = posts.AsNoTracking();
             }
-
-            posts = posts.Include(p => p.Category)
-                        .Include(p => p.MetadataList)
-                        .Include(p => p.TagList);
 
             return await posts.SingleOrDefaultAsync();
         }
@@ -75,6 +78,10 @@ namespace BunBlog.Services.Posts
         public async Task<Post> GetByLinkNameAsync(string linkName, PostType postType = PostType.Post, bool tracking = false)
         {
             var posts = _bunBlogContext.Posts
+                    .Include(p => p.Category)
+                    .Include(p => p.MetadataList)
+                    .Include(p => p.TagList)
+                        .ThenInclude(t => t.Tag)
                     .Where(p => p.LinkName == linkName)
                     .Where(p => p.Type == postType);
 
