@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,18 +40,23 @@ namespace BunBlog.Services.Paging
         public List<T> Items { get; private init; }
 
         /// <summary>
-        /// 总页数
-        /// </summary>
-        public int Total { get; private init; }
-
-        /// <summary>
         /// 当前页码
         /// </summary>
         public int Page { get; private init; }
 
         /// <summary>
+        /// 总页数
+        /// </summary>
+        public int TotalPage => Total % Size == 0 ? Total / Size : ((Total / Size) + 1);
+
+        /// <summary>
         /// 每页条目数
         /// </summary>
         public int Size { get; private init; }
+
+        /// <summary>
+        /// 总条目数
+        /// </summary>
+        public int Total { get; private init; }
     }
 }
