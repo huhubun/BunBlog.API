@@ -35,7 +35,7 @@ namespace BunBlog.Core.Domain.Posts
         /// <summary>
         /// 发表时间
         /// </summary>
-        public DateTime PublishedOn { get; set; }
+        public DateTime? PublishedOn { get; set; }
 
         /// <summary>
         /// 分类 Id
@@ -46,6 +46,18 @@ namespace BunBlog.Core.Domain.Posts
         /// 博文类型
         /// </summary>
         public PostType Type { get; set; }
+
+        /// <summary>
+        /// 上次更新时间
+        /// </summary>
+        public DateTime? LastModifyOn { get; set; }
+
+        /// <summary>
+        /// 关联的 Post
+        /// 当前博文类型为 Post，并且 For 不为空，则指向当前博文对应的草稿
+        /// 当前博文类型为 Draft，并且 For 不为空，则指向当前草稿对应的博文
+        /// </summary>
+        public int? For { get; set; }
 
         /// <summary>
         /// 分类

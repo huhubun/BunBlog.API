@@ -98,7 +98,7 @@ namespace BunBlog.Services.Images
             request.SetRequestHeader("Content-Type", mimeType);
 
             // 设置签名有效时长
-            request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 60);
+            request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.Seconds), 60);
 
             // 执行请求
             PutObjectResult result = cosXml.PutObject(request);

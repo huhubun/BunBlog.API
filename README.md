@@ -12,7 +12,7 @@ Add-Migration Init -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 Update-Database -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 ```
 
-### .NET CLI (3.1)
+### .NET CLI (5.0)
 If it is the first time to run, you need to install `dotnet-ef` first
 
 ```bash
