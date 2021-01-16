@@ -35,7 +35,7 @@ namespace BunBlog.Core.Domain.Posts
         /// <summary>
         /// 发表时间
         /// </summary>
-        public DateTime? PublishedOn { get; set; }
+        public DateTime PublishedOn { get; set; }
 
         /// <summary>
         /// 分类 Id
