@@ -44,5 +44,10 @@ namespace BunBlog.API.Models.Posts
         /// 博文类型
         /// </summary>
         public PostType Type { get; set; }
+
+        /// <summary>
+        /// 关联对应的草稿或已发布的博文
+        /// </summary>
+        public int? For { get; set; }
     }
 }

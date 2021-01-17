@@ -273,13 +273,13 @@ namespace BunBlog.API.Controllers
         /// <summary>
         /// 修改一篇草稿
         /// </summary>
-        /// <param name="linkName"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPut("{linkName}/draft")]
+        [HttpPut("{id:int}/draft")]
         [Authorize]
-        public async Task<IActionResult> EditDraftAsync([FromRoute] string linkName, [FromBody] EditBlogPostModel editBlogPostModel)
+        public async Task<IActionResult> EditDraftAsync([FromRoute] int id, [FromBody] EditBlogPostModel editBlogPostModel)
         {
-            var post = await _postService.GetByLinkNameAsync(linkName, PostType.Draft, tracking: true);
+            var post = await _postService.GetByIdAsync(id, PostType.Draft, tracking: true);
 
             if (post == null)
             {
@@ -346,13 +346,13 @@ namespace BunBlog.API.Controllers
         /// <summary>
         /// 删除一篇草稿
         /// </summary>
-        /// <param name="linkName"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("{linkName}/draft")]
+        [HttpDelete("{id:int}/draft")]
         [Authorize]
-        public async Task<IActionResult> DeleteDraftAsync([FromRoute] string linkName)
+        public async Task<IActionResult> DeleteDraftAsync([FromRoute] int id)
         {
-            var post = await _postService.GetByLinkNameAsync(linkName, PostType.Draft, tracking: true);
+            var post = await _postService.GetByIdAsync(id, PostType.Draft, tracking: true);
 
             if (post == null)
             {

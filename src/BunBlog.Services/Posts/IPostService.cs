@@ -12,7 +12,7 @@ namespace BunBlog.Services.Posts
 
         Task<List<Post>> GetListByTagAsync(int tagId, bool tracking = false);
 
-        Task<Post> GetByIdAsync(int id, bool tracking = false);
+        Task<Post> GetByIdAsync(int id, PostType? postType = null, bool tracking = false);
 
         Task<Post> GetByLinkNameAsync(string linkName, PostType postType = PostType.Post, bool tracking = false);
 

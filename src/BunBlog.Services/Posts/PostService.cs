@@ -58,7 +58,7 @@ namespace BunBlog.Services.Posts
             return await posts.ToListAsync();
         }
 
-        public async Task<Post> GetByIdAsync(int id, bool tracking = false)
+        public async Task<Post> GetByIdAsync(int id, PostType? postType = null, bool tracking = false)
         {
             var posts = _bunBlogContext.Posts
                         .Include(p => p.Category)
@@ -66,6 +66,11 @@ namespace BunBlog.Services.Posts
                         .Include(p => p.TagList)
                             .ThenInclude(t => t.Tag)
                         .Where(p => p.Id == id);
+
+            if (postType.HasValue)
+            {
+                posts = posts.Where(p => p.Type == postType);
+            }
 
             if (!tracking)
             {
@@ -145,7 +150,17 @@ namespace BunBlog.Services.Posts
 
         public async Task DeleteDraft(Post post)
         {
+            if (post.For.HasValue)
+            {
+                var posted = _bunBlogContext.Posts.Where(p => p.Type == PostType.Post).SingleOrDefault(p => p.Id == post.For);
+
+                posted.For = null;
+
+                _bunBlogContext.Posts.Update(posted);
+            }
+
             _bunBlogContext.Posts.Remove(post);
+
             await _bunBlogContext.SaveChangesAsync();
         }
     }

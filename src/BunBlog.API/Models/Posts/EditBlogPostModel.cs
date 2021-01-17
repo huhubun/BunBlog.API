@@ -37,5 +37,10 @@ namespace BunBlog.API.Models.Posts
         /// 标签集合（值为标签链接名称）
         /// </summary>
         public List<string> TagList { get; set; } = new List<string>();
+
+        /// <summary>
+        /// 关联对应的草稿或已发布的博文
+        /// </summary>
+        public int? For { get; set; }
     }
 }
