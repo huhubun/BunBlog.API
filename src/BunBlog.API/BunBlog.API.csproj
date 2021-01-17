@@ -8,10 +8,10 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <Authors>huhubun</Authors>
     <Company>huhubun</Company>
-    <Copyright>© 2019-2020 huhubun</Copyright>
+    <Copyright>© 2019-2021 huhubun</Copyright>
     <PackageProjectUrl>https://api.bun.dev</PackageProjectUrl>
     <RepositoryUrl>https://github.com/huhubun/BunBlog.API</RepositoryUrl>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
