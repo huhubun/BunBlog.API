@@ -10,6 +10,10 @@ namespace BunBlog.Services.Authentications
 
         bool IsRefreshTokenValid(string username, string refreshToken);
 
-        CreateTokenResult CreateToken(string username, string refreshToken);
+        CreateTokenResult CreateToken(string authorizationHeader, string refreshToken);
+
+        void EndSession(string username, string authorizationHeader);
+
+        bool CheckAlreadyEndSessionAccessToken(string username, string tokenSignature);
     }
 }

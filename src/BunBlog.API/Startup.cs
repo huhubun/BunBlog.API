@@ -13,7 +13,6 @@ using BunBlog.Services.Settings;
 using BunBlog.Services.SiteLinks;
 using BunBlog.Services.Tags;
 using FluentValidation.AspNetCore;
-using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -21,20 +20,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace BunBlog.API
 {
@@ -107,17 +106,32 @@ namespace BunBlog.API
             })
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = JwtTokenHelper.CreateTokenValidationParameters(
+                    authenticationConfig.Issuer,
+                    authenticationConfig.Audience,
+                    authenticationConfig.Secret
+                );
+
+                options.Events = new JwtBearerEvents
                 {
-                    NameClaimType = JwtClaimTypes.Name,
-                    RoleClaimType = JwtClaimTypes.Role,
+                    OnTokenValidated = context =>
+                    {
+                        var authenticationService = context.HttpContext.RequestServices.GetService<IBunAuthenticationService>();
 
-                    ValidIssuer = authenticationConfig.Issuer,
-                    ValidAudience = authenticationConfig.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authenticationConfig.Secret)),
+                        var securityToken = (JwtSecurityToken)context.SecurityToken;
+                        var username = JwtTokenHelper.GetUserName(securityToken);
 
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true
+                        if (authenticationService.CheckAlreadyEndSessionAccessToken(username, securityToken.RawSignature))
+                        {
+                            context.Fail("This token already end session.");
+                        }
+                        else
+                        {
+                            context.Success();
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
