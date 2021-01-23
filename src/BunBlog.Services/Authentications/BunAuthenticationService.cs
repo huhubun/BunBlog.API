@@ -2,11 +2,14 @@
 using BunBlog.Core.Consts;
 using BunBlog.Services.Securities;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 
@@ -15,17 +18,21 @@ namespace BunBlog.Services.Authentications
     public class BunAuthenticationService : IBunAuthenticationService
     {
         private const string REFRESH_TOKEN_CACHE_KEY = "REFRESH_TOKEN:{0}";
+        private const string END_SESSION_ACCESS_TOKEN_CACHE_KEY = "END_SESSION_ACCESS_TOKEN:{0}:{1}";
 
+        private readonly ILogger<BunAuthenticationService> _logger;
         private readonly AuthenticationConfig _authenticationConfig;
         private readonly IMemoryCache _memoryCache;
         private readonly ISecurityService _securityService;
 
         public BunAuthenticationService(
+            ILogger<BunAuthenticationService> logger,
             AuthenticationConfig authenticationConfig,
             IMemoryCache memoryCache,
             ISecurityService securityService
             )
         {
+            _logger = logger;
             _authenticationConfig = authenticationConfig;
             _memoryCache = memoryCache;
             _securityService = securityService;
@@ -40,56 +47,51 @@ namespace BunBlog.Services.Authentications
                 .SingleOrDefault();
         }
 
-        public bool IsRefreshTokenValid(string username, string refreshToken)
-        {
-            return _memoryCache.Get<string>(String.Format(REFRESH_TOKEN_CACHE_KEY, username)) == refreshToken;
-        }
+        #region Create Token
 
         public CreateTokenResult CreateToken(AuthenticationUserConfig user)
         {
             return CreateTokenImpl(user.Username);
         }
 
-        public CreateTokenResult CreateToken(string username, string refreshToken)
+        public CreateTokenResult CreateToken(string authorizationHeader, string refreshToken)
         {
-            if (IsRefreshTokenValid(username, refreshToken))
+            var authorizationHeaderValue = AuthenticationHeaderValue.Parse(authorizationHeader);
+
+            string errorMessage;
+            if (authorizationHeaderValue.Scheme == JwtBearerDefaults.AuthenticationScheme)
             {
-                return CreateTokenImpl(username);
+                var tokenValidationParameters = JwtTokenHelper.CreateTokenValidationParameters(_authenticationConfig.Issuer, _authenticationConfig.Audience, _authenticationConfig.Secret);
+                tokenValidationParameters.ValidateLifetime = false;
+
+                string username;
+
+                try
+                {
+                    new JwtSecurityTokenHandler().ValidateToken(authorizationHeaderValue.Parameter, tokenValidationParameters, out var token);
+                    username = JwtTokenHelper.GetUserName(token);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "创建 refresh token 时，解析原 access token 失败");
+                    return new CreateTokenResult(AuthenticationConst.INVALID_REFRESH_TOKEN, ex.Message);
+                }
+
+                if (IsRefreshTokenValid(username, refreshToken))
+                {
+                    return CreateTokenImpl(username);
+                }
+                else
+                {
+                    errorMessage = "refresh token 验证失败";
+                }
+            }
+            else
+            {
+                errorMessage = $"非法的 Authentication Scheme：{authorizationHeaderValue.Scheme}";
             }
 
-            return new CreateTokenResult(AuthenticationConst.INVALID_REFRESH_TOKEN);
-        }
-
-        public static void AuthenticationConfigValidate(AuthenticationConfig authenticationConfig)
-        {
-            if (String.IsNullOrEmpty(authenticationConfig.Secret))
-            {
-                throw new ArgumentException("Secret not configured.", "Authentication:Secret");
-            }
-
-            if (String.IsNullOrEmpty(authenticationConfig.Issuer))
-            {
-                throw new ArgumentException("Issuer not configured.", "Authentication:Issuer");
-            }
-
-            if (String.IsNullOrEmpty(authenticationConfig.Audience))
-            {
-                throw new ArgumentException("Audience not configured.", "Authentication:Audience");
-            }
-        }
-
-        private string StoreRefreshTokenCache(string username, string refreshToken)
-        {
-            var key = String.Format(REFRESH_TOKEN_CACHE_KEY, username);
-
-            _memoryCache.Remove(key);
-
-            return _memoryCache.Set(key, refreshToken, DateTime.Now.AddSeconds(AuthenticationConst.REFRESH_TOKEN_EXPIRES_IN_SECONDS));
-        }
-
-        private string CreateRefreshToken()
-        {
-            return $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", String.Empty);
+            return new CreateTokenResult(AuthenticationConst.INVALID_REFRESH_TOKEN, errorMessage);
         }
 
         private CreateTokenResult CreateTokenImpl(string username)
@@ -114,7 +116,7 @@ namespace BunBlog.Services.Authentications
             var accessToken = tokenHandler.CreateToken(tokenDescriptor);
             var accessTokenString = tokenHandler.WriteToken(accessToken);
 
-            var refreshToken = StoreRefreshTokenCache(username, CreateRefreshToken());
+            var refreshToken = StoreRefreshToken(username, CreateRefreshToken());
 
             return new CreateTokenResult
             {
@@ -123,5 +125,84 @@ namespace BunBlog.Services.Authentications
                 RefreshToken = refreshToken
             };
         }
+
+        #endregion
+
+        #region End Session
+
+        public void EndSession(string username, string authorizationHeader)
+        {
+            var authorizationHeaderValue = AuthenticationHeaderValue.Parse(authorizationHeader);
+            var tokenSignature = authorizationHeaderValue.Parameter.Split('.').Last();
+
+            LetAccessTokenEndSession(username, tokenSignature);
+            RemoveRefreshToken(username);
+        }
+
+        private void LetAccessTokenEndSession(string username, string tokenSignature)
+        {
+            _memoryCache.Set<bool?>(
+                String.Format(END_SESSION_ACCESS_TOKEN_CACHE_KEY, username, tokenSignature),
+                true,
+                TimeSpan.FromSeconds(AuthenticationConst.ACCESS_TOKEN_EXPIRES_IN_SECONDS)
+            );
+        }
+
+        public bool CheckAlreadyEndSessionAccessToken(string username, string tokenSignature)
+        {
+            var result = _memoryCache.Get<bool?>(String.Format(END_SESSION_ACCESS_TOKEN_CACHE_KEY, username, tokenSignature)) ?? false;
+            return result;
+        }
+
+        #endregion
+
+        #region Refresh Token
+
+        private string GetRefreshTokenKey(string username)
+        {
+            return String.Format(REFRESH_TOKEN_CACHE_KEY, username);
+        }
+
+        private string StoreRefreshToken(string username, string refreshToken)
+        {
+            RemoveRefreshToken(username);
+            return _memoryCache.Set(GetRefreshTokenKey(username), refreshToken, DateTime.Now.AddSeconds(AuthenticationConst.REFRESH_TOKEN_EXPIRES_IN_SECONDS));
+        }
+
+        private string CreateRefreshToken()
+        {
+            return $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", String.Empty);
+        }
+
+        private void RemoveRefreshToken(string username)
+        {
+            _memoryCache.Remove(GetRefreshTokenKey(username));
+        }
+
+        public bool IsRefreshTokenValid(string username, string refreshToken)
+        {
+            return _memoryCache.Get<string>(String.Format(REFRESH_TOKEN_CACHE_KEY, username)) == refreshToken;
+        }
+
+        #endregion
+
+        public static void AuthenticationConfigValidate(AuthenticationConfig authenticationConfig)
+        {
+            if (String.IsNullOrEmpty(authenticationConfig.Secret))
+            {
+                throw new ArgumentException("Secret not configured.", "Authentication:Secret");
+            }
+
+            if (String.IsNullOrEmpty(authenticationConfig.Issuer))
+            {
+                throw new ArgumentException("Issuer not configured.", "Authentication:Issuer");
+            }
+
+            if (String.IsNullOrEmpty(authenticationConfig.Audience))
+            {
+                throw new ArgumentException("Audience not configured.", "Authentication:Audience");
+            }
+        }
+
     }
 }

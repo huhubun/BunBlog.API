@@ -4,9 +4,13 @@ using BunBlog.API.Models;
 using BunBlog.API.Models.Authentications;
 using BunBlog.Core.Consts;
 using BunBlog.Services.Authentications;
+using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {
@@ -86,9 +90,37 @@ namespace BunBlog.API.Controllers
             return Ok(_mapper.Map<TokenModel>(createTokenResult));
         }
 
+        [Authorize]
+        [HttpGet("endsession")]
+        public async Task<IActionResult> EndSession()
+        {
+            var idClaim = User.Claims.First(c => c.Type == JwtClaimTypes.Id);
+
+            _authenticationService.EndSession(idClaim?.Value, Request.Headers["Authorization"]);
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("user")]
+        public IActionResult GetUser()
+        {
+            var idClaim = User.Claims.FirstOrDefault(c => c.Type == JwtClaimTypes.Id);
+
+            if (idClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new
+            {
+                Username = idClaim.Value
+            });
+        }
+
         private CreateTokenResult CreateTokenByRefreshToken(CreateTokenRequest request)
         {
-            return _authenticationService.CreateToken(request.Username, request.RefreshToken);
+            return _authenticationService.CreateToken(Request.Headers["Authorization"], request.RefreshToken);
         }
 
         private CreateTokenResult CreateTokenByPassword(CreateTokenRequest request)
@@ -123,6 +155,11 @@ namespace BunBlog.API.Controllers
 
                 default:
                     throw new Exception(createTokenResult.ErrorCode);
+            }
+
+            if (!String.IsNullOrEmpty(createTokenResult.ErrorMessage))
+            {
+                errorMessage = $"{errorMessage}：{createTokenResult.ErrorMessage}";
             }
 
             return BadRequest(new ErrorResponse(createTokenResult.ErrorCode, errorMessage));
