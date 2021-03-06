@@ -26,6 +26,11 @@
         public SettingValueType ValueType { get; set; }
 
         /// <summary>
+        /// Object 类型的规范，当 ValueType 为 Object 时可用
+        /// </summary>
+        public string Schema { get; set; }
+
+        /// <summary>
         /// 允许为 null
         /// </summary>
         public bool AllowNull { get; set; }
@@ -54,7 +59,17 @@
         /// <summary>
         /// 文本域（适用于多行内容）
         /// </summary>
-        Textarea
+        Textarea,
+
+        /// <summary>
+        /// 对象
+        /// </summary>
+        Object,
+
+        /// <summary>
+        /// 列表
+        /// </summary>
+        List
     }
 
     /// <summary>
@@ -65,6 +80,11 @@
         /// <summary>
         /// 字符串
         /// </summary>
-        String
+        String,
+
+        /// <summary>
+        /// 对象
+        /// </summary>
+        Object
     }
 }

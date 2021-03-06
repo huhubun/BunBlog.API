@@ -1,5 +1,4 @@
-﻿using BunBlog.Core.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BunBlog.API.Models.Posts
 {
@@ -42,5 +41,11 @@ namespace BunBlog.API.Models.Posts
         /// 关联对应的草稿或已发布的博文
         /// </summary>
         public int? For { get; set; }
+
+        /// <summary>
+        /// 博文式样
+        /// 用于存放博文样式相关的内容，内容为 JSON 格式，由前端自己解析
+        /// </summary>
+        public string Styling { get; set; }
     }
 }

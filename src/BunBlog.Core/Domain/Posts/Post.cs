@@ -60,6 +60,12 @@ namespace BunBlog.Core.Domain.Posts
         public int? For { get; set; }
 
         /// <summary>
+        /// 博文式样
+        /// 用于存放博文样式相关的内容，内容为 JSON 格式，由前端自己解析
+        /// </summary>
+        public string Styling { get; set; }
+
+        /// <summary>
         /// 分类
         /// </summary>
         public virtual Category Category { get; set; }

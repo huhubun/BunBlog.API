@@ -70,5 +70,9 @@
         /// </summary>
         public const string INVALID_VALUE = nameof(INVALID_VALUE);
 
+        /// <summary>
+        /// 缺少必要的 Query String
+        /// </summary>
+        public const string MISSING_REQUIRED_QUERYSTRING = nameof(MISSING_REQUIRED_QUERYSTRING);
     }
 }

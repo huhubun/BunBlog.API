@@ -25,6 +25,11 @@ namespace BunBlog.API.Models.Settings
         public SettingValueType ValueType { get; set; }
 
         /// <summary>
+        /// Object 类型的规范，当 ValueType 为 Object 时可用
+        /// </summary>
+        public string Schema { get; set; }
+
+        /// <summary>
         /// 允许为 null
         /// </summary>
         public bool AllowNull { get; set; }

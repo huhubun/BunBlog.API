@@ -34,6 +34,13 @@ namespace BunBlog.Services.Settings
         Task<List<Setting>> GetListAsync();
 
         /// <summary>
+        /// 获取 code 与传入的 List 中匹配的配置项
+        /// </summary>
+        /// <param name="codes"></param>
+        /// <returns></returns>
+        Task<List<Setting>> GetListAsync(IEnumerable<string> codes);
+
+        /// <summary>
         /// 根据配置代码获取单个配置
         /// </summary>
         /// <param name="code">配置代码</param>

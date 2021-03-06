@@ -53,6 +53,14 @@ namespace BunBlog.Services.Settings
             return await _bunBlogContext.Setting.AsNoTracking().ToListAsync();
         }
 
+        public async Task<List<Setting>> GetListAsync(IEnumerable<string> codes)
+        {
+            return await _bunBlogContext.Setting
+                            .AsNoTracking()
+                            .Where(s => codes.Contains(s.Code))
+                            .ToListAsync();
+        }
+
         public async Task<Setting> GetByCodeAsync(string code, bool tracking = false)
         {
             var settings = _bunBlogContext.Setting.Where(c => c.Code == code);

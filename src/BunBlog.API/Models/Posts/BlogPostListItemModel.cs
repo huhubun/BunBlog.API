@@ -55,5 +55,11 @@ namespace BunBlog.API.Models.Posts
         /// 博文类型
         /// </summary>
         public PostType Type { get; set; }
+
+        /// <summary>
+        /// 博文式样
+        /// 用于存放博文样式相关的内容，内容为 JSON 格式，由前端自己解析
+        /// </summary>
+        public string Styling { get; set; }
     }
 }

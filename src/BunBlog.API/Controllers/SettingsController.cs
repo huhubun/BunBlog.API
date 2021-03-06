@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,39 +39,25 @@ namespace BunBlog.API.Controllers
         }
 
         /// <summary>
-        /// 获取配置信息列表
+        /// 获取多个配置项的值
         /// </summary>
+        /// <param name="codes"></param>
         /// <returns></returns>
         [HttpGet("")]
-        [Authorize]
-        public async Task<IActionResult> GetListAsync()
+        public async Task<IActionResult> GetListAsync([FromQuery(Name = "code")] string[] codes)
         {
-            var settingDefinitionsTask = _settingService.GetDefinitionsAsync();
-            var settingsTask = _settingService.GetListAsync();
+            if (codes == null || !codes.Any())
+            {
+                return BadRequest(new ErrorResponse(ErrorResponseCode.MISSING_REQUIRED_QUERYSTRING, $"QueryString 中缺少必要的条件 {nameof(codes)}"));
+            }
 
-            var settingDefinition = await settingDefinitionsTask;
-            var settings = await settingsTask;
+            var settings = await _settingService.GetListAsync(codes);
 
-            var models = from _d in settingDefinition
-                         join _s in settings on _d.Code equals _s.Code into ss
-                         from si in ss.DefaultIfEmpty()
-                         select new SettingDefinitionWithValueModel
-                         {
-                             Code = _d.Code,
-                             Category = _d.Category,
-                             Type = _d.Type,
-                             ValueType = _d.ValueType,
-                             AllowNull = _d.AllowNull,
-                             DefaultValue = _d.DefaultValue,
-                             Description = _d.Description,
-                             Value = si?.Value
-                         };
-
-            return Ok(models);
+            return Ok(_mapper.Map<List<SettingsValueModel>>(settings));
         }
 
         [HttpGet("{code}")]
-        public async Task<IActionResult> GetByCode([FromRoute]string code)
+        public async Task<IActionResult> GetByCode([FromRoute] string code)
         {
             var setting = await _cache.GetOrCreateAsync(String.Format(CacheKeys.API_GET_SETTINGS_BY_CODE, code), async entry =>
            {
@@ -94,7 +81,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPut("{code}")]
         [Authorize]
-        public async Task<IActionResult> EditByCode([FromRoute]string code, [FromBody]EditSettingsRequest request)
+        public async Task<IActionResult> EditByCode([FromRoute] string code, [FromBody] EditSettingsRequest request)
         {
             var definition = await _settingService.GetDefinitionByCodeAsync(code);
             if (definition == null)
@@ -129,7 +116,7 @@ namespace BunBlog.API.Controllers
             }
 
             _cache.Remove(String.Format(CacheKeys.API_GET_SETTINGS_BY_CODE, code));
-            
+
             return NoContent();
         }
     }

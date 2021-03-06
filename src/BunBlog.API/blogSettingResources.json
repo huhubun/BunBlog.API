@@ -1,29 +1,59 @@
 ﻿[
-    {
-        "code": "layout.footer",
-        "category": "layout",
-        "type": "textarea",
-        "valueType": "string",
-        "allowNull": true,
-        "defaultValue": null,
-        "description": "自定义 footer"
-    },
-    {
-        "code": "image.domain",
-        "category": "image",
-        "type": "text",
-        "valueType": "string",
-        "allowNull": true,
-        "defaultValue": null,
-        "description": "图片域名"
-    },
-    {
-        "code": "image.server-path",
-        "category": "image",
-        "type": "text",
-        "valueType": "string",
-        "allowNull": false,
-        "defaultValue": "./img/",
-        "description": "图片在服务器的物理存储路径"
-    }
+  {
+    "code": "layout.footer",
+    "category": "layout",
+    "type": "textarea",
+    "valueType": "string",
+    "allowNull": true,
+    "defaultValue": null,
+    "description": "自定义 footer"
+  },
+  {
+    "code": "image.domain",
+    "category": "image",
+    "type": "text",
+    "valueType": "string",
+    "allowNull": true,
+    "defaultValue": null,
+    "description": "图片域名"
+  },
+  {
+    "code": "image.server-path",
+    "category": "image",
+    "type": "text",
+    "valueType": "string",
+    "allowNull": false,
+    "defaultValue": "./img/",
+    "description": "图片在服务器的物理存储路径"
+  },
+  {
+    "code": "s.poweredby",
+    "category": "ad",
+    "type": "object",
+    "valueType": "object",
+    "schema": "color,icon,text,url",
+    "allowNull": true,
+    "defaultValue": null,
+    "description": "位于 Powered By 中的广告（s = sponsor 赞助，避免 ad 关键字被广告拦截插件拦截）"
+  },
+  {
+    "code": "s.footer-1",
+    "category": "ad",
+    "type": "object",
+    "valueType": "object",
+    "schema": "text,url",
+    "allowNull": true,
+    "defaultValue": null,
+    "description": "位于 footer 1 的广告"
+  },
+  {
+    "code": "certification.list",
+    "category": "certification",
+    "type": "list",
+    "valueType": "object",
+    "schema": "text,url",
+    "allowNull": true,
+    "defaultValue": null,
+    "description": "备案和专业认证信息"
+  }
 ]
