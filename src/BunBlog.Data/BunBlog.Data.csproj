@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Copyright>© 2019-2021 huhubun</Copyright>
     <Authors>huhubun</Authors>
   </PropertyGroup>

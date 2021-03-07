@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using BunBlog.API.Const;
-using BunBlog.API.Extensions;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Settings;
-using BunBlog.Core.Consts;
 using BunBlog.Core.Domain.Settings;
 using BunBlog.Services.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,17 +21,13 @@ namespace BunBlog.API.Controllers
     {
         private readonly ISettingsService _settingService;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
 
         public SettingsController(
             ISettingsService settingService,
-            IMapper mapper,
-            IMemoryCache cache
-            )
+            IMapper mapper)
         {
             _settingService = settingService;
             _mapper = mapper;
-            _cache = cache;
         }
 
         /// <summary>
@@ -59,11 +51,7 @@ namespace BunBlog.API.Controllers
         [HttpGet("{code}")]
         public async Task<IActionResult> GetByCode([FromRoute] string code)
         {
-            var setting = await _cache.GetOrCreateAsync(String.Format(CacheKeys.API_GET_SETTINGS_BY_CODE, code), async entry =>
-           {
-               entry.SetSlidingExpirationByDefault();
-               return await _settingService.GetByCodeAsync(code);
-           });
+            var setting = await _settingService.GetByCodeAsync(code);
 
             if (setting == null)
             {
@@ -114,8 +102,6 @@ namespace BunBlog.API.Controllers
 
                 await _settingService.EditAsync(setting);
             }
-
-            _cache.Remove(String.Format(CacheKeys.API_GET_SETTINGS_BY_CODE, code));
 
             return NoContent();
         }

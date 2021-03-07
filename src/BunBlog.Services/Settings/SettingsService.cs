@@ -1,6 +1,8 @@
-﻿using BunBlog.Core.Domain.Settings;
+﻿using BunBlog.Core.Consts;
+using BunBlog.Core.Domain.Settings;
 using BunBlog.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,10 +15,14 @@ namespace BunBlog.Services.Settings
     public class SettingsService : ISettingsService
     {
         private readonly BunBlogContext _bunBlogContext;
+        private readonly IMemoryCache _cache;
 
-        public SettingsService(BunBlogContext bunBlogContext)
+        public SettingsService(
+            BunBlogContext bunBlogContext,
+            IMemoryCache cache)
         {
             _bunBlogContext = bunBlogContext;
+            _cache = cache;
         }
 
         public async Task<List<SettingDefinition>> GetDefinitionsAsync()
@@ -50,15 +56,17 @@ namespace BunBlog.Services.Settings
 
         public async Task<List<Setting>> GetListAsync()
         {
-            return await _bunBlogContext.Setting.AsNoTracking().ToListAsync();
+            return await _cache.GetOrCreateAsync(CacheKeys.ALL_SETTINGS, entry =>
+            {
+                return _bunBlogContext.Setting.AsNoTracking().ToListAsync();
+            });
         }
 
         public async Task<List<Setting>> GetListAsync(IEnumerable<string> codes)
         {
-            return await _bunBlogContext.Setting
-                            .AsNoTracking()
+            return (await GetListAsync())
                             .Where(s => codes.Contains(s.Code))
-                            .ToListAsync();
+                            .ToList();
         }
 
         public async Task<Setting> GetByCodeAsync(string code, bool tracking = false)
@@ -78,6 +86,8 @@ namespace BunBlog.Services.Settings
             _bunBlogContext.Setting.Add(setting);
             await _bunBlogContext.SaveChangesAsync();
 
+            await UpdateCache();
+
             return setting;
         }
 
@@ -86,9 +96,15 @@ namespace BunBlog.Services.Settings
             _bunBlogContext.Entry(setting).State = EntityState.Modified;
             await _bunBlogContext.SaveChangesAsync();
 
+            await UpdateCache();
+
             return setting;
         }
 
-
+        private async Task UpdateCache()
+        {
+            _cache.Remove(CacheKeys.ALL_SETTINGS);
+            await GetListAsync();
+        }
     }
 }

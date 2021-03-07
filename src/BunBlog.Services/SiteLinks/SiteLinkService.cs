@@ -16,8 +16,7 @@ namespace BunBlog.Services.SiteLinks
 
         public SiteLinkService(
             BunBlogContext bunBlogContext,
-            IMemoryCache cache
-            )
+            IMemoryCache cache)
         {
             _bunBlogContext = bunBlogContext;
             _cache = cache;
@@ -25,10 +24,13 @@ namespace BunBlog.Services.SiteLinks
 
         public async Task<List<SiteLink>> GetListAsync()
         {
-            return await _bunBlogContext.SiteLink
+            return await _cache.GetOrCreateAsync(CacheKeys.ALL_SITE_LINKS, entry =>
+            {
+                return _bunBlogContext.SiteLink
                                 .OrderBy(l => l.Id)
                                 .AsNoTracking()
                                 .ToListAsync();
+            });
         }
 
         public async Task<SiteLink> GetByIdAsync(int id, bool tracking = false)
@@ -49,6 +51,8 @@ namespace BunBlog.Services.SiteLinks
             _bunBlogContext.SiteLink.Add(siteLink);
             await _bunBlogContext.SaveChangesAsync();
 
+            await UpdateCache();
+
             return siteLink;
         }
 
@@ -57,6 +61,8 @@ namespace BunBlog.Services.SiteLinks
             _bunBlogContext.Entry(siteLink).State = EntityState.Modified;
             await _bunBlogContext.SaveChangesAsync();
 
+            await UpdateCache();
+
             return siteLink;
         }
 
@@ -64,6 +70,14 @@ namespace BunBlog.Services.SiteLinks
         {
             _bunBlogContext.SiteLink.Remove(siteLink);
             await _bunBlogContext.SaveChangesAsync();
+
+            await UpdateCache();
+        }
+
+        private async Task UpdateCache()
+        {
+            _cache.Remove(CacheKeys.ALL_SITE_LINKS);
+            await GetListAsync();
         }
     }
 }

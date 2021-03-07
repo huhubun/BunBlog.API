@@ -176,7 +176,7 @@ namespace BunBlog.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider)
         {
             app.UseRequestResponseLogging();
 
@@ -218,6 +218,10 @@ namespace BunBlog.API
                 options.RoutePrefix = "docs";
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Bun Blog API v1");
             });
+
+            // 填充缓存数据
+            serviceProvider.GetService<ISettingsService>().GetListAsync().Wait();
+            serviceProvider.GetService<ISiteLinkService>().GetListAsync().Wait();
         }
     }
 }
