@@ -346,11 +346,19 @@ namespace BunBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("{id}/visits")]
-        public async Task<IActionResult> UpdateVisits([FromRoute] int id)
+        public async Task<IActionResult> UpdateVisitsAsync([FromRoute] int id)
         {
             var metadata = await _postMetadataService.AddVisitsAsync(id);
 
             return Ok(_mapper.Map<PostMetadataModel>(metadata));
+        }
+
+        [HttpGet("linkNames")]
+        public async Task<IActionResult> GetAllLinkNamesAsync()
+        {
+            var linkNames = await _postService.GetLinkNameList();
+
+            return Ok(linkNames);
         }
     }
 }

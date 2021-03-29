@@ -10,7 +10,11 @@ namespace BunBlog.Services.Posts
     {
         Task<Paged<Post>> GetListAsync(PostType? postType = PostType.Post, int pageIndex = 1, int pageSize = 10, bool orderByPublishedOnDesc = true);
 
-        Task<List<Post>> GetListByTagAsync(int tagId, bool tracking = false);
+        Task<List<Post>> GetListByTagAsync(string tagLinkName);
+
+        Task<List<Post>> GetListByCategoryAsync(string categoryLinkName);
+
+        Task<List<string>> GetLinkNameList();
 
         Task<Post> GetByIdAsync(int id, PostType? postType = null, bool tracking = false);
 

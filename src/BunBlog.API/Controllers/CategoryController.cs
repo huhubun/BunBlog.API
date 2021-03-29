@@ -2,8 +2,10 @@
 using BunBlog.API.Const;
 using BunBlog.API.Models;
 using BunBlog.API.Models.Categories;
+using BunBlog.API.Models.Posts;
 using BunBlog.Core.Domain.Categories;
 using BunBlog.Services.Categories;
+using BunBlog.Services.Posts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,13 +23,16 @@ namespace BunBlog.API.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
+        private readonly IPostService _postService;
 
         public CategoryController(
             ICategoryService categoryService,
-            IMapper mapper)
+            IMapper mapper,
+            IPostService postService)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _postService = postService;
         }
 
         /// <summary>
@@ -143,6 +148,14 @@ namespace BunBlog.API.Controllers
             await _categoryService.DeleteAsync(category);
 
             return NoContent();
+        }
+
+        [HttpGet("{linkName}/posts")]
+        public async Task<IActionResult> GetPostsByCategoryAsync([FromRoute] string linkName)
+        {
+            var posts = await _postService.GetListByCategoryAsync(linkName);
+
+            return Ok(_mapper.Map<List<BlogPostModel>>(posts));
         }
     }
 }

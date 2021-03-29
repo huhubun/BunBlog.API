@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BunBlog.API.Const;
 using BunBlog.API.Models;
+using BunBlog.API.Models.Posts;
 using BunBlog.API.Models.Tags;
 using BunBlog.Core.Domain.Tags;
+using BunBlog.Services.Posts;
 using BunBlog.Services.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +23,16 @@ namespace BunBlog.API.Controllers
     {
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
+        private readonly IPostService _postService;
 
         public TagController(
             ITagService tagService,
-            IMapper mapper)
+            IMapper mapper,
+            IPostService postService)
         {
             _tagService = tagService;
             _mapper = mapper;
+            _postService = postService;
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace BunBlog.API.Controllers
         /// <param name="linkName">链接名称</param>
         /// <returns></returns>
         [HttpGet("{linkName}", Name = nameof(GetTagByLinkNameAsync))]
-        public async Task<IActionResult> GetTagByLinkNameAsync([FromRoute]string linkName)
+        public async Task<IActionResult> GetTagByLinkNameAsync([FromRoute] string linkName)
         {
             var tag = await _tagService.GetByLinkNameAsync(linkName);
 
@@ -66,7 +71,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPost("")]
         [Authorize]
-        public async Task<IActionResult> AddTagAsync([FromBody]TagModel tagModel)
+        public async Task<IActionResult> AddTagAsync([FromBody] TagModel tagModel)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +109,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpPut("{linkName}")]
         [Authorize]
-        public async Task<IActionResult> EditTagByLinkNameAsync([FromRoute]string linkName, [FromBody]TagModel tagModel)
+        public async Task<IActionResult> EditTagByLinkNameAsync([FromRoute] string linkName, [FromBody] TagModel tagModel)
         {
             var tag = await _tagService.GetByLinkNameAsync(linkName, tracking: true);
 
@@ -126,7 +131,7 @@ namespace BunBlog.API.Controllers
         /// <returns></returns>
         [HttpDelete("{linkName}")]
         [Authorize]
-        public async Task<IActionResult> DeleteTagByLinkNameAsync([FromRoute]string linkName)
+        public async Task<IActionResult> DeleteTagByLinkNameAsync([FromRoute] string linkName)
         {
             var tag = await _tagService.GetByLinkNameAsync(linkName, tracking: true);
 
@@ -143,6 +148,14 @@ namespace BunBlog.API.Controllers
             await _tagService.DeleteAsync(tag);
 
             return NoContent();
+        }
+
+        [HttpGet("{linkName}/posts")]
+        public async Task<IActionResult> GetPostsByTagAsync([FromRoute] string linkName)
+        {
+            var posts = await _postService.GetListByTagAsync(linkName);
+
+            return Ok(_mapper.Map<List<BlogPostModel>>(posts));
         }
     }
 }

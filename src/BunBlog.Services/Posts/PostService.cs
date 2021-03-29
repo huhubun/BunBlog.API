@@ -46,16 +46,37 @@ namespace BunBlog.Services.Posts
             return await Paged<Post>.Async(posts, pageIndex, pageSize);
         }
 
-        public async Task<List<Post>> GetListByTagAsync(int tagId, bool tracking = false)
+        public async Task<List<Post>> GetListByTagAsync(string tagLinkName)
         {
-            var posts = _bunBlogContext.Posts.Where(p => p.TagList.Any(t => t.TagId == tagId));
+            var posts = await _bunBlogContext.Posts
+                                    .Where(p => p.TagList.Any(t => t.Tag.LinkName == tagLinkName))
+                                    .Include(p => p.Category)
+                                    .Include(p => p.MetadataList)
+                                    .Include(p => p.TagList)
+                                        .ThenInclude(t => t.Tag)
+                                    .AsNoTracking()
+                                    .ToListAsync();
 
-            if (!tracking)
-            {
-                posts = posts.AsNoTracking();
-            }
+            return posts;
+        }
 
-            return await posts.ToListAsync();
+        public async Task<List<Post>> GetListByCategoryAsync(string categoryLinkName)
+        {
+            var posts = await _bunBlogContext.Posts
+                                    .Where(p => p.Category.LinkName == categoryLinkName)
+                                    .Include(p => p.Category)
+                                    .Include(p => p.MetadataList)
+                                    .Include(p => p.TagList)
+                                        .ThenInclude(t => t.Tag)
+                                    .AsNoTracking()
+                                    .ToListAsync();
+
+            return posts;
+        }
+
+        public async Task<List<string>> GetLinkNameList()
+        {
+            return await _bunBlogContext.Posts.Select(p => p.LinkName).AsNoTracking().ToListAsync();
         }
 
         public async Task<Post> GetByIdAsync(int id, PostType? postType = null, bool tracking = false)
