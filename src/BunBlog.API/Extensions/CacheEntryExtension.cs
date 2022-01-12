@@ -1,6 +1,5 @@
 ﻿using BunBlog.Core.Consts;
 using Microsoft.Extensions.Caching.Memory;
-using System;
 
 namespace BunBlog.API.Extensions
 {

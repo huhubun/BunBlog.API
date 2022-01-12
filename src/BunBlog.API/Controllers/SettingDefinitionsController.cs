@@ -1,9 +1,6 @@
 ﻿using BunBlog.API.Models.Settings;
-using BunBlog.Services.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {

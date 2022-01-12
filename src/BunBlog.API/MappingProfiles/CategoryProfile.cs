@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BunBlog.API.Models.Categories;
+﻿using BunBlog.API.Models.Categories;
 using BunBlog.Core.Domain.Categories;
 
 namespace BunBlog.API.MappingProfiles

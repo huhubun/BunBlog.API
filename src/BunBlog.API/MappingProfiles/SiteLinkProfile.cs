@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BunBlog.API.Models.SiteLinks;
+﻿using BunBlog.API.Models.SiteLinks;
 using BunBlog.Core.Domain.SiteLinks;
 
 namespace BunBlog.API.MappingProfiles
