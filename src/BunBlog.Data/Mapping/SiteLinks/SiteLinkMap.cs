@@ -14,7 +14,7 @@ namespace BunBlog.Data.Mapping.SiteLinks
 
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
-            builder.HasIndex(c => c.Id).HasName("IX_SiteLink_Id");
+            builder.HasIndex(c => c.Id).HasDatabaseName("IX_SiteLink_Id");
         }
     }
 }

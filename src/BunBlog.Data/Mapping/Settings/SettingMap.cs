@@ -15,8 +15,8 @@ namespace BunBlog.Data.Mapping.Settings
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.Code).IsRequired();
 
-            builder.HasIndex(c => c.Id).HasName("IX_Setting_Id");
-            builder.HasIndex(c => c.Code).HasName("IX_Setting_Code").IsUnique();
+            builder.HasIndex(c => c.Id).HasDatabaseName("IX_Setting_Id");
+            builder.HasIndex(c => c.Code).HasDatabaseName("IX_Setting_Code").IsUnique();
         }
     }
 }

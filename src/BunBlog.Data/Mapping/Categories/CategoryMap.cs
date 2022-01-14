@@ -16,9 +16,9 @@ namespace BunBlog.Data.Mapping.Categories
             builder.Property(c => c.LinkName).IsRequired().HasMaxLength(100);
             builder.Property(c => c.DisplayName).IsRequired();
 
-            builder.HasIndex(c => c.Id).HasName("IX_Category_Id");
-            builder.HasIndex(c => c.LinkName).IsUnique().HasName("IX_Category_LinkName");
-            builder.HasIndex(c => c.DisplayName).IsUnique().HasName("IX_Category_DisplayName");
+            builder.HasIndex(c => c.Id).HasDatabaseName("IX_Category_Id");
+            builder.HasIndex(c => c.LinkName).IsUnique().HasDatabaseName("IX_Category_LinkName");
+            builder.HasIndex(c => c.DisplayName).IsUnique().HasDatabaseName("IX_Category_DisplayName");
         }
     }
 }
