@@ -5,6 +5,7 @@ using BunBlog.Core.Domain.Settings;
 using BunBlog.Core.Domain.SiteLinks;
 using BunBlog.Core.Domain.Tags;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace BunBlog.Data
 {
@@ -12,6 +13,8 @@ namespace BunBlog.Data
     {
         public BunBlogContext(DbContextOptions<BunBlogContext> options) : base(options)
         {
+            // TODO: 暂时启用 npgsql 时间类型兼容性，后面版本再升级数据
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
