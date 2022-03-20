@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE_NAME: huhubun/bunblog.api
-  IMAGE_VERSION: v0.4.0-test-1
+  IMAGE_VERSION: v0.4.0-test-2
 
 jobs:
 
