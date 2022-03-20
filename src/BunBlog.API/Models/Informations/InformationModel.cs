@@ -27,7 +27,7 @@ namespace BunBlog.API.Models.Informations
         /// <summary>
         /// 是否运行在 Kubernetes 中
         /// </summary>
-        public bool IsOnKubernetes => true;// BunHelper.CheckKubernetesServiceAccountDirectoryExists();
+        public bool IsOnKubernetes => BunHelper.CheckKubernetesServiceAccountDirectoryExists();
 
         /// <summary>
         /// 运行程序的运行时描述
