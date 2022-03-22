@@ -1,16 +1,8 @@
-﻿using AutoMapper;
-using BunBlog.API.Const;
-using BunBlog.API.Models;
-using BunBlog.API.Models.Authentications;
+﻿using BunBlog.API.Models.Authentications;
 using BunBlog.Core.Consts;
-using BunBlog.Services.Authentications;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {

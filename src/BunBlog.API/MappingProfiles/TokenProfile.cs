@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using BunBlog.API.Models.Authentications;
-using BunBlog.Services.Authentications;
+﻿using BunBlog.API.Models.Authentications;
 
 namespace BunBlog.API.MappingProfiles
 {

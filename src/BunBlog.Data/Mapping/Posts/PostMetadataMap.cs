@@ -15,7 +15,7 @@ namespace BunBlog.Data.Mapping.Posts
             builder.Property(pm => pm.PostId).IsRequired();
             builder.Property(pm => pm.Key).IsRequired();
 
-            builder.HasIndex(pm => new { pm.PostId, pm.Key }).HasName("IX_PostMetadata_PostId_Key");
+            builder.HasIndex(pm => new { pm.PostId, pm.Key }).HasDatabaseName("IX_PostMetadata_PostId_Key");
         }
     }
 }

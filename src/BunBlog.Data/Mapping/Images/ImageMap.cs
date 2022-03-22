@@ -17,8 +17,8 @@ namespace BunBlog.Data.Mapping.Images
             builder.Property(c => c.FileName).IsRequired();
             builder.Property(c => c.UploadTime).IsRequired();
 
-            builder.HasIndex(c => c.Id).HasName("IX_Image_Id");
-            builder.HasIndex(c => c.UploadTime).HasName("IX_Image_UploadTime");
+            builder.HasIndex(c => c.Id).HasDatabaseName("IX_Image_Id");
+            builder.HasIndex(c => c.UploadTime).HasDatabaseName("IX_Image_UploadTime");
         }
     }
 }

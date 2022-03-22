@@ -1,14 +1,7 @@
-﻿using AutoMapper;
-using BunBlog.API.Const;
-using BunBlog.API.Models;
-using BunBlog.API.Models.Settings;
+﻿using BunBlog.API.Models.Settings;
 using BunBlog.Core.Domain.Settings;
-using BunBlog.Services.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {

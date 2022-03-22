@@ -22,23 +22,16 @@ namespace BunBlog.API.Models.Informations
         /// <summary>
         /// 运行程序的操作系统
         /// </summary>
-        public string OS
-        {
-            get
-            {
-                return BunHelper.GetOSName(RuntimeInformation.OSDescription);
-            }
-        }
+        public string OS => BunHelper.GetOSName(RuntimeInformation.OSDescription);
+
+        /// <summary>
+        /// 是否运行在 Kubernetes 中
+        /// </summary>
+        public bool IsOnKubernetes => BunHelper.CheckKubernetesServiceAccountDirectoryExists();
 
         /// <summary>
         /// 运行程序的运行时描述
         /// </summary>
-        public string RuntimeFramework
-        {
-            get
-            {
-                return RuntimeInformation.FrameworkDescription;
-            }
-        }
+        public string RuntimeFramework => RuntimeInformation.FrameworkDescription;
     }
 }

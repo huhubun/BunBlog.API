@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BunBlog.API.Models.Settings;
+﻿using BunBlog.API.Models.Settings;
 using BunBlog.Core.Domain.Settings;
 
 namespace BunBlog.API.MappingProfiles

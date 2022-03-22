@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BunBlog.API.Models.Posts;
+﻿using BunBlog.API.Models.Posts;
 using BunBlog.Core.Domain.Posts;
 
 namespace BunBlog.API.MappingProfiles

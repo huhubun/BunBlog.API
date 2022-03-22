@@ -21,9 +21,9 @@ namespace BunBlog.Data.Mapping.Posts
             builder.HasMany(p => p.TagList).WithOne(pt => pt.Post).HasForeignKey(pt => pt.PostId);
             builder.HasMany(p => p.MetadataList).WithOne().HasForeignKey(pt => pt.PostId);
 
-            builder.HasIndex(c => c.Id).HasName("IX_Post_Id");
-            builder.HasIndex(c => new { c.LinkName, c.Type }).IsUnique().HasName("IX_Post_LinkName_Type");
-            builder.HasIndex(c => c.PublishedOn).HasName("IX_Post_PublishedOn");
+            builder.HasIndex(c => c.Id).HasDatabaseName("IX_Post_Id");
+            builder.HasIndex(c => new { c.LinkName, c.Type }).IsUnique().HasDatabaseName("IX_Post_LinkName_Type");
+            builder.HasIndex(c => c.PublishedOn).HasDatabaseName("IX_Post_PublishedOn");
         }
     }
 }

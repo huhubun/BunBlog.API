@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BunBlog.API.Models.Paging;
+﻿using BunBlog.API.Models.Paging;
 using BunBlog.Services.Paging;
 
 namespace BunBlog.API.MappingProfiles

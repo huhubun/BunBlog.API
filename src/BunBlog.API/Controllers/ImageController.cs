@@ -1,9 +1,6 @@
 ﻿using BunBlog.API.Models.Images;
-using BunBlog.Core.Configuration;
-using BunBlog.Services.Images;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace BunBlog.API.Controllers
 {
