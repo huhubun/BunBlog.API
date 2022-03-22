@@ -1,7 +1,17 @@
 # Bun Blog Web API
 
-- Runtime: `.NET Core 3.1`
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/huhubun/BunBlog.API/ASP.NET%20Core%20CI)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/huhubun/BunBlog.API)](https://github.com/huhubun/BunBlog.API/releases)
+[![Docker Pulls](https://img.shields.io/docker/pulls/huhubun/bunblog.api)](https://hub.docker.com/r/huhubun/bunblog.api)
+
+- Runtime: `.NET 6`
 - Database: `PostgreSQL`
+
+## Docker image
+
+```bash
+docker push huhubun/bunblog.api
+```
 
 ## Migrations
 ### Package Manager Console in Visual Studio
@@ -12,14 +22,14 @@ Add-Migration Init -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 Update-Database -StartupProject "BunBlog.API" -Project "BunBlog.Data"
 ```
 
-### .NET CLI (5.0)
+### .NET CLI (6.0)
 If it is the first time to run, you need to install `dotnet-ef` first
 
 ```bash
 dotnet tool install --global dotnet-ef
 ```
 
-If you have installed `dotnet-ef` before version 3.1, you need to upgrade `dotnet-ef`
+If you have installed `dotnet-ef` before version 6, you need to upgrade `dotnet-ef`
 
 ```bash
 dotnet tool update --global dotnet-ef
