@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> BunBlog has been discontinued. You can use the [Migration Tool](https://github.com/huhubun/BunBlogMigrationTool) to migrate existing content to [Bammemo](https://github.com/huhubun/bammemo).
+
 # Bun Blog Web API
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/huhubun/BunBlog.API/ASP.NET%20Core%20CI)
